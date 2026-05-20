@@ -1,18 +1,13 @@
 import React from 'react';
-import Image from 'next/image';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
-  src?: string;
-  alt?: string;
 }
 
 export const Logo: React.FC<LogoProps> = ({ 
   size = 'md', 
   className = '', 
-  src = '/logo.png',
-  alt = 'Unissential'
 }) => {
   const sizeMap = {
     sm: { w: 32, h: 32 },
@@ -22,23 +17,54 @@ export const Logo: React.FC<LogoProps> = ({
 
   const dims = sizeMap[size];
 
-  // Use image-based logo with graceful fallback
+  // Render SVG logo directly
   return (
-    <div className={`flex items-center justify-center flex-shrink-0 ${className}`} style={{ height: dims.h }}>
-      <Image
-        src={src}
-        alt={alt}
-        width={dims.w}
-        height={dims.h}
-        priority
-        quality={100}
-        className="object-contain"
-        onError={(e) => {
-          // Fallback if image doesn't load - show text
-          e.currentTarget.style.display = 'none';
-        }}
-      />
-    </div>
+    <svg 
+      viewBox="0 0 240 80" 
+      width={dims.w} 
+      height={dims.h}
+      className={`flex-shrink-0 ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#8b7fb8" />
+          <stop offset="50%" stopColor="#6b7db8" />
+          <stop offset="100%" stopColor="#003d99" />
+        </linearGradient>
+      </defs>
+      
+      {/* U Icon */}
+      <g>
+        {/* Outer U */}
+        <path
+          d="M 10 8 L 10 50 Q 10 68 28 68 Q 46 68 46 50 L 46 8"
+          stroke="url(#logoGradient)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
+        {/* Inner U (white) */}
+        <path
+          d="M 16 14 L 16 50 Q 16 61 28 61 Q 40 61 40 50 L 40 14"
+          stroke="white"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
+      </g>
+      
+      {/* "nissential" text */}
+      <text x="60" y="50" fontFamily="Arial, sans-serif" fontSize="32" fontWeight="500" fill="#333">
+        <tspan>nissential</tspan>
+      </text>
+      
+      {/* Small "e" with gradient */}
+      <circle cx="48" cy="20" r="5" fill="url(#logoGradient)" />
+    </svg>
   );
 };
 
