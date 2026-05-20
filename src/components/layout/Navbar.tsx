@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { PremiumButton } from '@/components/ui';
 import { Container } from '@/components/ui';
+import { Logo } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -46,13 +47,8 @@ export const Navbar = () => {
         <Container>
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
-                <span className="text-white font-bold text-lg">U</span>
-              </div>
-              <span className="text-xl font-bold text-neutral-900 hidden sm:inline group-hover:gradient-text transition-smooth">
-                Unissential
-              </span>
+            <Link href="/" className="group hover:opacity-80 transition-smooth">
+              <Logo size="md" showText={true} />
             </Link>
 
             {/* Desktop Navigation */}
