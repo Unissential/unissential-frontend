@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   keywords: 'productivity, startup, modern, platform',
   authors: [{ name: 'Unissential' }],
   creator: 'Unissential',
+  icons: {
+    icon: '/U_logo.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
