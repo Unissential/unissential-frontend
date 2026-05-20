@@ -33,12 +33,12 @@
   --radius-2xl: 1.5rem;
 
   /* Gradients - Premium Palette */
-  --gradient-primary: linear-gradient(135deg, #a855ff 0%, #7e22ce 100%);
-  --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-  --gradient-accent: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-  --gradient-warm: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
-  --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-  --gradient-soft: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(126, 34, 206, 0.1) 100%);
+  --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  --gradient-secondary: linear-gradient(135deg, #a85838 0%, #8b4513 100%);
+  --gradient-accent: linear-gradient(135deg, #a85838 0%, #8b4513 100%);
+  --gradient-warm: linear-gradient(135deg, #a85838 0%, #8b4513 100%);
+  --gradient-cool: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-soft: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 64, 175, 0.1) 100%);
 
   /* Colors - Semantic */
   --color-success: #22c55e;
