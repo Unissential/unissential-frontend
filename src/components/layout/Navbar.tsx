@@ -48,7 +48,7 @@ export const Navbar = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="group hover:opacity-80 transition-smooth">
-              <Logo size="md" showText={true} />
+              <Logo size="md" />
             </Link>
 
             {/* Desktop Navigation */}
