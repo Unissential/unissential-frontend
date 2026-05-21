@@ -65,7 +65,7 @@ export const Footer = () => {
                 alt="Unissential"
                 width={40}
                 height={40}
-                className="mb-4 object-contain"
+                className="mb-4 object-contain w-10 h-10"
               />
               <p className="text-neutral-600 leading-relaxed text-sm">
                 Making student housing easier, one listing at a time.

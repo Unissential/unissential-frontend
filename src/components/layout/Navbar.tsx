@@ -10,7 +10,7 @@ import { Logo } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { label: 'Lease', href: '#lease' },
+  { label: 'Lease', href: '/leasing' },
   { label: 'Roommates', href: '#roommates' },
   { label: 'Marketplace', href: '#marketplace' },
 ];
@@ -39,10 +39,7 @@ export const Navbar = () => {
     <>
       {/* Desktop Navbar */}
       <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="sticky top-0 z-50 w-full backdrop-blur-premium border-b border-neutral-100/50"
+        className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100/50"
       >
         <Container>
           <div className="flex items-center justify-between h-20">
