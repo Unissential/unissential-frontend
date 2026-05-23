@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Heart, MapPin, Bed, Bath, Calendar, Wifi, UtensilsCrossed, Car } from 'lucide-react';
@@ -15,14 +16,15 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
   const [isFavorite, setIsFavorite] = useState(listing.isFavorite || false);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.1 }}
-      viewport={{ once: true, margin: '-50px' }}
-      className="group h-full"
-    >
-      <div className="h-full rounded-xl overflow-hidden bg-white border border-neutral-100 hover:border-neutral-200 transition-all duration-300 hover:shadow-2xl flex flex-col">
+    <Link href={`/leasing/${listing.id}`} className="group h-full">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: index * 0.1 }}
+        viewport={{ once: true, margin: '-50px' }}
+        className="group h-full"
+      >
+        <div className="h-full rounded-xl overflow-hidden bg-white border border-neutral-100 hover:border-neutral-200 transition-all duration-300 hover:shadow-2xl flex flex-col">
         {/* Image Section with Badges */}
         <div className="relative overflow-hidden aspect-video bg-neutral-100 w-full">
           <Image
@@ -127,7 +129,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
             View Details
           </motion.button>
         </div>
-      </div>
-    </motion.div>
+        </div>
+      </motion.div>
+    </Link>
   );
 };

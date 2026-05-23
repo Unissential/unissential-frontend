@@ -19,9 +19,15 @@ export default function LeasingPage() {
   // Filter listings based on current filters
   const filteredListings = useMemo(() => {
     return mockListings.filter((listing) => {
-      // Duration filter
-      if (filters.duration !== 'all' && listing.duration !== filters.duration) {
-        return false;
+      // Duration filter - case insensitive substring match
+      if (filters.duration !== 'all') {
+        const listingDuration = listing.duration.toLowerCase();
+        const filterDuration = filters.duration.toLowerCase();
+        
+        // Check if filter duration is contained in or matches listing duration
+        if (!listingDuration.includes(filterDuration)) {
+          return false;
+        }
       }
 
       // Price filter
@@ -142,7 +148,7 @@ export default function LeasingPage() {
               No listings found
             </h3>
             <p className="text-neutral-600">
-              Try adjusting your filters or search terms to find what you're looking for.
+              Try adjusting your filters or search terms to find what you&apos;re looking for.
             </p>
           </motion.div>
         )}

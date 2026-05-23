@@ -107,7 +107,7 @@ export const mockListings: Listing[] = [
     beds: 1,
     baths: 1,
     image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=400&fit=crop',
-    duration: '1-2 Months',
+    duration: '1-2 months',
     availability: 'Jul 2026',
     dateRange: 'Jul 1 - Aug 31',
     amenities: ['WiFi', 'Kitchen', 'Parking'],
