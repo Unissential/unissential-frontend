@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/ui';
 import { PremiumButton, PremiumBadge } from '@/components/ui';
 import { ArrowRight } from 'lucide-react';
 
 export const HeroSection = () => {
+  const router = useRouter();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -75,6 +77,7 @@ export const HeroSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/signup')}
               className="px-8 py-4 bg-neutral-900 text-white font-bold rounded-2xl hover:bg-neutral-800 transition-smooth inline-flex items-center justify-center gap-2"
             >
               Get Started Free
@@ -84,6 +87,7 @@ export const HeroSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/leasing')}
               className="px-8 py-4 border-2 border-neutral-300 text-neutral-900 font-bold rounded-2xl hover:bg-neutral-50 transition-smooth"
             >
               Browse Listings

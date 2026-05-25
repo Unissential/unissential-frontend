@@ -1,12 +1,14 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/ui';
 import { PremiumButton } from '@/components/ui';
 import { ArrowRight } from 'lucide-react';
 
 export const CTASection = () => {
+  const router = useRouter();
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background gradients */}
@@ -64,6 +66,7 @@ export const CTASection = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => router.push('/signup')}
                 className="px-8 py-4 bg-white text-primary-600 font-bold rounded-2xl hover:bg-neutral-100 transition-smooth whitespace-nowrap"
               >
                 Get Started

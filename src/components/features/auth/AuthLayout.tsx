@@ -41,12 +41,12 @@ export function AuthLayout({ children }: AuthLayoutProps) {
 
           {/* Tagline */}
           <h1 className="text-4xl font-bold text-white mb-4">
-            Premium Living for Students
+            Your Complete Student Living Platform
           </h1>
 
           {/* Description */}
           <p className="text-lg text-white/80 mb-12">
-            Find your perfect home near campus. Exclusive access to verified student housing.
+            Find housing, connect with roommates, and discover student essentials all in one place.
           </p>
 
           {/* Illustration placeholder */}
@@ -63,16 +63,16 @@ export function AuthLayout({ children }: AuthLayoutProps) {
               }}
               className="text-6xl opacity-50"
             >
-              🏠
+              🎓
             </motion.div>
           </div>
 
           {/* Benefits list */}
           <div className="mt-12 space-y-4 text-left">
             {[
-              'Verified student community',
-              'Secure & trusted platform',
-              'Premium housing options',
+              'Find & lease student housing',
+              'Connect with compatible roommates',
+              'Buy & sell student essentials',
             ].map((benefit, i) => (
               <motion.div
                 key={benefit}

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { PremiumButton } from '@/components/ui';
@@ -11,11 +12,12 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { label: 'Lease', href: '/leasing' },
-  { label: 'Roommates', href: '#roommates' },
-  { label: 'Marketplace', href: '#marketplace' },
+  { label: 'Roommates', href: '/roommates' },
+  { label: 'Marketplace', href: '/marketplace' },
 ];
 
 export const Navbar = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const menuVariants = {
@@ -65,12 +67,20 @@ export const Navbar = () => {
             {/* Desktop CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
               <motion.div whileHover={{ scale: 1.05 }}>
-                <PremiumButton variant="outline" size="md">
+                <PremiumButton 
+                  variant="outline" 
+                  size="md"
+                  onClick={() => router.push('/login')}
+                >
                   Login
                 </PremiumButton>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }}>
-                <PremiumButton variant="primary" size="md">
+                <PremiumButton 
+                  variant="primary" 
+                  size="md"
+                  onClick={() => router.push('/signup')}
+                >
                   Sign Up
                 </PremiumButton>
               </motion.div>
@@ -124,10 +134,26 @@ export const Navbar = () => {
               ))}
 
               <div className="border-t border-neutral-100 pt-4 space-y-3">
-                <PremiumButton variant="outline" size="md" className="w-full">
+                <PremiumButton 
+                  variant="outline" 
+                  size="md" 
+                  className="w-full"
+                  onClick={() => {
+                    router.push('/login');
+                    setIsOpen(false);
+                  }}
+                >
                   Login
                 </PremiumButton>
-                <PremiumButton variant="primary" size="md" className="w-full">
+                <PremiumButton 
+                  variant="primary" 
+                  size="md" 
+                  className="w-full"
+                  onClick={() => {
+                    router.push('/signup');
+                    setIsOpen(false);
+                  }}
+                >
                   Sign Up
                 </PremiumButton>
               </div>
