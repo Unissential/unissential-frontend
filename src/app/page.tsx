@@ -1,21 +1,14 @@
 'use client';
 
-import {
-  HeroSection,
-  FeaturesSection,
-  CategoriesSection,
-  StatsSection,
-  CTASection,
-} from '@/components/sections';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <main className="min-h-screen bg-white">
-      <HeroSection />
-      <FeaturesSection />
-      <CategoriesSection />
-      <StatsSection />
-      <CTASection />
-    </main>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/landing');
+  }, [router]);
+
+  return null;
 }
