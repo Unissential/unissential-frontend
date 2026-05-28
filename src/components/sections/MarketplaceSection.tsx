@@ -19,10 +19,10 @@ export const MarketplaceSection: React.FC = () => {
               Student Marketplace
             </Badge>
           </div>
-          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
             Buy & Sell Student Essentials
           </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600">
             Connect with other students to buy and sell textbooks, furniture, electronics, and more. Save money and find great deals.
           </p>
         </div>
@@ -34,9 +34,9 @@ export const MarketplaceSection: React.FC = () => {
             { number: '50K+', label: 'Active Buyers' },
             { number: '95%', label: 'Positive Reviews' },
           ].map(({ number, label }) => (
-            <div key={label} className="rounded-lg bg-neutral-50 p-6 dark:bg-neutral-900/50">
+            <div key={label} className="rounded-lg bg-neutral-50 p-6">
               <p className="text-3xl font-bold text-primary-600">{number}</p>
-              <p className="mt-2 text-neutral-600 dark:text-neutral-400">{label}</p>
+              <p className="mt-2 text-neutral-600">{label}</p>
             </div>
           ))}
         </div>
@@ -53,8 +53,8 @@ export const MarketplaceSection: React.FC = () => {
         </div>
 
         {/* Features */}
-        <div className="rounded-2xl bg-white p-8 shadow-lg dark:bg-neutral-800 sm:p-12">
-          <h3 className="mb-8 text-2xl font-bold text-neutral-900 dark:text-white">
+        <div className="rounded-2xl bg-white p-8 shadow-lg sm:p-12">
+          <h3 className="mb-8 text-2xl font-bold text-neutral-900">
             Why Use Our Marketplace?
           </h3>
           <div className="grid gap-6 sm:grid-cols-3">
@@ -76,7 +76,7 @@ export const MarketplaceSection: React.FC = () => {
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex flex-col gap-3">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 dark:bg-primary-900/30">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100">
                   <Icon className="h-6 w-6 text-primary-600" />
                 </div>
                 <h4 className="font-semibold text-neutral-900 dark:text-white">{title}</h4>

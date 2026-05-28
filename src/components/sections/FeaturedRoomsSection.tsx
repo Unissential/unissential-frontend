@@ -14,10 +14,10 @@ export const FeaturedRoomsSection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-12 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+            <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
               Featured Rooms
             </h2>
-            <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">
+            <p className="mt-3 text-lg text-neutral-600">
               Discover top-rated student housing options in your area
             </p>
           </div>
@@ -47,7 +47,7 @@ export const FeaturedRoomsSection: React.FC = () => {
         </div>
 
         {/* Stats */}
-        <div className="mt-16 rounded-2xl bg-gradient-to-r from-primary-50 to-secondary-50 p-8 dark:from-primary-950/20 dark:to-secondary-950/20">
+        <div className="mt-16 rounded-2xl bg-gradient-to-r from-primary-50 to-secondary-50 p-8">
           <div className="grid gap-8 text-center sm:grid-cols-3">
             {[
               { number: '10,000+', label: 'Verified Rooms' },
@@ -56,7 +56,7 @@ export const FeaturedRoomsSection: React.FC = () => {
             ].map(({ number, label }) => (
               <div key={label}>
                 <p className="text-4xl font-bold text-primary-600">{number}</p>
-                <p className="mt-2 text-neutral-600 dark:text-neutral-400">{label}</p>
+                <p className="mt-2 text-neutral-600">{label}</p>
               </div>
             ))}
           </div>

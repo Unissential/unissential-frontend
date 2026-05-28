@@ -10,11 +10,11 @@ export const CTASection: React.FC = () => {
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
       {/* Background Decorations */}
-      <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-gradient-to-br from-primary-200/30 to-transparent blur-3xl dark:from-primary-900/20" />
-      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-gradient-to-tl from-secondary-200/30 to-transparent blur-3xl dark:from-secondary-900/20" />
+      <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-gradient-to-br from-primary-200/30 to-transparent blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-gradient-to-tl from-secondary-200/30 to-transparent blur-3xl" />
 
       <div className="relative mx-auto max-w-5xl">
-        <div className="rounded-3xl bg-gradient-to-br from-neutral-900 via-primary-900 to-neutral-900 p-8 text-white shadow-2xl dark:from-neutral-950 dark:via-primary-950 dark:to-neutral-950 sm:p-12 lg:p-16">
+        <div className="rounded-3xl bg-gradient-to-br from-neutral-900 via-primary-900 to-neutral-900 p-8 text-white shadow-2xl sm:p-12 lg:p-16">
           {/* Header */}
           <div className="mb-12 text-center">
             <div className="inline-flex mb-4">
@@ -74,7 +74,7 @@ export const CTASection: React.FC = () => {
 
         {/* Social Proof */}
         <div className="mt-12 text-center">
-          <p className="mb-4 font-medium text-neutral-600 dark:text-neutral-400">
+          <p className="mb-4 font-medium text-neutral-600">
             Featured in
           </p>
           <div className="flex flex-wrap items-center justify-center gap-6 opacity-50">

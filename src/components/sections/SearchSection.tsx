@@ -30,60 +30,60 @@ export const SearchSection: React.FC = () => {
       <div className="mx-auto max-w-4xl">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
             Find Your New Home
           </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600">
             Search from thousands of verified student housing options
           </p>
         </div>
 
         {/* Search Box */}
-        <div className="rounded-2xl bg-white p-6 shadow-xl dark:bg-neutral-800 sm:p-8">
+        <div className="rounded-2xl bg-white p-6 shadow-xl sm:p-8">
           <div className="grid gap-4 md:grid-cols-4 md:gap-3">
             {/* Location */}
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              <label className="text-sm font-semibold text-neutral-700">
                 Location
               </label>
-              <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500 dark:border-neutral-700">
+              <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500">
                 <MapPin className="h-5 w-5 text-neutral-500" />
                 <input
                   type="text"
                   placeholder="City or neighborhood"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="flex-1 bg-transparent outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
+                  className="flex-1 bg-transparent outline-none placeholder:text-neutral-500"
                 />
               </div>
             </div>
 
             {/* Budget */}
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              <label className="text-sm font-semibold text-neutral-700">
                 Max Budget
               </label>
-              <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500 dark:border-neutral-700">
+              <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500">
                 <DollarSign className="h-5 w-5 text-neutral-500" />
                 <input
                   type="text"
                   placeholder="$1500"
                   value={budget}
                   onChange={(e) => setBudget(e.target.value)}
-                  className="w-full bg-transparent outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
+                  className="w-full bg-transparent outline-none placeholder:text-neutral-500"
                 />
               </div>
             </div>
 
             {/* Room Type */}
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+              <label className="text-sm font-semibold text-neutral-700">
                 Room Type
               </label>
               <select
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
-                className="rounded-lg border-2 border-neutral-200 bg-white px-4 py-3 outline-none focus:border-primary-500 dark:border-neutral-700 dark:bg-neutral-700"
+                className="rounded-lg border-2 border-neutral-200 bg-white px-4 py-3 outline-none focus:border-primary-500"
               >
                 <option value="">All types</option>
                 <option value="studio">Studio</option>
@@ -107,8 +107,8 @@ export const SearchSection: React.FC = () => {
           </div>
 
           {/* Popular Searches */}
-          <div className="mt-6 border-t border-neutral-200 pt-6 dark:border-neutral-700">
-            <p className="mb-3 text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+          <div className="mt-6 border-t border-neutral-200 pt-6">
+            <p className="mb-3 text-sm font-semibold text-neutral-700">
               Popular searches
             </p>
             <div className="flex flex-wrap gap-2">
@@ -119,7 +119,7 @@ export const SearchSection: React.FC = () => {
                     setLocation(label);
                     handleSearch();
                   }}
-                  className="inline-flex items-center rounded-full bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-primary-100 hover:text-primary-700 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-primary-900/30 dark:hover:text-primary-300"
+                  className="inline-flex items-center rounded-full bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-primary-100 hover:text-primary-700"
                 >
                   {label}
                 </button>
@@ -135,10 +135,10 @@ export const SearchSection: React.FC = () => {
             { icon: '⚡', title: 'Quick Matches', desc: '1000s of options' },
             { icon: '💬', title: 'Direct Chat', desc: 'Connect instantly' },
           ].map(({ icon, title, desc }) => (
-            <div key={title} className="rounded-xl bg-neutral-50 p-4 dark:bg-neutral-900/50">
+            <div key={title} className="rounded-xl bg-neutral-50 p-4">
               <p className="text-2xl">{icon}</p>
-              <p className="mt-2 font-semibold text-neutral-900 dark:text-white">{title}</p>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">{desc}</p>
+              <p className="mt-2 font-semibold text-neutral-900">{title}</p>
+              <p className="text-sm text-neutral-600">{desc}</p>
             </div>
           ))}
         </div>
