@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/ui';
+import { Loader } from 'lucide-react';
 import {
   PropertyImageGallery,
   PropertyInfo,
@@ -15,19 +16,48 @@ import {
   PropertyReviewsSection,
   SimilarListingsSection,
 } from '@/components/features/property';
-import { getPropertyById, getSimilarProperties } from '@/data/mockPropertyDetails';
-import { mockListings } from '@/data/mockListings';
+import { listingService } from '@/services/api/listing.service';
 
 export default function PropertyDetailPage() {
   const params = useParams();
   const propertyId = params.id as string;
+  const [property, setProperty] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch property data
-  const property = getPropertyById(propertyId);
-  const similarProperties = getSimilarProperties(propertyId, 4);
+  useEffect(() => {
+    const loadProperty = async () => {
+      try {
+        const data = await listingService.getListingById(propertyId);
+        setProperty(data);
+      } catch (error) {
+        console.error('Failed to load property:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  // Get actual similar listings from mock data
-  const similarListings = mockListings.slice(0, 4);
+    loadProperty();
+  }, [propertyId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!property) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Property not found</p>
+      </div>
+    );
+  }
+
+  // Use empty arrays for related data until API is implemented
+  const similarListings = [];
+  const similarProperties = [];
 
   return (
     <main className="min-h-screen bg-white pt-20 md:pt-24">

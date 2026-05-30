@@ -5,7 +5,10 @@
 import React from 'react';
 import { ArrowRight, TrendingUp, Shield, Zap } from 'lucide-react';
 import { MarketplaceCard, Button, Badge } from '@/components/common';
-import { marketplaceItems } from '@/data/landing-mock';
+const marketplaceItems = [
+  { id: '1', title: 'Desk', price: '$50' },
+  { id: '2', title: 'Chair', price: '$30' },
+];
 
 export const MarketplaceSection: React.FC = () => {
   return (

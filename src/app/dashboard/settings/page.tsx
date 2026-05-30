@@ -1,9 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { mockCurrentUser } from '@/data/mockDashboard';
 import { Save, ChevronRight, Bell, Lock, User } from 'lucide-react';
 import { useState } from 'react';
+
+const mockCurrentUser = { name: 'Your Name', email: 'your@email.com' };
 
 const container = {
   hidden: { opacity: 0 },

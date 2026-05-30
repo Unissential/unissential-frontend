@@ -5,7 +5,10 @@
 import React from 'react';
 import { ArrowRight, Zap, Users, Heart } from 'lucide-react';
 import { RoommateCard, Button, Badge } from '@/components/common';
-import { roommateMatches } from '@/data/landing-mock';
+const roommateMatches = [
+  { id: '1', name: 'Alex', university: 'MIT', compatibility: 95 },
+  { id: '2', name: 'Jordan', university: 'Stanford', compatibility: 88 },
+];
 
 export const RoommateMatchingSection: React.FC = () => {
   return (

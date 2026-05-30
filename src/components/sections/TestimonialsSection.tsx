@@ -5,7 +5,11 @@
 import React from 'react';
 import { Star, Quote } from 'lucide-react';
 import { Badge } from '@/components/common';
-import { testimonials } from '@/data/landing-mock';
+
+const testimonials = [
+  { id: '1', name: 'John Doe', university: 'MIT', text: 'Found my perfect roommate!', rating: 5 },
+  { id: '2', name: 'Jane Smith', university: 'Stanford', text: 'Loved the experience!', rating: 5 },
+];
 
 export const TestimonialsSection: React.FC = () => {
   return (
