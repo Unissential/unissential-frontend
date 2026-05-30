@@ -1,83 +1,122 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/ui';
 import { ListingCard } from '@/components/features/leasing/ListingCard';
 import { SearchSection } from '@/components/features/leasing/SearchSection';
-import { mockListings } from '@/data/mockListings';
-import { FilterOptions, Listing, SortOption } from '@/types/listing';
-
-interface FilterState extends FilterOptions {
-  searchQuery?: string;
-}
+import { listingService } from '@/services/api/listing.service';
+import { ListingDTO } from '@/types/api';
+import { useToast } from '@/contexts/ToastContext';
+import { Loader } from 'lucide-react';
 
 export default function LeasingPage() {
-  const [filters, setFilters] = useState<FilterState>({
-    duration: 'all',
-    priceRange: 'all',
-    petFriendly: false,
-    sortBy: 'newest',
+  const { addToast } = useToast();
+  const [listings, setListings] = useState<ListingDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filters, setFilters] = useState({
     searchQuery: '',
+    minPrice: 0,
+    maxPrice: 5000,
+    bedrooms: 0,
+    petFriendly: false,
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Comprehensive filtering and sorting logic
-  const filteredListings = useMemo(() => {
-    let results = mockListings.filter((listing) => {
-      // Duration filter - case insensitive substring match
-      if (filters.duration !== 'all') {
-        const listingDuration = listing.duration.toLowerCase();
-        const filterDuration = (filters.duration as string).toLowerCase();
-
-        if (!listingDuration.includes(filterDuration)) {
-          return false;
-        }
+  // Fetch listings on mount and when filters change
+  useEffect(() => {
+    const loadListings = async () => {
+      setIsLoading(true);
+      try {
+        const response = await listingService.getAllListings(currentPage, 12, {
+          minPrice: filters.minPrice || undefined,
+          maxPrice: filters.maxPrice || undefined,
+          bedrooms: filters.bedrooms || undefined,
+          petFriendly: filters.petFriendly || undefined,
+        });
+        setListings(response.data);
+        setTotalPages(response.pagination.pages);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to load listings';
+        addToast(message, 'error');
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      // Price filter
-      if (filters.priceRange !== 'all') {
-        const priceThresholds: Record<string, number> = {
-          under800: 800,
-          under1000: 1000,
-          under1500: 1500,
-        };
-        const threshold = priceThresholds[filters.priceRange];
-        if (threshold && listing.price > threshold) {
-          return false;
-        }
-      }
+    loadListings();
+  }, [filters, currentPage, addToast]);
 
-      // Pet friendly filter
-      if (filters.petFriendly && !listing.amenities.includes('Pet Friendly')) {
-        return false;
-      }
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
+  };
 
-      // Search query filter - case insensitive, multi-field search
-      if (filters.searchQuery && filters.searchQuery.trim()) {
-        const query = filters.searchQuery.toLowerCase();
-        const matchesSearch =
-          listing.title.toLowerCase().includes(query) ||
-          listing.location.toLowerCase().includes(query) ||
-          listing.amenities.some((a) => a.toLowerCase().includes(query));
+  return (
+    <Container>
+      <div className="py-12">
+        <SearchSection onFilterChange={handleFilterChange} />
 
-        if (!matchesSearch) {
-          return false;
-        }
-      }
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-96">
+            <div className="text-center">
+              <Loader className="w-8 h-8 animate-spin text-indigo-600 mx-auto mb-4" />
+              <p className="text-gray-600">Loading listings...</p>
+            </div>
+          </div>
+        ) : listings.length > 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {listings.map((listing, index) => (
+                <motion.div
+                  key={listing.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <ListingCard listing={listing} />
+                </motion.div>
+              ))}
+            </div>
 
-      return true;
-    });
-
-    // Apply sorting
-    const sortBy = filters.sortBy || 'newest';
-    results.sort((a, b) => {
-      switch (sortBy) {
-        case 'priceLow':
-          return a.price - b.price;
-        case 'priceHigh':
-          return b.price - a.price;
-        case 'distance':
-          // Mock distance sorting - in production, calculate real distance
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <div className="text-sm text-gray-600">
+                  Page {currentPage} of {totalPages}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </motion.div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">No listings found</p>
+            <p className="text-gray-500 text-sm mt-2">Try adjusting your filters</p>
+          </div>
+        )}
+      </div>
+    </Container>
+  );
+}
           return a.location.localeCompare(b.location);
         case 'newest':
         default:

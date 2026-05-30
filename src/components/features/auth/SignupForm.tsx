@@ -6,12 +6,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { signupSchema, SignupFormData } from '@/lib/validation/auth';
 import { AuthInput, PasswordInput, AuthCard, VerificationPending } from './index';
-import { Mail, Lock, User, CheckCircle } from 'lucide-react';
+import { Mail, Lock, User, CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { useRouter } from 'next/navigation';
 
 export function SignupForm() {
+  const router = useRouter();
+  const { signup } = useAuth();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isWaitingVerification, setIsWaitingVerification] = useState(false);
   const [verificationEmail, setVerificationEmail] = useState('');
   const [verificationName, setVerificationName] = useState('');
@@ -30,28 +36,23 @@ export function SignupForm() {
 
   const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
+    setError(null);
     
     try {
-      // Call the signup API
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        console.error('Signup error:', result);
-        return;
-      }
-
+      // Extract university from email domain for now (could be improved with a select)
+      const emailDomain = data.email.split('@')[1].replace('.edu', '').toUpperCase();
+      
+      await signup(data.email, data.password, data.fullName, emailDomain);
+      
       // Show verification pending screen
       setVerificationEmail(data.email);
       setVerificationName(data.fullName);
       setIsWaitingVerification(true);
-    } catch (error) {
-      console.error('Signup error:', error);
+      addToast('Check your email to verify your account', 'success');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to create account';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -76,6 +77,16 @@ export function SignupForm() {
       title="Create Account"
       description="Join our exclusive student housing community"
     >
+      {error && (
+        <motion.div
+          className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+          <p className="text-sm text-red-700">{error}</p>
+        </motion.div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
         {/* Full Name */}
         <AuthInput
