@@ -34,18 +34,10 @@ export function StatsCard({ label, value, icon, change, href, description }: Sta
             </span>
           )}
         </div>
-        {description && (
-          <p className="text-xs text-neutral-500 mt-2">{description}</p>
-        )}
+        {description && <p className="text-xs text-neutral-500 mt-2">{description}</p>}
       </div>
     </motion.div>
   );
 
-  return href ? (
-    <Link href={href}>
-      {content}
-    </Link>
-  ) : (
-    content
-  );
+  return href ? <Link href={href}>{content}</Link> : content;
 }

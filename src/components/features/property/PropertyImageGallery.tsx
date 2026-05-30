@@ -97,13 +97,7 @@ export const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({ imag
                 : 'ring-1 ring-neutral-200 hover:ring-neutral-300'
             }`}
           >
-            <Image
-              src={image.url}
-              alt={image.alt}
-              fill
-              sizes="150px"
-              className="object-cover"
-            />
+            <Image src={image.url} alt={image.alt} fill sizes="150px" className="object-cover" />
           </motion.button>
         ))}
       </motion.div>

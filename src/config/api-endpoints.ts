@@ -11,7 +11,7 @@ export const API_ENDPOINTS = {
     verifyEmail: '/auth/verify-email',
     resetPassword: '/auth/reset-password',
   },
-  
+
   // User endpoints
   users: {
     profile: '/users/profile',
@@ -20,7 +20,7 @@ export const API_ENDPOINTS = {
     updateSettings: '/users/settings',
     avatar: '/users/avatar',
   },
-  
+
   // Roommate endpoints
   roommates: {
     list: '/roommates',
@@ -31,7 +31,7 @@ export const API_ENDPOINTS = {
     search: '/roommates/search',
     compatibility: (id: string) => `/roommates/${id}/compatibility`,
   },
-  
+
   // Leasing endpoints
   leasing: {
     list: '/leasing',
@@ -41,7 +41,7 @@ export const API_ENDPOINTS = {
     delete: (id: string) => `/leasing/${id}`,
     search: '/leasing/search',
   },
-  
+
   // Marketplace endpoints
   marketplace: {
     list: '/marketplace',
@@ -51,7 +51,7 @@ export const API_ENDPOINTS = {
     delete: (id: string) => `/marketplace/${id}`,
     search: '/marketplace/search',
   },
-  
+
   // Chat endpoints
   chat: {
     conversations: '/chat/conversations',
@@ -59,7 +59,7 @@ export const API_ENDPOINTS = {
     sendMessage: (conversationId: string) => `/chat/conversations/${conversationId}/messages`,
     createConversation: '/chat/conversations',
   },
-  
+
   // Upload endpoints
   upload: {
     single: '/upload/single',

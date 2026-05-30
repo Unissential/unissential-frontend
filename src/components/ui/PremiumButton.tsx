@@ -1,8 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-interface PremiumButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface PremiumButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
@@ -10,9 +9,12 @@ interface PremiumButtonProps
 }
 
 const variantStyles = {
-  primary: 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:-translate-y-0.5',
-  secondary: 'bg-gradient-to-r from-secondary-600 to-secondary-700 text-white hover:shadow-lg hover:-translate-y-0.5',
-  outline: 'border-2 border-neutral-200 text-neutral-900 hover:border-primary-600 hover:bg-primary-50',
+  primary:
+    'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:shadow-lg hover:-translate-y-0.5',
+  secondary:
+    'bg-gradient-to-r from-secondary-600 to-secondary-700 text-white hover:shadow-lg hover:-translate-y-0.5',
+  outline:
+    'border-2 border-neutral-200 text-neutral-900 hover:border-primary-600 hover:bg-primary-50',
   ghost: 'text-neutral-900 hover:bg-neutral-100',
 };
 
@@ -22,10 +24,7 @@ const sizeStyles = {
   lg: 'px-6 py-3.5 text-lg font-semibold rounded-2xl',
 };
 
-export const PremiumButton = React.forwardRef<
-  HTMLButtonElement,
-  PremiumButtonProps
->(
+export const PremiumButton = React.forwardRef<HTMLButtonElement, PremiumButtonProps>(
   (
     {
       variant = 'primary',
@@ -53,11 +52,7 @@ export const PremiumButton = React.forwardRef<
         {...props}
       >
         {isLoading ? (
-          <svg
-            className="w-4 h-4 animate-spin"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
             <circle
               className="opacity-25"
               cx="12"

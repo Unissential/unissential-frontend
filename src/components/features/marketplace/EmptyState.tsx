@@ -22,13 +22,12 @@ export function EmptyState({ onReset }: EmptyStateProps) {
       </div>
 
       {/* Heading */}
-      <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-2">
-        No products found
-      </h3>
+      <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-2">No products found</h3>
 
       {/* Description */}
       <p className="text-neutral-600 mb-8 max-w-md mx-auto">
-        We couldn't find any products matching your filters. Try adjusting your search or browse our popular categories.
+        We couldn't find any products matching your filters. Try adjusting your search or browse our
+        popular categories.
       </p>
 
       {/* Reset Filters Button */}

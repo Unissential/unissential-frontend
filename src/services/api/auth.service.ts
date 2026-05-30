@@ -137,58 +137,6 @@ export const authService = {
     return user ? JSON.parse(user) : null;
   },
 };
-
-  /**
-   * Verify email
-   */
-  async verifyEmail(token: string) {
-    const result = await apiCall<UserDTO>('/auth/verify-email', {
-      method: 'POST',
-      body: JSON.stringify({ token }),
-    });
-
-    if (result.success && result.data) {
-      return result.data;
-    }
-
-    throw new Error(result.error);
-  },
-
-  /**
-   * Resend verification email
-   */
-  async resendVerification(email: string) {
-    const result = await apiCall<{ message: string }>('/auth/resend-verification', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-    });
-
-    if (result.success) {
-      return result.data;
-    }
-
-    throw new Error(result.error);
-  },
-
-  /**
-   * Get current user
-   */
-  async getCurrentUser() {
-    const result = await apiCall<UserDTO>('/auth/me', {
-      method: 'GET',
-    });
-
-    if (result.success && result.data) {
-      return result.data;
-    }
-
-    throw new Error(result.error);
-  },
-
-  /**
-   * Update profile
-   */
-  async updateProfile(name?: string, bio?: string, profilePicture?: string) {
     const result = await apiCall<UserDTO>('/auth/profile', {
       method: 'PUT',
       body: JSON.stringify({ name, bio, profilePicture }),

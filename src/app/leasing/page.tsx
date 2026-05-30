@@ -117,22 +117,6 @@ export default function LeasingPage() {
     </Container>
   );
 }
-          return a.location.localeCompare(b.location);
-        case 'newest':
-        default:
-          // Keep original order (newest first)
-          return 0;
-      }
-    });
-
-    return results;
-  }, [filters]);
-
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-white via-neutral-50 to-white">
-      <Container>
-        {/* Header */}
-        <div
           className="pt-20 md:pt-24 pb-8"
         >
           <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-3">

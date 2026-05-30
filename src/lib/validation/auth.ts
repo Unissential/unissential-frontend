@@ -23,14 +23,8 @@ const eduEmailSchema = z
 const passwordSchema = z
   .string()
   .min(8, 'Password must be at least 8 characters')
-  .regex(
-    /[A-Z]/,
-    'Password must contain at least one uppercase letter'
-  )
-  .regex(
-    /[0-9]/,
-    'Password must contain at least one number'
-  );
+  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+  .regex(/[0-9]/, 'Password must contain at least one number');
 
 /**
  * Signup form validation schema
@@ -46,18 +40,12 @@ export const signupSchema = z
     confirmPassword: z.string(),
     termsAccepted: z
       .boolean()
-      .refine(
-        (value) => value === true,
-        'You must accept the terms and conditions'
-      ),
+      .refine((value) => value === true, 'You must accept the terms and conditions'),
   })
-  .refine(
-    (data) => data.password === data.confirmPassword,
-    {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    }
-  );
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 /**
  * Login form validation schema
@@ -83,13 +71,10 @@ export const passwordResetFormSchema = z
     password: passwordSchema,
     confirmPassword: z.string(),
   })
-  .refine(
-    (data) => data.password === data.confirmPassword,
-    {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    }
-  );
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 // TypeScript types inferred from schemas
 export type SignupFormData = z.infer<typeof signupSchema>;

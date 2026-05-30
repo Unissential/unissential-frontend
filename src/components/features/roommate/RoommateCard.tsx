@@ -73,10 +73,7 @@ export const RoommateCard: React.FC<RoommateCardProps> = ({
           onClick={onSave}
           className="absolute bottom-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-md hover:bg-white transition-colors z-10"
         >
-          <Heart
-            size={20}
-            className={isSaved ? 'fill-red-500 text-red-500' : 'text-neutral-600'}
-          />
+          <Heart size={20} className={isSaved ? 'fill-red-500 text-red-500' : 'text-neutral-600'} />
         </motion.button>
       </div>
 
@@ -122,7 +119,10 @@ export const RoommateCard: React.FC<RoommateCardProps> = ({
         {/* Interests Preview */}
         <div className="flex flex-wrap gap-1">
           {roommate.interests.slice(0, 3).map((interest, idx) => (
-            <span key={idx} className="text-xs text-neutral-500 bg-neutral-100 rounded-full px-2 py-1">
+            <span
+              key={idx}
+              className="text-xs text-neutral-500 bg-neutral-100 rounded-full px-2 py-1"
+            >
               #{interest}
             </span>
           ))}

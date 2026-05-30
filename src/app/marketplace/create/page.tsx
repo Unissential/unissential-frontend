@@ -206,14 +206,6 @@ export default function CreateProductPage() {
   );
 }
 
-  const removeImage = (index: number) => {
-    setImagePreview((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
     // Simulate submission
     setTimeout(() => {
       setLoading(false);

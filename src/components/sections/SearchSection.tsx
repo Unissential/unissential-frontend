@@ -23,16 +23,11 @@ export const SearchSection: React.FC = () => {
   ];
 
   return (
-    <section
-      id="search-section"
-      className="relative px-4 py-20 sm:px-6 lg:px-8"
-    >
+    <section id="search-section" className="relative px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         {/* Section Header */}
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
-            Find Your New Home
-          </h2>
+          <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">Find Your New Home</h2>
           <p className="mt-4 text-lg text-neutral-600">
             Search from thousands of verified student housing options
           </p>
@@ -43,9 +38,7 @@ export const SearchSection: React.FC = () => {
           <div className="grid gap-4 md:grid-cols-4 md:gap-3">
             {/* Location */}
             <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-semibold text-neutral-700">
-                Location
-              </label>
+              <label className="text-sm font-semibold text-neutral-700">Location</label>
               <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500">
                 <MapPin className="h-5 w-5 text-neutral-500" />
                 <input
@@ -60,9 +53,7 @@ export const SearchSection: React.FC = () => {
 
             {/* Budget */}
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-neutral-700">
-                Max Budget
-              </label>
+              <label className="text-sm font-semibold text-neutral-700">Max Budget</label>
               <div className="flex items-center gap-2 rounded-lg border-2 border-neutral-200 px-4 py-3 focus-within:border-primary-500">
                 <DollarSign className="h-5 w-5 text-neutral-500" />
                 <input
@@ -77,9 +68,7 @@ export const SearchSection: React.FC = () => {
 
             {/* Room Type */}
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-neutral-700">
-                Room Type
-              </label>
+              <label className="text-sm font-semibold text-neutral-700">Room Type</label>
               <select
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
@@ -95,11 +84,7 @@ export const SearchSection: React.FC = () => {
 
             {/* Search Button */}
             <div className="flex items-end">
-              <Button
-                size="lg"
-                className="w-full gap-2"
-                onClick={handleSearch}
-              >
+              <Button size="lg" className="w-full gap-2" onClick={handleSearch}>
                 <Search className="h-5 w-5" />
                 <span className="hidden sm:inline">Search</span>
               </Button>
@@ -108,9 +93,7 @@ export const SearchSection: React.FC = () => {
 
           {/* Popular Searches */}
           <div className="mt-6 border-t border-neutral-200 pt-6">
-            <p className="mb-3 text-sm font-semibold text-neutral-700">
-              Popular searches
-            </p>
+            <p className="mb-3 text-sm font-semibold text-neutral-700">Popular searches</p>
             <div className="flex flex-wrap gap-2">
               {popularSearches.map(({ label, value }) => (
                 <button

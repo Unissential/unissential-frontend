@@ -15,8 +15,7 @@ export const PAGINATION = {
 
 export const VALIDATION = {
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  URL_REGEX:
-    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+  URL_REGEX: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
   PASSWORD_MIN_LENGTH: 8,
   USERNAME_MIN_LENGTH: 3,
   USERNAME_MAX_LENGTH: 32,

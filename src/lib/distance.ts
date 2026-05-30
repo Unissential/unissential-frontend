@@ -12,10 +12,7 @@ export interface Coordinates {
  * Calculate distance between two coordinate points using Haversine formula
  * Returns distance in kilometers
  */
-export function calculateDistance(
-  from: Coordinates,
-  to: Coordinates
-): number {
+export function calculateDistance(from: Coordinates, to: Coordinates): number {
   const R = 6371; // Earth's radius in kilometers
   const dLat = toRad(to.latitude - from.latitude);
   const dLon = toRad(to.longitude - from.longitude);

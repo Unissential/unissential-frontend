@@ -37,12 +37,12 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       await login(data.email, data.password);
       setSuccess(true);
       addToast('Login successful! Redirecting...', 'success');
-      
+
       // Redirect to dashboard after a short delay
       setTimeout(() => {
         router.push('/dashboard');
@@ -58,10 +58,7 @@ export function LoginForm() {
 
   if (success) {
     return (
-      <AuthCard
-        title="Welcome Back!"
-        description="You have been successfully logged in."
-      >
+      <AuthCard title="Welcome Back!" description="You have been successfully logged in.">
         <motion.div
           className="flex flex-col items-center justify-center py-8 gap-6"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -81,12 +78,8 @@ export function LoginForm() {
           </motion.div>
 
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              Login Successful
-            </h3>
-            <p className="text-gray-600 text-sm">
-              Redirecting to your dashboard...
-            </p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Login Successful</h3>
+            <p className="text-gray-600 text-sm">Redirecting to your dashboard...</p>
           </div>
 
           <motion.a
@@ -103,10 +96,7 @@ export function LoginForm() {
   }
 
   return (
-    <AuthCard
-      title="Welcome Back"
-      description="Sign in to your Unissential account"
-    >
+    <AuthCard title="Welcome Back" description="Sign in to your Unissential account">
       {error && (
         <motion.div
           className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 flex items-center gap-2"

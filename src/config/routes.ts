@@ -4,7 +4,7 @@
 export const routes = {
   // Public pages
   home: '/',
-  
+
   // Auth routes
   auth: {
     login: '/login',
@@ -12,12 +12,12 @@ export const routes = {
     verifyEmail: '/verify-email',
     resetPassword: '/reset-password',
   },
-  
+
   // Dashboard routes
   dashboard: {
     home: '/dashboard',
   },
-  
+
   // Roommate feature
   roommates: {
     discover: '/roommates',
@@ -25,34 +25,34 @@ export const routes = {
     create: '/roommates/create',
     profile: '/roommates/profile',
   },
-  
+
   // Leasing feature
   leasing: {
     browse: '/leasing',
     detail: (id: string) => `/leasing/${id}`,
     post: '/leasing/post',
   },
-  
+
   // Marketplace feature
   marketplace: {
     browse: '/marketplace',
     detail: (id: string) => `/marketplace/${id}`,
     post: '/marketplace/post',
   },
-  
+
   // Chat feature
   chat: {
     conversations: '/chat',
     conversation: (id: string) => `/chat/${id}`,
   },
-  
+
   // Settings
   settings: {
     account: '/settings/account',
     privacy: '/settings/privacy',
     notifications: '/settings/notifications',
   },
-  
+
   // Legal
   legal: {
     terms: '/terms',
@@ -73,8 +73,6 @@ export const isProtectedRoute = (path: string): boolean => {
     routes.legal.privacy,
     routes.legal.contact,
   ];
-  
-  return !publicRoutes.some(route => 
-    typeof route === 'string' && route === path
-  );
+
+  return !publicRoutes.some((route) => typeof route === 'string' && route === path);
 };

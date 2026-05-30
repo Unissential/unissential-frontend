@@ -1,8 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-interface PremiumBadgeProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface PremiumBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral';
   size?: 'sm' | 'md' | 'lg';
 }
@@ -22,14 +21,8 @@ const sizeStyles = {
   lg: 'px-4 py-2 text-base font-semibold rounded-xl',
 };
 
-export const PremiumBadge = React.forwardRef<
-  HTMLDivElement,
-  PremiumBadgeProps
->(
-  (
-    { variant = 'primary', size = 'md', className, children, ...props },
-    ref
-  ) => {
+export const PremiumBadge = React.forwardRef<HTMLDivElement, PremiumBadgeProps>(
+  ({ variant = 'primary', size = 'md', className, children, ...props }, ref) => {
     return (
       <div
         ref={ref}

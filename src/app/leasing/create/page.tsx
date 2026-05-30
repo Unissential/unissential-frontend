@@ -259,19 +259,6 @@ export default function CreateListingPage() {
     </ProtectedRoute>
   );
 }
-    description: '',
-    location: '',
-    beds: 1,
-    baths: 1,
-    price: 0,
-    duration: '1-2 months',
-    availableFrom: '',
-    availableTo: '',
-    amenities: [],
-    images: [],
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};

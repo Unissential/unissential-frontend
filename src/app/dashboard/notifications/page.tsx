@@ -23,17 +23,14 @@ export default function NotificationsPage() {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
-  const filtered =
-    filter === 'unread' ? notifications.filter((n) => !n.read) : notifications;
+  const filtered = filter === 'unread' ? notifications.filter((n) => !n.read) : notifications;
 
   const handleDelete = (id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   const handleArchive = (id: string) => {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const getTypeColor = (type: string) => {
@@ -58,9 +55,7 @@ export default function NotificationsPage() {
       {/* Header */}
       <motion.div variants={item} className="space-y-2">
         <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900">Notifications</h1>
-        <p className="text-neutral-600">
-          {notifications.filter((n) => !n.read).length} unread
-        </p>
+        <p className="text-neutral-600">{notifications.filter((n) => !n.read).length} unread</p>
       </motion.div>
 
       {/* Filter Tabs */}
@@ -101,7 +96,9 @@ export default function NotificationsPage() {
             >
               <div className="flex items-start gap-4">
                 {/* Icon */}
-                <div className={`text-2xl rounded-lg p-3 flex-shrink-0 ${getTypeColor(notification.type)}`}>
+                <div
+                  className={`text-2xl rounded-lg p-3 flex-shrink-0 ${getTypeColor(notification.type)}`}
+                >
                   {notification.icon}
                 </div>
 
@@ -150,7 +147,9 @@ export default function NotificationsPage() {
         <motion.div variants={item} className="text-center py-16">
           <div className="text-6xl mb-4">🔔</div>
           <h3 className="text-2xl font-bold text-neutral-900 mb-2">All caught up!</h3>
-          <p className="text-neutral-600">You have no {filter === 'unread' ? 'unread' : ''} notifications</p>
+          <p className="text-neutral-600">
+            You have no {filter === 'unread' ? 'unread' : ''} notifications
+          </p>
         </motion.div>
       )}
     </motion.div>

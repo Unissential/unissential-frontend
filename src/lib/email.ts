@@ -1,7 +1,7 @@
 /**
  * Email service utility
  * In production, integrate with Resend, SendGrid, AWS SES, etc.
- * 
+ *
  * For development, emails are logged to console and stored in memory
  */
 

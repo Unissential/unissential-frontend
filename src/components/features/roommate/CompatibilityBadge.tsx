@@ -45,14 +45,20 @@ export const CompatibilityBadge: React.FC<CompatibilityBadgeProps> = ({
         <div className={`absolute inset-0 bg-gradient-to-br ${colorGradient} opacity-20`} />
 
         {/* Outer ring */}
-        <div className={`absolute inset-0 rounded-full border-4 border-gradient-to-r ${colorGradient}`}>
-          <div className={`absolute inset-0 bg-gradient-to-br ${colorGradient} opacity-10 rounded-full`} />
+        <div
+          className={`absolute inset-0 rounded-full border-4 border-gradient-to-r ${colorGradient}`}
+        >
+          <div
+            className={`absolute inset-0 bg-gradient-to-br ${colorGradient} opacity-10 rounded-full`}
+          />
         </div>
 
         {/* Score text */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <div className={`font-bold ${size === 'sm' ? 'text-base' : size === 'md' ? 'text-xl' : 'text-3xl'}`}>
+            <div
+              className={`font-bold ${size === 'sm' ? 'text-base' : size === 'md' ? 'text-xl' : 'text-3xl'}`}
+            >
               {score}%
             </div>
             {size === 'lg' && <div className="text-xs font-medium opacity-75">match</div>}
@@ -70,13 +76,7 @@ export const CompatibilityBadge: React.FC<CompatibilityBadgeProps> = ({
             strokeWidth="3"
             opacity="0.2"
             className={`text-${
-              score >= 85
-                ? 'emerald'
-                : score >= 70
-                  ? 'blue'
-                  : score >= 55
-                    ? 'amber'
-                    : 'red'
+              score >= 85 ? 'emerald' : score >= 70 ? 'blue' : score >= 55 ? 'amber' : 'red'
             }-500`}
           />
           <motion.circle
@@ -88,13 +88,7 @@ export const CompatibilityBadge: React.FC<CompatibilityBadgeProps> = ({
             strokeDasharray={`${(score / 100) * 282.7} 282.7`}
             strokeLinecap="round"
             className={`text-${
-              score >= 85
-                ? 'emerald'
-                : score >= 70
-                  ? 'blue'
-                  : score >= 55
-                    ? 'amber'
-                    : 'red'
+              score >= 85 ? 'emerald' : score >= 70 ? 'blue' : score >= 55 ? 'amber' : 'red'
             }-500 transform -rotate-90 origin-center`}
             initial={animated ? { strokeDasharray: '0 282.7' } : undefined}
             animate={animated ? { strokeDasharray: `${(score / 100) * 282.7} 282.7` } : undefined}

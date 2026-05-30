@@ -13,9 +13,9 @@ interface LocationSelectorProps {
 
 const PRESET_LOCATIONS: UserLocation[] = [
   { name: 'UT Campus Center', latitude: 30.2842, longitude: -97.7405 },
-  { name: 'West Campus', latitude: 30.2816, longitude: -97.7380 },
+  { name: 'West Campus', latitude: 30.2816, longitude: -97.738 },
   { name: 'Downtown Austin', latitude: 30.2672, longitude: -97.7431 },
-  { name: 'Zilker Park', latitude: 30.2644, longitude: -97.7760 },
+  { name: 'Zilker Park', latitude: 30.2644, longitude: -97.776 },
 ];
 
 export function LocationSelector({
@@ -99,7 +99,8 @@ export function LocationSelector({
                 onClick={() => handleSelectPreset(location)}
                 className={cn(
                   'w-full text-left px-3 py-2.5 rounded text-sm transition-colors hover:bg-neutral-100',
-                  userLocation?.name === location.name && 'bg-primary-100 text-primary-700 font-medium'
+                  userLocation?.name === location.name &&
+                    'bg-primary-100 text-primary-700 font-medium'
                 )}
               >
                 {location.name}

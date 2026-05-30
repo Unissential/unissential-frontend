@@ -85,10 +85,7 @@ function calculateBudgetScore(
   return 10;
 }
 
-function calculateScheduleScore(
-  userSchedule: string,
-  roommateSchedule: string
-): number {
+function calculateScheduleScore(userSchedule: string, roommateSchedule: string): number {
   if (userSchedule === roommateSchedule) return 25;
   if (roommateSchedule === 'flexible') return 23;
   if (userSchedule === 'flexible') return 23;
@@ -104,10 +101,7 @@ function calculateScheduleScore(
   return 20;
 }
 
-function calculateCleanlinessScore(
-  userCleanliness: string,
-  roommateCleanliness: string
-): number {
+function calculateCleanlinessScore(userCleanliness: string, roommateCleanliness: string): number {
   const cleanlinessLevels: { [key: string]: number } = {
     'very-clean': 4,
     clean: 3,
@@ -125,10 +119,7 @@ function calculateCleanlinessScore(
   return 10;
 }
 
-function calculateInterestsScore(
-  userInterests: string[],
-  roommateInterests: string[]
-): number {
+function calculateInterestsScore(userInterests: string[], roommateInterests: string[]): number {
   if (!userInterests || userInterests.length === 0) return 15;
   if (!roommateInterests || roommateInterests.length === 0) return 15;
 

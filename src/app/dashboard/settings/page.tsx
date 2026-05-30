@@ -151,9 +151,7 @@ export default function SettingsPage() {
                       {settingItem.label}
                     </h3>
                     {typeof settingItem.description === 'string' && (
-                      <p className="text-sm text-neutral-600 mt-1">
-                        {settingItem.description}
-                      </p>
+                      <p className="text-sm text-neutral-600 mt-1">{settingItem.description}</p>
                     )}
                   </div>
 
@@ -163,9 +161,7 @@ export default function SettingsPage() {
                       whileHover={{ scale: 1.05 }}
                       className="relative w-12 h-7 rounded-full bg-neutral-300 transition-colors"
                       style={{
-                        backgroundColor: settingItem.defaultValue
-                          ? '#3b82f6'
-                          : '#d1d5db',
+                        backgroundColor: settingItem.defaultValue ? '#3b82f6' : '#d1d5db',
                       }}
                     >
                       <motion.div
@@ -178,9 +174,7 @@ export default function SettingsPage() {
                   )}
 
                   {/* Action Arrow */}
-                  {settingItem.action && (
-                    <ChevronRight size={20} className="text-neutral-400" />
-                  )}
+                  {settingItem.action && <ChevronRight size={20} className="text-neutral-400" />}
                 </div>
               </motion.div>
             ))}
@@ -189,7 +183,10 @@ export default function SettingsPage() {
       ))}
 
       {/* Profile Edit Section */}
-      <motion.div variants={item} className="bg-primary-50 border border-primary-200 rounded-xl p-6 space-y-4">
+      <motion.div
+        variants={item}
+        className="bg-primary-50 border border-primary-200 rounded-xl p-6 space-y-4"
+      >
         <h2 className="text-lg font-bold text-neutral-900">Edit Profile</h2>
 
         {isEditing ? (

@@ -48,7 +48,9 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onViewDetails }) => {
           </div>
           <div className="flex flex-col items-center gap-1">
             <Home className="h-4 w-4 text-primary-600" />
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">{room.baths} bath</span>
+            <span className="text-xs text-neutral-600 dark:text-neutral-400">
+              {room.baths} bath
+            </span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <Sofa className="h-4 w-4 text-primary-600" />
@@ -68,7 +70,9 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onViewDetails }) => {
             </span>
           ))}
           {room.amenities.length > 2 && (
-            <span className="text-xs text-neutral-600 dark:text-neutral-400">+{room.amenities.length - 2} more</span>
+            <span className="text-xs text-neutral-600 dark:text-neutral-400">
+              +{room.amenities.length - 2} more
+            </span>
           )}
         </div>
 

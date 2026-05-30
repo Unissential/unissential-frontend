@@ -49,10 +49,7 @@ export const TestimonialsSection: React.FC = () => {
               {/* Rating */}
               <div className="mt-4 flex gap-1">
                 {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                  />
+                  <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
 
@@ -88,9 +85,7 @@ export const TestimonialsSection: React.FC = () => {
             ].map(({ metric, label, icon }) => (
               <div key={label}>
                 <p className="text-3xl">{icon}</p>
-                <p className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white">
-                  {metric}
-                </p>
+                <p className="mt-2 text-3xl font-bold text-neutral-900 dark:text-white">{metric}</p>
                 <p className="mt-1 text-neutral-600 dark:text-neutral-400">{label}</p>
               </div>
             ))}

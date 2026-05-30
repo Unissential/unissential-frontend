@@ -173,41 +173,6 @@ export default function MyListingsPage() {
     </motion.div>
   );
 }
-                      <Heart size={16} className="text-red-500" />
-                      <span className="text-neutral-700 font-medium">{listing.interested} saved</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <MessageCircle size={16} className="text-blue-500" />
-                      <span className="text-neutral-700 font-medium">3 messages</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex sm:flex-col gap-2 sm:justify-between flex-shrink-0">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    title="Edit listing"
-                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                  >
-                    <Edit size={18} className="text-neutral-700" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => handleDelete(listing.id)}
-                    title="Delete listing"
-                    className="p-2 hover:bg-red-100 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={18} className="text-red-600" />
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    onClick={() => setSelectedListing(selectedListing === listing.id ? null : listing.id)}
-                    title="More options"
-                    className="p-2 hover:bg-neutral-100 rounded-lg transition-colors"
-                  >
-                    <MoreVertical size={18} className="text-neutral-700" />
-                  </motion.button>
                 </div>
               </div>
 

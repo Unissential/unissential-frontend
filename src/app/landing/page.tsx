@@ -16,9 +16,11 @@ export default function LandingPage() {
       <section className="relative px-4 py-32 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full bg-secondary-50 px-4 py-2">
-            <span className="text-sm font-medium text-secondary-600">✨ Simplifying Student Living</span>
+            <span className="text-sm font-medium text-secondary-600">
+              ✨ Simplifying Student Living
+            </span>
           </div>
-          
+
           <h1 className="mb-10 text-5xl font-bold text-neutral-900 sm:text-6xl">
             Your Complete
             <br />
@@ -28,7 +30,8 @@ export default function LandingPage() {
           </h1>
 
           <p className="mb-12 text-lg text-neutral-600">
-            Find temporary housing, connect with roommates, and buy or sell student essentials—all in one place designed for university students.
+            Find temporary housing, connect with roommates, and buy or sell student essentials—all
+            in one place designed for university students.
           </p>
 
           {/* Trust Indicators */}
@@ -118,9 +121,7 @@ export default function LandingPage() {
                 Buy and sell furniture, electronics, and student essentials affordably
               </p>
               <ul className="space-y-3">
-                <li className="flex items-center gap-2 text-sm text-neutral-700">
-                  💎 Great deals
-                </li>
+                <li className="flex items-center gap-2 text-sm text-neutral-700">💎 Great deals</li>
                 <li className="flex items-center gap-2 text-sm text-neutral-700">
                   📍 Local pickup
                 </li>
@@ -162,8 +163,10 @@ export default function LandingPage() {
         <div className="mx-auto max-w-2xl">
           <div className="rounded-3xl bg-gradient-to-r from-primary-600 to-purple-600 p-16 text-center text-white">
             <h2 className="mb-6 text-4xl font-bold">Ready to simplify your student living?</h2>
-            <p className="mb-12 text-lg opacity-90">Join thousands of students already using Unissential</p>
-            
+            <p className="mb-12 text-lg opacity-90">
+              Join thousands of students already using Unissential
+            </p>
+
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
               <input
                 type="email"

@@ -39,7 +39,8 @@ export const HeroSection: React.FC = () => {
                 </span>
               </h1>
               <p className="text-lg text-neutral-600 sm:text-xl">
-                Discover rooms, connect with roommates, buy/sell textbooks, and chat securely. Everything you need for student housing in one platform.
+                Discover rooms, connect with roommates, buy/sell textbooks, and chat securely.
+                Everything you need for student housing in one platform.
               </p>
             </div>
 
@@ -48,7 +49,9 @@ export const HeroSection: React.FC = () => {
               <Button
                 size="lg"
                 className="gap-2"
-                onClick={() => document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() =>
+                  document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })
+                }
               >
                 Get Started
                 <ArrowRight className="h-5 w-5" />
@@ -56,7 +59,9 @@ export const HeroSection: React.FC = () => {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() =>
+                  document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })
+                }
               >
                 Learn More
               </Button>
@@ -70,7 +75,10 @@ export const HeroSection: React.FC = () => {
                 { icon: ShoppingBag, label: 'Listings', value: '5K+' },
                 { icon: MessageSquare, label: 'Chats Daily', value: '100K+' },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex flex-col gap-1 rounded-lg bg-white/40 p-3 backdrop-blur-sm">
+                <div
+                  key={label}
+                  className="flex flex-col gap-1 rounded-lg bg-white/40 p-3 backdrop-blur-sm"
+                >
                   <Icon className="h-5 w-5 text-primary-600" />
                   <p className="text-xs text-neutral-600">{label}</p>
                   <p className="font-bold text-neutral-900">{value}</p>

@@ -27,7 +27,8 @@ export const CTASection: React.FC = () => {
               </span>
             </h2>
             <p className="mt-6 text-lg text-white/80">
-              Join thousands of students who have already found their perfect living situation on Unissential
+              Join thousands of students who have already found their perfect living situation on
+              Unissential
             </p>
           </div>
 
@@ -50,10 +51,7 @@ export const CTASection: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center">
-            <Button
-              size="lg"
-              className="gap-2 bg-white text-neutral-900 hover:bg-white/90"
-            >
+            <Button size="lg" className="gap-2 bg-white text-neutral-900 hover:bg-white/90">
               Get Started Now
               <ArrowRight className="h-5 w-5" />
             </Button>
@@ -74,9 +72,7 @@ export const CTASection: React.FC = () => {
 
         {/* Social Proof */}
         <div className="mt-12 text-center">
-          <p className="mb-4 font-medium text-neutral-600">
-            Featured in
-          </p>
+          <p className="mb-4 font-medium text-neutral-600">Featured in</p>
           <div className="flex flex-wrap items-center justify-center gap-6 opacity-50">
             {['TechCrunch', 'Forbes', 'The Verge', 'Y Combinator'].map((name) => (
               <div key={name} className="font-semibold text-neutral-900 dark:text-white">

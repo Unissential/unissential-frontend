@@ -13,7 +13,7 @@ export function isAuthenticated(): boolean {
   // For development, always return true
   // In production, check localStorage or auth context
   if (typeof window === 'undefined') return false;
-  
+
   const authToken = localStorage.getItem('auth_token');
   return !!authToken;
 }
@@ -24,10 +24,10 @@ export function isAuthenticated(): boolean {
  */
 export function getCurrentUser() {
   if (typeof window === 'undefined') return null;
-  
+
   const userJson = localStorage.getItem('current_user');
   if (!userJson) return null;
-  
+
   try {
     return JSON.parse(userJson);
   } catch {
@@ -57,7 +57,7 @@ export function clearAuth() {
  */
 export function initDemoAuth() {
   if (typeof window === 'undefined') return;
-  
+
   const demoToken = 'demo_token_' + Date.now();
   const demoUser = {
     id: 'user_1',
@@ -65,7 +65,7 @@ export function initDemoAuth() {
     email: 'alex.johnson@utexas.edu',
     university: 'UT Austin',
   };
-  
+
   localStorage.setItem('auth_token', demoToken);
   localStorage.setItem('current_user', JSON.stringify(demoUser));
 }

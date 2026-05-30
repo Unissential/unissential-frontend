@@ -10,11 +10,20 @@ const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
   NEXT_PUBLIC_AWS_REGION: z.string().default('us-east-1'),
   NEXT_PUBLIC_AWS_S3_BUCKET: z.string(),
-  
+
   // Feature flags
-  NEXT_PUBLIC_ENABLE_MARKETPLACE: z.string().default('true').transform(v => v === 'true'),
-  NEXT_PUBLIC_ENABLE_CHAT: z.string().default('true').transform(v => v === 'true'),
-  NEXT_PUBLIC_ENABLE_LEASING: z.string().default('true').transform(v => v === 'true'),
+  NEXT_PUBLIC_ENABLE_MARKETPLACE: z
+    .string()
+    .default('true')
+    .transform((v) => v === 'true'),
+  NEXT_PUBLIC_ENABLE_CHAT: z
+    .string()
+    .default('true')
+    .transform((v) => v === 'true'),
+  NEXT_PUBLIC_ENABLE_LEASING: z
+    .string()
+    .default('true')
+    .transform((v) => v === 'true'),
 });
 
 export const env = envSchema.parse(process.env);

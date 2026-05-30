@@ -15,16 +15,11 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     const baseStyles = 'inline-flex items-center font-semibold rounded-full';
 
     const variantStyles = {
-      default:
-        'bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200',
-      primary:
-        'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300',
-      success:
-        'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      warning:
-        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-      danger:
-        'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
+      default: 'bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200',
+      primary: 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300',
+      success: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
+      warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
+      danger: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
     };
 
     const sizeStyles = {
@@ -36,16 +31,11 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <span
         ref={ref}
-        className={cn(
-          baseStyles,
-          variantStyles[variant],
-          sizeStyles[size],
-          className,
-        )}
+        className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
         {...props}
       />
     );
-  },
+  }
 );
 
 Badge.displayName = 'Badge';

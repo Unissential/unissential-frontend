@@ -41,9 +41,7 @@ export function ToastContainer() {
             className={`mb-3 pointer-events-auto rounded-lg border p-4 flex items-center gap-3 max-w-sm shadow-lg ${bgMap[toast.type]}`}
           >
             {iconMap[toast.type]}
-            <p className={`text-sm font-medium ${textMap[toast.type]}`}>
-              {toast.message}
-            </p>
+            <p className={`text-sm font-medium ${textMap[toast.type]}`}>{toast.message}</p>
             <button
               onClick={() => removeToast(toast.id)}
               className="ml-auto flex-shrink-0 hover:opacity-70 transition-opacity"

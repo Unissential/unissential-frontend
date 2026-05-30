@@ -13,7 +13,7 @@ function VerifyEmailContent() {
   const token = searchParams.get('token');
   const { verifyEmail } = useAuth();
   const { addToast } = useToast();
-  
+
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Verifying your email...');
   const [email, setEmail] = useState('');
@@ -36,7 +36,8 @@ function VerifyEmailContent() {
       } catch (error) {
         console.error('Verification error:', error);
         setStatus('error');
-        const message = error instanceof Error ? error.message : 'An error occurred during verification';
+        const message =
+          error instanceof Error ? error.message : 'An error occurred during verification';
         setMessage(message);
         addToast(message, 'error');
       }
@@ -62,15 +63,9 @@ function VerifyEmailContent() {
           animate={{ scale: 1 }}
           transition={{ delay: 0.3, type: 'spring', stiffness: 100 }}
         >
-          {status === 'loading' && (
-            <Loader className="w-16 h-16 text-blue-600 animate-spin" />
-          )}
-          {status === 'success' && (
-            <CheckCircle className="w-16 h-16 text-green-500" />
-          )}
-          {status === 'error' && (
-            <XCircle className="w-16 h-16 text-red-500" />
-          )}
+          {status === 'loading' && <Loader className="w-16 h-16 text-blue-600 animate-spin" />}
+          {status === 'success' && <CheckCircle className="w-16 h-16 text-green-500" />}
+          {status === 'error' && <XCircle className="w-16 h-16 text-red-500" />}
         </motion.div>
 
         {/* Message */}
@@ -79,27 +74,36 @@ function VerifyEmailContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <h1 className={`text-2xl font-bold mb-2 ${
-            status === 'success' ? 'text-green-600' :
-            status === 'error' ? 'text-red-600' :
-            'text-gray-900'
-          }`}>
+          <h1
+            className={`text-2xl font-bold mb-2 ${
+              status === 'success'
+                ? 'text-green-600'
+                : status === 'error'
+                  ? 'text-red-600'
+                  : 'text-gray-900'
+            }`}
+          >
             {status === 'loading' && 'Verifying Email'}
             {status === 'success' && 'Email Verified!'}
             {status === 'error' && 'Verification Failed'}
           </h1>
 
-          <p className={`text-lg ${
-            status === 'success' ? 'text-green-600' :
-            status === 'error' ? 'text-red-600' :
-            'text-gray-600'
-          }`}>
+          <p
+            className={`text-lg ${
+              status === 'success'
+                ? 'text-green-600'
+                : status === 'error'
+                  ? 'text-red-600'
+                  : 'text-gray-600'
+            }`}
+          >
             {message}
           </p>
 
           {status === 'success' && email && (
             <p className="text-gray-600 text-sm mt-4">
-              Your email <span className="font-semibold text-indigo-600">{email}</span> has been verified.
+              Your email <span className="font-semibold text-indigo-600">{email}</span> has been
+              verified.
             </p>
           )}
         </motion.div>
@@ -164,7 +168,9 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+    <Suspense
+      fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}
+    >
       <VerifyEmailContent />
     </Suspense>
   );

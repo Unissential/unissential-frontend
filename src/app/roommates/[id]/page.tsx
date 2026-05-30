@@ -112,25 +112,18 @@ export default function RoommateDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Main Image */}
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src={roommate.photo}
-                alt={roommate.name}
-                fill
-                className="object-cover"
-              />
+              <Image src={roommate.photo} alt={roommate.name} fill className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
 
             {/* Photo Gallery */}
             <div className="grid grid-cols-4 gap-3">
               {roommate.photos.map((photo, idx) => (
-                <div key={idx} className="relative h-24 rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity">
-                  <Image
-                    src={photo}
-                    alt={`Gallery ${idx}`}
-                    fill
-                    className="object-cover"
-                  />
+                <div
+                  key={idx}
+                  className="relative h-24 rounded-lg overflow-hidden cursor-pointer hover:opacity-75 transition-opacity"
+                >
+                  <Image src={photo} alt={`Gallery ${idx}`} fill className="object-cover" />
                 </div>
               ))}
             </div>

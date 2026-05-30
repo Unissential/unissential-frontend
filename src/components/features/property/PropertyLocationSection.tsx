@@ -9,9 +9,7 @@ interface PropertyLocationSectionProps {
   location: PropertyLocation;
 }
 
-export const PropertyLocationSection: React.FC<PropertyLocationSectionProps> = ({
-  location,
-}) => {
+export const PropertyLocationSection: React.FC<PropertyLocationSectionProps> = ({ location }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

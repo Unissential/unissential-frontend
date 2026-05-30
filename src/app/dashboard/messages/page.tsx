@@ -128,11 +128,7 @@ export default function MessagesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className={`flex gap-3 ${msg.isOwn ? 'flex-row-reverse' : ''}`}
               >
-                <img
-                  src={msg.senderAvatar}
-                  alt={msg.senderName}
-                  className="w-8 h-8 rounded-full"
-                />
+                <img src={msg.senderAvatar} alt={msg.senderName} className="w-8 h-8 rounded-full" />
                 <div className={`flex flex-col gap-1 max-w-xs ${msg.isOwn ? 'items-end' : ''}`}>
                   <div
                     className={`px-4 py-2.5 rounded-xl ${

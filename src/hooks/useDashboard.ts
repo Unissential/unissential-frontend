@@ -54,7 +54,9 @@ export function useSavedItems() {
 
   const toggleSave = (itemId: string) => {
     setSavedItems((prev) => {
-      const updated = prev.includes(itemId) ? prev.filter((id) => id !== itemId) : [...prev, itemId];
+      const updated = prev.includes(itemId)
+        ? prev.filter((id) => id !== itemId)
+        : [...prev, itemId];
       localStorage.setItem('saved_items', JSON.stringify(updated));
       return updated;
     });

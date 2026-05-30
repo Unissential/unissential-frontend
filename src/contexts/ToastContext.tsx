@@ -9,7 +9,11 @@ interface Toast {
 
 interface ToastContextType {
   toasts: Toast[];
-  addToast: (message: string, type: 'success' | 'error' | 'info' | 'warning', duration?: number) => void;
+  addToast: (
+    message: string,
+    type: 'success' | 'error' | 'info' | 'warning',
+    duration?: number
+  ) => void;
   removeToast: (id: string) => void;
 }
 

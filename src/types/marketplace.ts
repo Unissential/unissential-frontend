@@ -3,7 +3,15 @@
  * Complete type definitions for the student marketplace system
  */
 
-export type ProductCategory = 'beds' | 'chairs' | 'tables' | 'electronics' | 'kitchen' | 'books' | 'bikes' | 'appliances';
+export type ProductCategory =
+  | 'beds'
+  | 'chairs'
+  | 'tables'
+  | 'electronics'
+  | 'kitchen'
+  | 'books'
+  | 'bikes'
+  | 'appliances';
 export type ProductCondition = 'new' | 'like-new' | 'good' | 'fair';
 export type DeliveryOption = 'pickup' | 'delivery' | 'both';
 

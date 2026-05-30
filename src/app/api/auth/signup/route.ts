@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
     // Validate input using Zod schema
     const validationResult = signupSchema.safeParse(body);
-    
+
     if (!validationResult.success) {
       return NextResponse.json(
         {
@@ -56,9 +56,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Signup error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

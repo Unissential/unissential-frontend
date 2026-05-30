@@ -114,7 +114,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({ property }) => {
       {/* Info Box */}
       <div className="p-3 rounded-lg bg-blue-50 border border-blue-100">
         <p className="text-xs text-blue-900">
-          <strong>Tip:</strong> Contact the host to ask questions and schedule a tour before committing.
+          <strong>Tip:</strong> Contact the host to ask questions and schedule a tour before
+          committing.
         </p>
       </div>
 
@@ -152,7 +153,11 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({ property }) => {
                 >
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                   <h4 className="text-lg font-bold text-neutral-900 mb-2">Message Sent!</h4>
@@ -299,7 +304,8 @@ export const BookingSidebar: React.FC<BookingSidebarProps> = ({ property }) => {
                   </div>
                   <h4 className="text-lg font-bold text-neutral-900 mb-2">Tour Scheduled!</h4>
                   <p className="text-neutral-600 mb-6">
-                    Your tour for {tourForm.date} at {tourForm.time} has been confirmed. {property.host.name} will meet you at the property.
+                    Your tour for {tourForm.date} at {tourForm.time} has been confirmed.{' '}
+                    {property.host.name} will meet you at the property.
                   </p>
                   <button
                     onClick={() => {

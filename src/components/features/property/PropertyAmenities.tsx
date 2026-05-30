@@ -55,10 +55,7 @@ export const PropertyAmenities: React.FC<PropertyAmenitiesProps> = ({ amenities 
   const renderAmenityCategory = (title: string, items: PropertyAmenity[]) => (
     <div key={title} className="space-y-3">
       <h4 className="text-sm font-semibold text-neutral-900 capitalize">{title}</h4>
-      <motion.div
-        variants={containerVariants}
-        className="grid grid-cols-2 sm:grid-cols-3 gap-3"
-      >
+      <motion.div variants={containerVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {items.map((amenity) => (
           <motion.div
             key={amenity.id}

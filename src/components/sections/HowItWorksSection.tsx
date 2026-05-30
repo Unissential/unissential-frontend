@@ -3,13 +3,7 @@
  */
 
 import React from 'react';
-import {
-  UserPlus,
-  Zap,
-  MessageSquare,
-  Home,
-  ArrowRight,
-} from 'lucide-react';
+import { UserPlus, Zap, MessageSquare, Home, ArrowRight } from 'lucide-react';
 import { Badge, Button } from '@/components/common';
 const howItWorks = [
   { step: 1, title: 'Sign Up', description: 'Create your account' },
@@ -25,10 +19,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export const HowItWorksSection: React.FC = () => {
   return (
-    <section
-      id="how-it-works"
-      className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8"
-    >
+    <section id="how-it-works" className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
       {/* Background Decoration */}
       <div className="absolute left-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-gradient-to-r from-primary-200/30 to-transparent blur-3xl dark:from-primary-900/20" />
 
@@ -66,9 +57,7 @@ export const HowItWorksSection: React.FC = () => {
                 <h3 className="mb-3 text-xl font-bold text-neutral-900 dark:text-white">
                   {step.title}
                 </h3>
-                <p className="flex-1 text-neutral-600 dark:text-neutral-400">
-                  {step.description}
-                </p>
+                <p className="flex-1 text-neutral-600 dark:text-neutral-400">{step.description}</p>
 
                 {/* Arrow */}
                 {index < howItWorks.length - 1 && (

@@ -12,11 +12,7 @@ interface AuthCardProps {
 /**
  * Premium auth form card with animations
  */
-export function AuthCard({
-  title,
-  description,
-  children,
-}: AuthCardProps) {
+export function AuthCard({ title, description, children }: AuthCardProps) {
   return (
     <motion.div
       className="w-full max-w-md"
@@ -32,14 +28,8 @@ export function AuthCard({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {title}
-          </h1>
-          {description && (
-            <p className="text-gray-600 text-sm leading-relaxed">
-              {description}
-            </p>
-          )}
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
+          {description && <p className="text-gray-600 text-sm leading-relaxed">{description}</p>}
         </motion.div>
 
         {/* Form content */}
@@ -60,10 +50,7 @@ export function AuthCard({
         transition={{ duration: 0.5, delay: 0.3 }}
       >
         We protect your privacy. See our{' '}
-        <a
-          href="#"
-          className="text-indigo-600 hover:text-indigo-700 font-medium"
-        >
+        <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
           Privacy Policy
         </a>
       </motion.p>
