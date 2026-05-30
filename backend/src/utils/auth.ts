@@ -24,9 +24,9 @@ export async function comparePassword(password: string, hash: string): Promise<b
  * Generate JWT token
  */
 export function generateToken(payload: JWTPayload): string {
-  return jwt.sign(payload, JWT_SECRET, {
+  return jwt.sign(payload, JWT_SECRET as string, {
     expiresIn: JWT_EXPIRE,
-  });
+  } as any);
 }
 
 /**
@@ -34,7 +34,7 @@ export function generateToken(payload: JWTPayload): string {
  */
 export function verifyToken(token: string): JWTPayload {
   try {
-    return jwt.verify(token, JWT_SECRET) as JWTPayload;
+    return jwt.verify(token, JWT_SECRET as string) as JWTPayload;
   } catch (error) {
     throw new Error('Invalid or expired token');
   }

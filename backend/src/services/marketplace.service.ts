@@ -50,7 +50,7 @@ export class MarketplaceService {
     ]);
 
     return formatPaginatedResponse(
-      products.map((p) => this.formatProductDTO(p)),
+      products.map((p: any) => this.formatProductDTO(p)),
       page,
       limit,
       total
@@ -167,7 +167,7 @@ export class MarketplaceService {
     ]);
 
     return formatPaginatedResponse(
-      products.map((p) => this.formatProductDTO(p)),
+      products.map((p: any) => this.formatProductDTO(p)),
       page,
       limit,
       total

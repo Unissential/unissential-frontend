@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { authMiddleware, asyncHandler, validateRequest } from '@/middleware';
 import { AuthController } from '@/controllers/auth.controller';
 import { ListingController } from '@/controllers/listing.controller';

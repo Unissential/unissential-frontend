@@ -44,7 +44,7 @@ export class RoommateService {
     ]);
 
     return formatPaginatedResponse(
-      profiles.map((p) => this.formatProfileDTO(p)),
+      profiles.map((p: any) => this.formatProfileDTO(p)),
       page,
       limit,
       total
@@ -209,7 +209,7 @@ export class RoommateService {
     });
 
     return formatPaginatedResponse(
-      compatibleProfiles.map((p) => this.formatProfileDTO(p)),
+      compatibleProfiles.map((p: any) => this.formatProfileDTO(p)),
       page,
       limit,
       total
