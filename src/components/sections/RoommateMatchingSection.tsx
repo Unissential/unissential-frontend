@@ -11,7 +11,7 @@ export const RoommateMatchingSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8">
       {/* Background Decoration */}
-      <div className="absolute right-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-gradient-to-l from-primary-200/30 to-transparent blur-3xl dark:from-primary-900/20" />
+      <div className="absolute right-0 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-gradient-to-l from-primary-200/30 to-transparent blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl">
         {/* Section Header */}
@@ -22,10 +22,10 @@ export const RoommateMatchingSection: React.FC = () => {
               Smart Matching
             </Badge>
           </div>
-          <h2 className="text-3xl font-bold text-neutral-900 dark:text-white sm:text-4xl">
+          <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
             Find Your Perfect Roommate
           </h2>
-          <p className="mt-4 text-lg text-neutral-600 dark:text-neutral-400">
+          <p className="mt-4 text-lg text-neutral-600">
             Our AI-powered algorithm matches you with compatible roommates based on lifestyle, budget, and interests. Get matched with people you&apos;ll love living with.
           </p>
         </div>
@@ -39,11 +39,11 @@ export const RoommateMatchingSection: React.FC = () => {
           ].map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="rounded-lg border-2 border-neutral-200 bg-white p-4 dark:border-neutral-700 dark:bg-neutral-800"
+              className="rounded-lg border-2 border-neutral-200 bg-white p-4"
             >
               <Icon className="h-6 w-6 text-primary-600" />
-              <h3 className="mt-3 font-semibold text-neutral-900 dark:text-white">{title}</h3>
-              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{desc}</p>
+              <h3 className="mt-3 font-semibold text-neutral-900">{title}</h3>
+              <p className="mt-1 text-sm text-neutral-600">{desc}</p>
             </div>
           ))}
         </div>

@@ -24,3 +24,16 @@ export interface APIResponse<T> {
   error?: string;
   success: boolean;
 }
+
+// Re-export marketplace types for convenience
+export type {
+  ProductCategory,
+  ProductCondition,
+  DeliveryOption,
+  SellerProfile,
+  MarketplaceProduct,
+  MarketplaceFilterState,
+  CreateProductFormData,
+  MarketplaceContextType,
+  UserLocation,
+} from './marketplace';

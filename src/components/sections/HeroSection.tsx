@@ -8,29 +8,29 @@ import { Button } from '@/components/common';
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-primary-50 to-neutral-50 px-4 py-24 dark:from-neutral-950 dark:via-primary-950/20 dark:to-neutral-950 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-primary-50 to-neutral-50 px-4 py-24 sm:px-6 lg:px-8">
       {/* Decorative Background Elements */}
-      <div className="absolute -left-40 top-0 h-80 w-80 rounded-full bg-primary-200/30 blur-3xl dark:bg-primary-900/20" />
-      <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-secondary-200/30 blur-3xl dark:bg-secondary-900/20" />
+      <div className="absolute -left-40 top-0 h-80 w-80 rounded-full bg-primary-200/30 blur-3xl" />
+      <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-secondary-200/30 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Left Content */}
           <div className="flex flex-col gap-8">
             {/* Badge */}
-            <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/50 px-4 py-2 backdrop-blur-sm dark:bg-neutral-900/50">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/50 px-4 py-2 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-500 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-500" />
               </span>
-              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              <span className="text-sm font-medium text-neutral-700">
                 Trusted by 50,000+ students
               </span>
             </div>
 
             {/* Headline */}
             <div className="flex flex-col gap-4">
-              <h1 className="text-4xl font-bold leading-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold leading-tight text-neutral-950 sm:text-5xl lg:text-6xl">
                 Find Your Perfect
                 <span className="relative ml-2">
                   <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
@@ -38,7 +38,7 @@ export const HeroSection: React.FC = () => {
                   </span>
                 </span>
               </h1>
-              <p className="text-lg text-neutral-600 dark:text-neutral-300 sm:text-xl">
+              <p className="text-lg text-neutral-600 sm:text-xl">
                 Discover rooms, connect with roommates, buy/sell textbooks, and chat securely. Everything you need for student housing in one platform.
               </p>
             </div>
@@ -70,10 +70,10 @@ export const HeroSection: React.FC = () => {
                 { icon: ShoppingBag, label: 'Listings', value: '5K+' },
                 { icon: MessageSquare, label: 'Chats Daily', value: '100K+' },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex flex-col gap-1 rounded-lg bg-white/40 p-3 backdrop-blur-sm dark:bg-neutral-900/40">
+                <div key={label} className="flex flex-col gap-1 rounded-lg bg-white/40 p-3 backdrop-blur-sm">
                   <Icon className="h-5 w-5 text-primary-600" />
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400">{label}</p>
-                  <p className="font-bold text-neutral-900 dark:text-white">{value}</p>
+                  <p className="text-xs text-neutral-600">{label}</p>
+                  <p className="font-bold text-neutral-900">{value}</p>
                 </div>
               ))}
             </div>
@@ -88,11 +88,11 @@ export const HeroSection: React.FC = () => {
               className="h-full w-full object-cover"
             />
             {/* Floating Card */}
-            <div className="absolute bottom-6 left-6 right-6 flex gap-3 rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-sm dark:bg-neutral-900/95">
+            <div className="absolute bottom-6 left-6 right-6 flex gap-3 rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-sm">
               <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500" />
               <div className="flex flex-col gap-1">
-                <p className="font-semibold text-neutral-900 dark:text-white">Perfect Match Found!</p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">You&apos;re 92% compatible with Sarah</p>
+                <p className="font-semibold text-neutral-900">Perfect Match Found!</p>
+                <p className="text-sm text-neutral-600">You&apos;re 92% compatible with Sarah</p>
               </div>
             </div>
           </div>
