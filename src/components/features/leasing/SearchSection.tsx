@@ -11,9 +11,9 @@ interface SearchSectionProps {
 
 const durationOptions = [
   { id: 'all', label: 'All Durations', value: 'all' },
-  { id: '1-2', label: '1-2 months', value: '1-2' },
-  { id: 'semester', label: 'Semester', value: 'semester' },
-  { id: 'summer', label: 'Summer', value: 'summer' },
+  { id: '1-2', label: '1-2 months', value: '1-2 months' },
+  { id: 'semester', label: 'Semester', value: 'Semester' },
+  { id: 'summer', label: 'Summer', value: 'Summer' },
 ];
 
 const priceOptions = [
@@ -70,7 +70,7 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
         className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8"
       >
         {/* Duration Pills */}
-        <div className="flex items-center gap-3 overflow-x-auto pb-2 md:pb-0">
+        <div className="flex items-center gap-3 overflow-hidden">
           {durationOptions.map((option) => (
             <motion.button
               key={option.id}

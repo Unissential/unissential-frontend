@@ -13,13 +13,16 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,json,css}\""
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "clsx": "^2.1.0",
     "framer-motion": "^12.39.0",
     "lucide-react": "latest",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^2.3.0"
+    "react-hook-form": "^7.76.1",
+    "tailwind-merge": "^2.3.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
