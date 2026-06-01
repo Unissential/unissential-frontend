@@ -3,8 +3,16 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { dashboardNavItems } from '@/data/mockDashboard';
 import { motion } from 'framer-motion';
+
+const dashboardNavItems = [
+  { href: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { href: '/dashboard/my-listings', label: 'My Listings', icon: '🏠' },
+  { href: '/dashboard/messages', label: 'Messages', icon: '💬' },
+  { href: '/dashboard/notifications', label: 'Notifications', icon: '🔔' },
+  { href: '/dashboard/saved-listings', label: 'Saved', icon: '❤️' },
+  { href: '/dashboard/settings', label: 'Settings', icon: '⚙️' },
+];
 
 interface SidebarProps {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -18,9 +18,9 @@ import {
   CheckCircle,
   Target,
   BookOpen,
+  Loader,
 } from 'lucide-react';
-import { mockRoommates } from '@/data/mockRoommates';
-import { calculateCompatibility } from '@/lib/compatibility';
+import { roommateService } from '@/services/api/roommate.service';
 import { CompatibilityBadge } from '@/components/features/roommate/CompatibilityBadge';
 
 // Mock user preferences
@@ -37,12 +37,35 @@ export default function RoommateDetailPage() {
   const router = useRouter();
   const roommateId = params.id as string;
 
-  const roommate = mockRoommates.find((r) => r.id === roommateId);
+  const [roommate, setRoommate] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
-  const compatibility = roommate ? calculateCompatibility(roommate, mockUserPreferences) : null;
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!roommate || !compatibility) {
+  useEffect(() => {
+    const loadRoommate = async () => {
+      try {
+        const data = await roommateService.getProfileById(roommateId);
+        setRoommate(data);
+      } catch (error) {
+        console.error('Failed to load roommate:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadRoommate();
+  }, [roommateId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!roommate) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-neutral-50">
         <div className="text-center">

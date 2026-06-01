@@ -1,7 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { categoryConfig } from '@/data/mockMarketplace';
+
+const categoryConfig = [
+  { value: 'electronics', label: 'Electronics' },
+  { value: 'furniture', label: 'Furniture' },
+  { value: 'textbooks', label: 'Textbooks' },
+  { value: 'clothing', label: 'Clothing' },
+];
 
 interface EmptyStateProps {
   onReset: () => void;

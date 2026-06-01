@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { SavedItemCard, EmptyState } from '@/components/dashboard';
-import { mockSavedListings } from '@/data/mockDashboard';
 import { useState } from 'react';
+
+const mockSavedListings = [];
 
 const container = {
   hidden: { opacity: 0 },

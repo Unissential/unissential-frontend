@@ -5,7 +5,10 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { RoomCard, Button } from '@/components/common';
-import { featuredRooms } from '@/data/landing-mock';
+const featuredRooms = [
+  { id: '1', title: 'Modern 2BR', price: '$1200' },
+  { id: '2', title: 'Cozy Studio', price: '$800' },
+];
 
 export const FeaturedRoomsSection: React.FC = () => {
   return (

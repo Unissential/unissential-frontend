@@ -2,22 +2,53 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Heart, Share2, MessageCircle, MapPin, Calendar, Truck, Package, Star, Check, ArrowLeft } from 'lucide-react';
-import { mockMarketplaceProducts } from '@/data/mockMarketplace';
+import { useState, useEffect } from 'react';
+import { Heart, Share2, MessageCircle, MapPin, Calendar, Truck, Package, Star, Check, ArrowLeft, Loader } from 'lucide-react';
+import { marketplaceService } from '@/services/api/marketplace.service';
 import { cn } from '@/lib/utils';
+import { useParams } from 'next/navigation';
 
-interface ProductDetailPageProps {
-  params: { id: string };
-}
-
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = mockMarketplaceProducts.find((p) => p.id === params.id);
+export default function ProductDetailPage() {
+  const params = useParams();
+  const productId = params.id as string;
+  const [product, setProduct] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [contactMessage, setContactMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const data = await marketplaceService.getProductById(productId);
+        setProduct(data);
+      } catch (error) {
+        console.error('Failed to load product:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProduct();
+  }, [productId]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Product not found</p>
+      </div>
+    );
+  }
 
   if (!product) {
     return (

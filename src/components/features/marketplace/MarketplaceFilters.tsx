@@ -3,8 +3,17 @@
 import { Search, ChevronDown, X } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { categoryConfig, conditionOptions, priceRanges } from '@/data/mockMarketplace';
 import { MarketplaceFilterState } from '@/types/marketplace';
+
+const categoryConfig = [
+  { value: 'electronics', label: 'Electronics' },
+  { value: 'furniture', label: 'Furniture' },
+  { value: 'textbooks', label: 'Textbooks' },
+  { value: 'clothing', label: 'Clothing' },
+];
+
+const conditionOptions = ['New', 'Like New', 'Good', 'Fair'];
+const priceRanges = [[0, 100], [100, 500], [500, 1000], [1000, 5000]];
 
 interface MarketplaceFiltersProps {
   onFilterChange: (filters: MarketplaceFilterState) => void;

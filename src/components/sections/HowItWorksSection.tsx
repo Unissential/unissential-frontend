@@ -11,7 +11,10 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Badge, Button } from '@/components/common';
-import { howItWorks } from '@/data/landing-mock';
+const howItWorks = [
+  { step: 1, title: 'Sign Up', description: 'Create your account' },
+  { step: 2, title: 'Browse', description: 'Find listings' },
+];
 
 const iconMap: Record<string, React.ReactNode> = {
   UserPlus: <UserPlus className="h-8 w-8" />,

@@ -1,8 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { mockNotifications } from '@/data/mockDashboard';
 import { Trash2, Archive } from 'lucide-react';
+
+const mockNotifications = [];
 import { useState } from 'react';
 
 const container = {
