@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/ui';
 
@@ -59,9 +60,13 @@ export const Footer = () => {
             className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12"
           >
             <motion.div variants={itemVariants} className="md:col-span-1">
-              <h3 className="text-lg font-bold text-neutral-900 mb-4">
-                Unissential
-              </h3>
+              <Image
+                src="/U_logo.png"
+                alt="Unissential"
+                width={40}
+                height={40}
+                className="mb-4 object-contain"
+              />
               <p className="text-neutral-600 leading-relaxed text-sm">
                 Making student housing easier, one listing at a time.
               </p>
