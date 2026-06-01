@@ -36,15 +36,25 @@ export class HealthController {
    * - Migration status
    */
   static async getHealthWithDatabase(req: Request, res: Response): Promise<void> {
-    const healthCheck = {
-      status: 'healthy' as const,
+    const healthCheck: {
+      status: 'healthy' | 'unhealthy';
+      timestamp: string;
+      environment: string;
+      uptime: number;
+      checks: {
+        api: { status: string };
+        database: { status: string; message: string };
+        prisma: { status: string; message: string };
+      };
+    } = {
+      status: 'healthy',
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV || 'development',
       uptime: process.uptime(),
       checks: {
-        api: { status: 'ok' as const },
-        database: { status: 'pending' as const, message: '' },
-        prisma: { status: 'pending' as const, message: '' },
+        api: { status: 'ok' },
+        database: { status: 'pending', message: '' },
+        prisma: { status: 'pending', message: '' },
       },
     };
 
