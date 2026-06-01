@@ -15,7 +15,10 @@ export interface Listing {
 }
 
 export interface FilterOptions {
-  duration: 'all' | '1-2' | 'semester' | 'summer';
+  duration: 'all' | '1-2 months' | 'Semester' | 'Summer';
   priceRange: 'all' | 'under800' | 'under1000' | 'under1500';
   petFriendly: boolean;
+  sortBy?: 'newest' | 'priceLow' | 'priceHigh' | 'distance';
 }
+
+export type SortOption = 'newest' | 'priceLow' | 'priceHigh' | 'distance';

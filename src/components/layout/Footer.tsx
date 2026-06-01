@@ -10,9 +10,9 @@ const footerLinks = [
   {
     title: 'Product',
     links: [
-      { label: 'Lease', href: '#lease' },
-      { label: 'Roommates', href: '#roommates' },
-      { label: 'Marketplace', href: '#marketplace' },
+      { label: 'Lease', href: '/leasing' },
+      { label: 'Roommates', href: '/roommates' },
+      { label: 'Marketplace', href: '/marketplace' },
     ],
   },
   {
@@ -68,7 +68,7 @@ export const Footer = () => {
                 className="mb-4 object-contain w-10 h-10"
               />
               <p className="text-neutral-600 leading-relaxed text-sm">
-                Making student housing easier, one listing at a time.
+                Making student living easier, one platform at a time.
               </p>
             </motion.div>
 
