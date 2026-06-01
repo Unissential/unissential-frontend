@@ -40,9 +40,7 @@ export const Navbar = () => {
   return (
     <>
       {/* Desktop Navbar */}
-      <motion.nav
-        className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100/50"
-      >
+      <motion.nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-100/50">
         <Container>
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -67,20 +65,12 @@ export const Navbar = () => {
             {/* Desktop CTA Buttons */}
             <div className="hidden md:flex items-center gap-3">
               <motion.div whileHover={{ scale: 1.05 }}>
-                <PremiumButton 
-                  variant="outline" 
-                  size="md"
-                  onClick={() => router.push('/login')}
-                >
+                <PremiumButton variant="outline" size="md" onClick={() => router.push('/login')}>
                   Login
                 </PremiumButton>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }}>
-                <PremiumButton 
-                  variant="primary" 
-                  size="md"
-                  onClick={() => router.push('/signup')}
-                >
+                <PremiumButton variant="primary" size="md" onClick={() => router.push('/signup')}>
                   Sign Up
                 </PremiumButton>
               </motion.div>
@@ -134,9 +124,9 @@ export const Navbar = () => {
               ))}
 
               <div className="border-t border-neutral-100 pt-4 space-y-3">
-                <PremiumButton 
-                  variant="outline" 
-                  size="md" 
+                <PremiumButton
+                  variant="outline"
+                  size="md"
                   className="w-full"
                   onClick={() => {
                     router.push('/login');
@@ -145,9 +135,9 @@ export const Navbar = () => {
                 >
                   Login
                 </PremiumButton>
-                <PremiumButton 
-                  variant="primary" 
-                  size="md" 
+                <PremiumButton
+                  variant="primary"
+                  size="md"
                   className="w-full"
                   onClick={() => {
                     router.push('/signup');

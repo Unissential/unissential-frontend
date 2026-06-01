@@ -26,7 +26,8 @@ export const MarketplaceSection: React.FC = () => {
             Buy & Sell Student Essentials
           </h2>
           <p className="mt-4 text-lg text-neutral-600">
-            Connect with other students to buy and sell textbooks, furniture, electronics, and more. Save money and find great deals.
+            Connect with other students to buy and sell textbooks, furniture, electronics, and more.
+            Save money and find great deals.
           </p>
         </div>
 
@@ -57,9 +58,7 @@ export const MarketplaceSection: React.FC = () => {
 
         {/* Features */}
         <div className="rounded-2xl bg-white p-8 shadow-lg sm:p-12">
-          <h3 className="mb-8 text-2xl font-bold text-neutral-900">
-            Why Use Our Marketplace?
-          </h3>
+          <h3 className="mb-8 text-2xl font-bold text-neutral-900">Why Use Our Marketplace?</h3>
           <div className="grid gap-6 sm:grid-cols-3">
             {[
               {

@@ -77,7 +77,10 @@ export function DashboardNavbar({ onMenuClick, unreadCount }: DashboardNavbarPro
                 className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 rounded-lg transition-colors"
               >
                 <img
-                  src={user?.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop'}
+                  src={
+                    user?.avatar ||
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop'
+                  }
                   alt={user?.name || 'User'}
                   className="w-8 h-8 rounded-full"
                 />

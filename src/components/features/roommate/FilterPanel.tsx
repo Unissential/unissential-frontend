@@ -79,9 +79,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* University - Searchable */}
           <div className="relative z-10">
-            <label className="block text-sm font-semibold text-neutral-900 mb-2">
-              University
-            </label>
+            <label className="block text-sm font-semibold text-neutral-900 mb-2">University</label>
             <div className="relative">
               <input
                 type="text"
@@ -231,9 +229,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 
           {/* Smoking */}
           <div>
-            <label className="block text-sm font-semibold text-neutral-900 mb-2">
-              Smoking
-            </label>
+            <label className="block text-sm font-semibold text-neutral-900 mb-2">Smoking</label>
             <select
               value={filters.smoking}
               onChange={(e) => handleInputChange('smoking', e.target.value)}
@@ -278,7 +274,9 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center justify-between mt-6 pt-6 border-t border-neutral-200">
           <div className="text-sm text-neutral-600">
-            {activeFilterCount > 0 && <span className="font-semibold">{activeFilterCount} filter(s) active</span>}
+            {activeFilterCount > 0 && (
+              <span className="font-semibold">{activeFilterCount} filter(s) active</span>
+            )}
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}

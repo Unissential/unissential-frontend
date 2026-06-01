@@ -239,10 +239,6 @@ export default function CreateProfilePage() {
     </ProtectedRoute>
   );
 }
-  'gaming',
-  'anime',
-  'music',
-  'art',
   'cooking',
   'sports',
   'reading',

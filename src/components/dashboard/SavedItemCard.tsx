@@ -64,7 +64,9 @@ export function SavedItemCard({ item, onRemove }: SavedItemCardProps) {
           className="object-cover group-hover:scale-110 transition-transform duration-300"
         />
         {/* Type Badge */}
-        <div className={`absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-semibold ${getTypeColor(item.type)}`}>
+        <div
+          className={`absolute top-3 left-3 px-3 py-1 rounded-lg text-xs font-semibold ${getTypeColor(item.type)}`}
+        >
           {getTypeLabel(item.type)}
         </div>
         {/* Save Button */}
@@ -83,16 +85,12 @@ export function SavedItemCard({ item, onRemove }: SavedItemCardProps) {
 
         {/* Price and Location */}
         <div className="space-y-2 mb-3">
-          {item.price && (
-            <p className="text-lg font-bold text-neutral-900">${item.price}</p>
-          )}
+          {item.price && <p className="text-lg font-bold text-neutral-900">${item.price}</p>}
           <div className="flex items-center gap-1 text-sm text-neutral-600">
             <MapPin size={14} />
             <span className="truncate">{item.location}</span>
           </div>
-          {item.detail && (
-            <p className="text-xs text-neutral-600">{item.detail}</p>
-          )}
+          {item.detail && <p className="text-xs text-neutral-600">{item.detail}</p>}
         </div>
 
         {/* Saved Date */}

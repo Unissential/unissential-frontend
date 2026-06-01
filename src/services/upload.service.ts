@@ -20,7 +20,9 @@ const validateFile = (file: File): void => {
   }
 
   // Check file type
-  if (!FILE_UPLOAD.ALLOWED_TYPES.includes(file.type as typeof FILE_UPLOAD.ALLOWED_TYPES[number])) {
+  if (
+    !FILE_UPLOAD.ALLOWED_TYPES.includes(file.type as (typeof FILE_UPLOAD.ALLOWED_TYPES)[number])
+  ) {
     throw new Error(ERROR_MESSAGES.FILE_TYPE_INVALID);
   }
 };
@@ -34,7 +36,10 @@ export const uploadService = {
    * Upload single file
    * Gets pre-signed URL from backend, uploads directly to S3
    */
-  uploadFile: async (file: File, type: 'profile' | 'listing' = 'profile'): Promise<UploadResponse> => {
+  uploadFile: async (
+    file: File,
+    type: 'profile' | 'listing' = 'profile'
+  ): Promise<UploadResponse> => {
     try {
       // Validate file
       validateFile(file);
@@ -80,13 +85,16 @@ export const uploadService = {
   /**
    * Upload multiple files
    */
-  uploadFiles: async (files: File[], type: 'profile' | 'listing' = 'profile'): Promise<UploadResponse[]> => {
+  uploadFiles: async (
+    files: File[],
+    type: 'profile' | 'listing' = 'profile'
+  ): Promise<UploadResponse[]> => {
     // Limit number of files
     if (files.length > FILE_UPLOAD.MAX_FILES) {
       throw new Error(`Maximum ${FILE_UPLOAD.MAX_FILES} files allowed`);
     }
 
-    const uploadPromises = files.map(file => uploadService.uploadFile(file, type));
+    const uploadPromises = files.map((file) => uploadService.uploadFile(file, type));
     return Promise.all(uploadPromises);
   },
 

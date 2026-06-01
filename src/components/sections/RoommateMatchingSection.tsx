@@ -29,7 +29,8 @@ export const RoommateMatchingSection: React.FC = () => {
             Find Your Perfect Roommate
           </h2>
           <p className="mt-4 text-lg text-neutral-600">
-            Our AI-powered algorithm matches you with compatible roommates based on lifestyle, budget, and interests. Get matched with people you&apos;ll love living with.
+            Our AI-powered algorithm matches you with compatible roommates based on lifestyle,
+            budget, and interests. Get matched with people you&apos;ll love living with.
           </p>
         </div>
 
@@ -40,10 +41,7 @@ export const RoommateMatchingSection: React.FC = () => {
             { icon: Heart, title: 'Compatibility Score', desc: 'See your match percentage' },
             { icon: Zap, title: 'Instant Connection', desc: 'Chat directly with matches' },
           ].map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="rounded-lg border-2 border-neutral-200 bg-white p-4"
-            >
+            <div key={title} className="rounded-lg border-2 border-neutral-200 bg-white p-4">
               <Icon className="h-6 w-6 text-primary-600" />
               <h3 className="mt-3 font-semibold text-neutral-900">{title}</h3>
               <p className="mt-1 text-sm text-neutral-600">{desc}</p>
@@ -68,10 +66,7 @@ export const RoommateMatchingSection: React.FC = () => {
           <p className="mt-3 text-lg opacity-90">
             Take our quick quiz to get matched with your perfect roommate instantly
           </p>
-          <Button
-            size="lg"
-            className="mt-6 gap-2 bg-white text-primary-600 hover:bg-white/90"
-          >
+          <Button size="lg" className="mt-6 gap-2 bg-white text-primary-600 hover:bg-white/90">
             Start Matching
             <ArrowRight className="h-5 w-5" />
           </Button>

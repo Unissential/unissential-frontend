@@ -48,10 +48,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Email verification error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -64,10 +61,7 @@ export async function GET(request: NextRequest) {
     const token = request.nextUrl.searchParams.get('token');
 
     if (!token) {
-      return NextResponse.json(
-        { success: false, error: 'Token is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Token is required' }, { status: 400 });
     }
 
     // Verify the token
@@ -98,9 +92,6 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error('Email verification error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

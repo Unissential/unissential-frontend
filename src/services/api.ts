@@ -23,7 +23,7 @@ const createApiClient = (): AxiosInstance => {
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
   });
 
@@ -89,11 +89,13 @@ export const apiClient = createApiClient();
  * Type-safe API wrapper
  */
 export const api = {
-  get: <T,>(endpoint: string, config?: any) => apiClient.get<T>(endpoint, config),
-  post: <T,>(endpoint: string, data?: any, config?: any) => apiClient.post<T>(endpoint, data, config),
-  put: <T,>(endpoint: string, data?: any, config?: any) => apiClient.put<T>(endpoint, data, config),
-  patch: <T,>(endpoint: string, data?: any, config?: any) => apiClient.patch<T>(endpoint, data, config),
-  delete: <T,>(endpoint: string, config?: any) => apiClient.delete<T>(endpoint, config),
+  get: <T>(endpoint: string, config?: any) => apiClient.get<T>(endpoint, config),
+  post: <T>(endpoint: string, data?: any, config?: any) =>
+    apiClient.post<T>(endpoint, data, config),
+  put: <T>(endpoint: string, data?: any, config?: any) => apiClient.put<T>(endpoint, data, config),
+  patch: <T>(endpoint: string, data?: any, config?: any) =>
+    apiClient.patch<T>(endpoint, data, config),
+  delete: <T>(endpoint: string, config?: any) => apiClient.delete<T>(endpoint, config),
 };
 
 export default api;

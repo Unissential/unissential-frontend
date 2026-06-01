@@ -71,7 +71,9 @@ export const PropertyReviewsSection: React.FC<PropertyReviewsSectionProps> = ({
           </div>
 
           <div className="border-l border-neutral-200 pl-6">
-            <p className="text-lg font-semibold text-neutral-900">{reviews.length} verified reviews</p>
+            <p className="text-lg font-semibold text-neutral-900">
+              {reviews.length} verified reviews
+            </p>
             <p className="text-sm text-neutral-600">from students who lived here</p>
           </div>
         </div>
@@ -95,7 +97,12 @@ export const PropertyReviewsSection: React.FC<PropertyReviewsSectionProps> = ({
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                  <Image src={review.avatar} alt={review.studentName} fill className="object-cover" />
+                  <Image
+                    src={review.avatar}
+                    alt={review.studentName}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900">{review.studentName}</p>
@@ -110,9 +117,7 @@ export const PropertyReviewsSection: React.FC<PropertyReviewsSectionProps> = ({
                     key={i}
                     size={14}
                     className={
-                      i < review.rating
-                        ? 'fill-yellow-400 text-yellow-400'
-                        : 'text-neutral-300'
+                      i < review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-neutral-300'
                     }
                   />
                 ))}

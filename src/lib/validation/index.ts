@@ -79,11 +79,7 @@ export function validatePasswordStrength(password: string): {
 
   // Calculate strength
   let strength: 'weak' | 'medium' | 'strong' = 'medium';
-  if (
-    password.length >= 12 &&
-    /[a-z]/.test(password) &&
-    /[!@#$%^&*]/.test(password)
-  ) {
+  if (password.length >= 12 && /[a-z]/.test(password) && /[!@#$%^&*]/.test(password)) {
     strength = 'strong';
   }
 

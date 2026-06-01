@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVerificationTokenForEmail, storeVerificationToken, isEmailVerified } from '@/lib/tokens';
+import {
+  getVerificationTokenForEmail,
+  storeVerificationToken,
+  isEmailVerified,
+} from '@/lib/tokens';
 import { sendVerificationEmail } from '@/lib/email';
 
 /**
@@ -11,10 +15,7 @@ export async function POST(request: NextRequest) {
     const { email, fullName } = await request.json();
 
     if (!email || typeof email !== 'string') {
-      return NextResponse.json(
-        { success: false, error: 'Email is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Email is required' }, { status: 400 });
     }
 
     // Check if already verified
@@ -30,18 +31,14 @@ export async function POST(request: NextRequest) {
 
     // Get existing token or create new one
     let token = getVerificationTokenForEmail(email);
-    
+
     if (!token) {
       // Create new token if none exists
       token = storeVerificationToken(email);
     }
 
     // Send verification email
-    const emailResult = await sendVerificationEmail(
-      email,
-      token,
-      fullName || 'User'
-    );
+    const emailResult = await sendVerificationEmail(email, token, fullName || 'User');
 
     if (!emailResult.success) {
       return NextResponse.json(
@@ -59,9 +56,6 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Resend verification error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

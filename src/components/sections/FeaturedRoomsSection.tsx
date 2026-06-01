@@ -17,9 +17,7 @@ export const FeaturedRoomsSection: React.FC = () => {
         {/* Section Header */}
         <div className="mb-12 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">
-              Featured Rooms
-            </h2>
+            <h2 className="text-3xl font-bold text-neutral-900 sm:text-4xl">Featured Rooms</h2>
             <p className="mt-3 text-lg text-neutral-600">
               Discover top-rated student housing options in your area
             </p>

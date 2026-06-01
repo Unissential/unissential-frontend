@@ -3,7 +3,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Heart, Share2, MessageCircle, MapPin, Calendar, Truck, Package, Star, Check, ArrowLeft, Loader } from 'lucide-react';
+import {
+  Heart,
+  Share2,
+  MessageCircle,
+  MapPin,
+  Calendar,
+  Truck,
+  Package,
+  Star,
+  Check,
+  ArrowLeft,
+  Loader,
+} from 'lucide-react';
 import { marketplaceService } from '@/services/api/marketplace.service';
 import { cn } from '@/lib/utils';
 import { useParams } from 'next/navigation';
@@ -72,24 +84,29 @@ export default function ProductDetailPage() {
     .slice(0, 4);
 
   const conditionColor = {
-    'new': 'bg-green-100 text-green-800',
+    new: 'bg-green-100 text-green-800',
     'like-new': 'bg-blue-100 text-blue-800',
-    'good': 'bg-amber-100 text-amber-800',
-    'fair': 'bg-orange-100 text-orange-800',
+    good: 'bg-amber-100 text-amber-800',
+    fair: 'bg-orange-100 text-orange-800',
   }[product.condition];
 
   const conditionLabel = {
-    'new': 'New',
+    new: 'New',
     'like-new': 'Like New',
-    'good': 'Good',
-    'fair': 'Fair',
+    good: 'Good',
+    fair: 'Fair',
   }[product.condition];
 
   const postedDaysAgo = Math.floor(
     (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  const timeLabel = postedDaysAgo === 0 ? 'Posted today' : postedDaysAgo === 1 ? 'Posted yesterday' : `Posted ${postedDaysAgo} days ago`;
+  const timeLabel =
+    postedDaysAgo === 0
+      ? 'Posted today'
+      : postedDaysAgo === 1
+        ? 'Posted yesterday'
+        : `Posted ${postedDaysAgo} days ago`;
 
   return (
     <main className="min-h-screen bg-neutral-50">
@@ -186,7 +203,12 @@ export default function ProductDetailPage() {
             {/* Price & Title */}
             <div className="bg-white rounded-lg p-6 space-y-4">
               <div className="space-y-2">
-                <div className={cn('inline-block px-3 py-1 rounded-md text-xs font-semibold', conditionColor)}>
+                <div
+                  className={cn(
+                    'inline-block px-3 py-1 rounded-md text-xs font-semibold',
+                    conditionColor
+                  )}
+                >
                   {conditionLabel}
                 </div>
                 <h1 className="text-2xl md:text-3xl font-bold text-neutral-900">{product.title}</h1>
@@ -266,7 +288,9 @@ export default function ProductDetailPage() {
 
             {/* Seller Card */}
             <div className="bg-white rounded-lg p-6 space-y-4">
-              <p className="text-sm font-semibold text-neutral-600 uppercase tracking-wide">Seller</p>
+              <p className="text-sm font-semibold text-neutral-600 uppercase tracking-wide">
+                Seller
+              </p>
 
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">

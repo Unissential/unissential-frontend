@@ -33,12 +33,9 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       if (/[0-9]/.test(password)) strength++;
       if (/[!@#$%^&*]/.test(password)) strength++;
 
-      if (strength <= 1)
-        return { level: 1, label: 'Weak', color: 'bg-red-500' };
-      if (strength <= 2)
-        return { level: 2, label: 'Fair', color: 'bg-yellow-500' };
-      if (strength <= 3)
-        return { level: 3, label: 'Good', color: 'bg-blue-500' };
+      if (strength <= 1) return { level: 1, label: 'Weak', color: 'bg-red-500' };
+      if (strength <= 2) return { level: 2, label: 'Fair', color: 'bg-yellow-500' };
+      if (strength <= 3) return { level: 3, label: 'Good', color: 'bg-blue-500' };
       return { level: 4, label: 'Strong', color: 'bg-green-500' };
     };
 
@@ -52,10 +49,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
         transition={{ duration: 0.3 }}
       >
         <div className="flex items-center justify-between mb-2">
-          <label
-            htmlFor={props.id}
-            className="block text-sm font-medium text-gray-900"
-          >
+          <label htmlFor={props.id} className="block text-sm font-medium text-gray-900">
             {label}
           </label>
           {showStrength && password && (
@@ -65,9 +59,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
               animate={{ opacity: 1 }}
             >
               Strength:{' '}
-              <span className={strength.color.replace('bg-', 'text-')}>
-                {strength.label}
-              </span>
+              <span className={strength.color.replace('bg-', 'text-')}>{strength.label}</span>
             </motion.span>
           )}
         </div>
@@ -95,11 +87,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
             tabIndex={-1}
           >
-            {showPassword ? (
-              <EyeOff className="w-5 h-5" />
-            ) : (
-              <Eye className="w-5 h-5" />
-            )}
+            {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
           </button>
         </div>
 
@@ -132,11 +120,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 >
                   {password.length >= 8 && '✓'}
                 </div>
-                <span
-                  className={
-                    password.length >= 8 ? 'text-gray-700' : 'text-gray-400'
-                  }
-                >
+                <span className={password.length >= 8 ? 'text-gray-700' : 'text-gray-400'}>
                   At least 8 characters
                 </span>
               </div>
@@ -149,11 +133,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 >
                   {/[A-Z]/.test(password) && '✓'}
                 </div>
-                <span
-                  className={
-                    /[A-Z]/.test(password) ? 'text-gray-700' : 'text-gray-400'
-                  }
-                >
+                <span className={/[A-Z]/.test(password) ? 'text-gray-700' : 'text-gray-400'}>
                   One uppercase letter
                 </span>
               </div>
@@ -166,11 +146,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                 >
                   {/[0-9]/.test(password) && '✓'}
                 </div>
-                <span
-                  className={
-                    /[0-9]/.test(password) ? 'text-gray-700' : 'text-gray-400'
-                  }
-                >
+                <span className={/[0-9]/.test(password) ? 'text-gray-700' : 'text-gray-400'}>
                   One number
                 </span>
               </div>
@@ -186,11 +162,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <svg
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"

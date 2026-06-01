@@ -37,13 +37,13 @@ export function SignupForm() {
   const onSubmit = async (data: SignupFormData) => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // Extract university from email domain for now (could be improved with a select)
       const emailDomain = data.email.split('@')[1].replace('.edu', '').toUpperCase();
-      
+
       await signup(data.email, data.password, data.fullName, emailDomain);
-      
+
       // Show verification pending screen
       setVerificationEmail(data.email);
       setVerificationName(data.fullName);
@@ -64,19 +64,13 @@ export function SignupForm() {
         title="Check Your Email"
         description="We sent a verification link to verify your account"
       >
-        <VerificationPending
-          email={verificationEmail}
-          fullName={verificationName}
-        />
+        <VerificationPending email={verificationEmail} fullName={verificationName} />
       </AuthCard>
     );
   }
 
   return (
-    <AuthCard
-      title="Create Account"
-      description="Join our exclusive student housing community"
-    >
+    <AuthCard title="Create Account" description="Join our exclusive student housing community">
       {error && (
         <motion.div
           className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 flex items-center gap-2"
@@ -147,22 +141,13 @@ export function SignupForm() {
             className="mt-1 w-5 h-5 rounded border-2 border-gray-200 text-indigo-600 focus:ring-2 focus:ring-indigo-500 cursor-pointer transition-all"
             disabled={isLoading}
           />
-          <label
-            htmlFor="terms"
-            className="text-sm text-gray-700 leading-relaxed cursor-pointer"
-          >
+          <label htmlFor="terms" className="text-sm text-gray-700 leading-relaxed cursor-pointer">
             I agree to the{' '}
-            <a
-              href="#"
-              className="text-indigo-600 hover:text-indigo-700 font-medium"
-            >
+            <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
               Terms of Service
             </a>{' '}
             and{' '}
-            <a
-              href="#"
-              className="text-indigo-600 hover:text-indigo-700 font-medium"
-            >
+            <a href="#" className="text-indigo-600 hover:text-indigo-700 font-medium">
               Privacy Policy
             </a>
           </label>
@@ -175,11 +160,7 @@ export function SignupForm() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <svg
-              className="w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path
                 fillRule="evenodd"
                 d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"

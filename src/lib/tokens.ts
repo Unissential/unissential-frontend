@@ -24,11 +24,14 @@ export function isTokenValid(createdAt: number): boolean {
  * In production, this would be a database (PostgreSQL, MongoDB, etc.)
  * Format: { token: { email, createdAt, verified } }
  */
-const verificationTokens = new Map<string, {
-  email: string;
-  createdAt: number;
-  verified: boolean;
-}>();
+const verificationTokens = new Map<
+  string,
+  {
+    email: string;
+    createdAt: number;
+    verified: boolean;
+  }
+>();
 
 /**
  * Store a verification token

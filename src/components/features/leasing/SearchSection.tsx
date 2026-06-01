@@ -59,11 +59,12 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
   return (
     <div className="py-8 md:py-12 relative z-10">
       {/* Search Bar */}
-      <div
-        className="mb-8"
-      >
+      <div className="mb-8">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 pointer-events-none" size={20} />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral-400 pointer-events-none"
+            size={20}
+          />
           <input
             type="text"
             placeholder="Search by location, university, or keywords..."
@@ -75,9 +76,7 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
       </div>
 
       {/* Filter Bar */}
-      <div
-        className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8"
-      >
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
         {/* Duration Pills */}
         <div className="flex items-center gap-3 flex-wrap">
           {durationOptions.map((option) => (
@@ -176,9 +175,7 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
 
             {/* Pet Friendly */}
             <div className="relative z-0">
-              <label className="block text-sm font-semibold text-neutral-900 mb-3">
-                Amenities
-              </label>
+              <label className="block text-sm font-semibold text-neutral-900 mb-3">Amenities</label>
               <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer relative z-0">
                 <input
                   type="checkbox"

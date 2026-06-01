@@ -1,20 +1,13 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-interface PremiumCardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface PremiumCardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverable?: boolean;
   glowing?: boolean;
 }
 
-export const PremiumCard = React.forwardRef<
-  HTMLDivElement,
-  PremiumCardProps
->(
-  (
-    { className, hoverable = false, glowing = false, children, ...props },
-    ref
-  ) => {
+export const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
+  ({ className, hoverable = false, glowing = false, children, ...props }, ref) => {
     return (
       <div
         ref={ref}

@@ -24,24 +24,25 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
   };
 
   const conditionColor = {
-    'new': 'bg-green-100 text-green-800',
+    new: 'bg-green-100 text-green-800',
     'like-new': 'bg-blue-100 text-blue-800',
-    'good': 'bg-amber-100 text-amber-800',
-    'fair': 'bg-orange-100 text-orange-800',
+    good: 'bg-amber-100 text-amber-800',
+    fair: 'bg-orange-100 text-orange-800',
   }[product.condition];
 
   const conditionLabel = {
-    'new': 'New',
+    new: 'New',
     'like-new': 'Like New',
-    'good': 'Good',
-    'fair': 'Fair',
+    good: 'Good',
+    fair: 'Fair',
   }[product.condition];
 
   const postedDaysAgo = Math.floor(
     (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  const timeLabel = postedDaysAgo === 0 ? 'Today' : postedDaysAgo === 1 ? 'Yesterday' : `${postedDaysAgo}d ago`;
+  const timeLabel =
+    postedDaysAgo === 0 ? 'Today' : postedDaysAgo === 1 ? 'Yesterday' : `${postedDaysAgo}d ago`;
 
   return (
     <Link href={`/marketplace/${product.id}`}>
@@ -59,7 +60,12 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
             />
 
             {/* Condition Badge */}
-            <div className={cn('absolute top-2.5 left-2.5 px-3 py-1 rounded-lg text-xs font-semibold backdrop-blur-sm', conditionColor)}>
+            <div
+              className={cn(
+                'absolute top-2.5 left-2.5 px-3 py-1 rounded-lg text-xs font-semibold backdrop-blur-sm',
+                conditionColor
+              )}
+            >
               {conditionLabel}
             </div>
 
@@ -70,7 +76,10 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
             >
               <Heart
                 size={18}
-                className={cn('transition-colors', isFav ? 'fill-red-500 text-red-500' : 'text-neutral-400 hover:text-red-400')}
+                className={cn(
+                  'transition-colors',
+                  isFav ? 'fill-red-500 text-red-500' : 'text-neutral-400 hover:text-red-400'
+                )}
               />
             </button>
 
@@ -96,7 +105,9 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
               <div className="flex items-baseline gap-1.5">
                 <span className="text-lg font-bold text-neutral-900">${product.price}</span>
                 {product.distance !== undefined && (
-                  <span className="text-xs text-neutral-500">{formatDistance(product.distance)}</span>
+                  <span className="text-xs text-neutral-500">
+                    {formatDistance(product.distance)}
+                  </span>
                 )}
               </div>
               <div className="flex items-center gap-1 text-xs text-neutral-600">
@@ -132,7 +143,9 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold text-neutral-800 truncate">{product.seller.name}</p>
+                  <p className="text-xs font-semibold text-neutral-800 truncate">
+                    {product.seller.name}
+                  </p>
                   <p className="text-xs text-neutral-500">★ {product.seller.rating}</p>
                 </div>
               </div>

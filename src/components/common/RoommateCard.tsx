@@ -25,7 +25,9 @@ export const RoommateCard: React.FC<RoommateCardProps> = ({ roommate, onConnect 
         {roommate.compatibility && (
           <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 backdrop-blur-sm">
             <Sparkles className="h-4 w-4 text-primary-600" />
-            <span className="text-sm font-bold text-neutral-900">{roommate.compatibility}% Match</span>
+            <span className="text-sm font-bold text-neutral-900">
+              {roommate.compatibility}% Match
+            </span>
           </div>
         )}
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
@@ -44,12 +46,18 @@ export const RoommateCard: React.FC<RoommateCardProps> = ({ roommate, onConnect 
         {/* Rating */}
         <div className="flex items-center gap-1">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-          <span className="text-sm font-semibold text-neutral-900 dark:text-white">{roommate.rating}</span>
-          <span className="text-sm text-neutral-600 dark:text-neutral-400">• ${roommate.budget}/mo budget</span>
+          <span className="text-sm font-semibold text-neutral-900 dark:text-white">
+            {roommate.rating}
+          </span>
+          <span className="text-sm text-neutral-600 dark:text-neutral-400">
+            • ${roommate.budget}/mo budget
+          </span>
         </div>
 
         {/* About */}
-        <p className="line-clamp-2 text-sm text-neutral-600 dark:text-neutral-300">{roommate.about}</p>
+        <p className="line-clamp-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {roommate.about}
+        </p>
 
         {/* Interests */}
         <div className="flex flex-wrap gap-1.5">

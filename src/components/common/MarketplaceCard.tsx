@@ -29,7 +29,9 @@ export const MarketplaceCard: React.FC<MarketplaceCardProps> = ({ item, onViewIt
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute right-2 top-2">
-          <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${conditionColors[item.condition]}`}>
+          <span
+            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${conditionColors[item.condition]}`}
+          >
             {item.condition}
           </span>
         </div>
@@ -38,15 +40,21 @@ export const MarketplaceCard: React.FC<MarketplaceCardProps> = ({ item, onViewIt
       {/* Content */}
       <div className="flex flex-col gap-2 p-3">
         <div>
-          <p className="text-xs font-medium text-primary-600 dark:text-primary-400">{item.category}</p>
-          <h4 className="line-clamp-2 font-semibold text-neutral-900 dark:text-white">{item.title}</h4>
+          <p className="text-xs font-medium text-primary-600 dark:text-primary-400">
+            {item.category}
+          </p>
+          <h4 className="line-clamp-2 font-semibold text-neutral-900 dark:text-white">
+            {item.title}
+          </h4>
         </div>
 
         {/* Rating & Seller */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1">
             <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-            <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">{item.rating}</span>
+            <span className="text-xs font-medium text-neutral-700 dark:text-neutral-300">
+              {item.rating}
+            </span>
           </div>
           <span className="text-xs text-neutral-600 dark:text-neutral-400">by {item.seller}</span>
         </div>

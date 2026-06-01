@@ -192,22 +192,6 @@ export default function DashboardPage() {
     </ProtectedRoute>
   );
 }
-          href="/dashboard/my-listings"
-          change={1}
-        />
-        <StatsCard
-          label="Saved Items"
-          value={mockDashboardStats.savedListings}
-          icon="❤️"
-          description="Listings, products & roommates"
-          href="/dashboard/saved-listings"
-        />
-        <StatsCard
-          label="Messages"
-          value={mockDashboardStats.activeMessages}
-          icon="💬"
-          description="Active conversations"
-          href="/dashboard/messages"
           change={2}
         />
         <StatsCard

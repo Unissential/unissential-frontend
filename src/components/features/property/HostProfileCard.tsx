@@ -24,8 +24,8 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
       id: '1',
       sender: 'host',
       text: `Hi! Thanks for your interest in my property. Feel free to ask me any questions!`,
-      timestamp: 'Just now'
-    }
+      timestamp: 'Just now',
+    },
   ]);
   const [inputMessage, setInputMessage] = useState('');
 
@@ -35,7 +35,7 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
         id: Date.now().toString(),
         sender: 'user',
         text: inputMessage,
-        timestamp: 'Just now'
+        timestamp: 'Just now',
       };
       setMessages([...messages, newMessage]);
       setInputMessage('');
@@ -46,17 +46,17 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
           "That's a great question! Let me help you with that.",
           'Absolutely! I can arrange that for you.',
           'Yes, we offer that. Would you like more details?',
-          'Feel free to reach out if you have more questions!'
+          'Feel free to reach out if you have more questions!',
         ];
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-        
+
         const hostReply: ChatMessage = {
           id: (Date.now() + 1).toString(),
           sender: 'host',
           text: randomResponse,
-          timestamp: 'Just now'
+          timestamp: 'Just now',
         };
-        setMessages(prev => [...prev, hostReply]);
+        setMessages((prev) => [...prev, hostReply]);
       }, 1000);
     }
   };
@@ -83,9 +83,7 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="text-lg font-semibold text-neutral-900">{host.name}</h3>
-              {host.verified && (
-                <CheckCircle size={18} className="text-blue-600 flex-shrink-0" />
-              )}
+              {host.verified && <CheckCircle size={18} className="text-blue-600 flex-shrink-0" />}
             </div>
             <p className="text-sm text-neutral-600">{host.joinedDate}</p>
           </div>
@@ -140,7 +138,9 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
       {/* Response Time */}
       <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-100">
         <p className="text-sm text-green-900">
-          <strong>Responds within {host.responseDays} day{host.responseDays !== 1 ? 's' : ''}</strong>
+          <strong>
+            Responds within {host.responseDays} day{host.responseDays !== 1 ? 's' : ''}
+          </strong>
         </p>
       </div>
 
@@ -205,9 +205,11 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
                     }`}
                   >
                     <p className="text-sm">{message.text}</p>
-                    <p className={`text-xs mt-1 ${
-                      message.sender === 'user' ? 'text-blue-100' : 'text-neutral-500'
-                    }`}>
+                    <p
+                      className={`text-xs mt-1 ${
+                        message.sender === 'user' ? 'text-blue-100' : 'text-neutral-500'
+                      }`}
+                    >
                       {message.timestamp}
                     </p>
                   </div>

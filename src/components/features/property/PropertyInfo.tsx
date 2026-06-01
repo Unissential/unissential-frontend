@@ -64,7 +64,9 @@ export const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
           <Bed size={18} className="text-primary-500 flex-shrink-0" />
           <div>
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Bedrooms</p>
-            <p className="font-medium">{property.beds} bed{property.beds !== 1 ? 's' : ''}</p>
+            <p className="font-medium">
+              {property.beds} bed{property.beds !== 1 ? 's' : ''}
+            </p>
           </div>
         </div>
 
@@ -72,7 +74,9 @@ export const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
           <Bath size={18} className="text-primary-500 flex-shrink-0" />
           <div>
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Bathrooms</p>
-            <p className="font-medium">{property.baths} bath{property.baths !== 1 ? 's' : ''}</p>
+            <p className="font-medium">
+              {property.baths} bath{property.baths !== 1 ? 's' : ''}
+            </p>
           </div>
         </div>
       </motion.div>

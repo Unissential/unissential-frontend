@@ -45,17 +45,15 @@ export const Footer: React.FC = () => {
             <div>
               <h4 className="font-semibold text-neutral-900">Product</h4>
               <nav className="mt-4 space-y-2">
-                {['Find Rooms', 'Roommate Matching', 'Marketplace', 'For Landlords'].map(
-                  (link) => (
-                    <a
-                      key={link}
-                      href="#"
-                      className="block text-sm text-neutral-600 transition-colors hover:text-primary-600"
-                    >
-                      {link}
-                    </a>
-                  ),
-                )}
+                {['Find Rooms', 'Roommate Matching', 'Marketplace', 'For Landlords'].map((link) => (
+                  <a
+                    key={link}
+                    href="#"
+                    className="block text-sm text-neutral-600 transition-colors hover:text-primary-600"
+                  >
+                    {link}
+                  </a>
+                ))}
               </nav>
             </div>
 
@@ -88,7 +86,7 @@ export const Footer: React.FC = () => {
                     >
                       {link}
                     </a>
-                  ),
+                  )
                 )}
               </nav>
             </div>
@@ -98,9 +96,7 @@ export const Footer: React.FC = () => {
           <div className="mb-12 rounded-2xl bg-neutral-50 p-6 sm:p-8">
             <div className="grid gap-6 md:grid-cols-2 md:items-center">
               <div>
-                <h3 className="text-xl font-bold text-neutral-900">
-                  Stay Updated
-                </h3>
+                <h3 className="text-xl font-bold text-neutral-900">Stay Updated</h3>
                 <p className="mt-2 text-neutral-600">
                   Get tips, listings, and matching updates delivered to your inbox
                 </p>

@@ -13,7 +13,12 @@ const categoryConfig = [
 ];
 
 const conditionOptions = ['New', 'Like New', 'Good', 'Fair'];
-const priceRanges = [[0, 100], [100, 500], [500, 1000], [1000, 5000]];
+const priceRanges = [
+  [0, 100],
+  [100, 500],
+  [500, 1000],
+  [1000, 5000],
+];
 
 interface MarketplaceFiltersProps {
   onFilterChange: (filters: MarketplaceFilterState) => void;
@@ -100,7 +105,10 @@ export function MarketplaceFilters({ onFilterChange, filters, onReset }: Marketp
             </option>
           ))}
         </select>
-        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" size={20} />
+        <ChevronDown
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none"
+          size={20}
+        />
       </div>
 
       {/* Filters Button */}
@@ -204,9 +212,7 @@ export function MarketplaceFilters({ onFilterChange, filters, onReset }: Marketp
             {/* Price Range Filter */}
             <div>
               <button
-                onClick={() =>
-                  setExpandedCategory(expandedCategory === 'price' ? null : 'price')
-                }
+                onClick={() => setExpandedCategory(expandedCategory === 'price' ? null : 'price')}
                 className="w-full flex items-center justify-between text-left font-semibold text-neutral-900 py-2 px-2 hover:bg-neutral-50 rounded-lg transition-colors"
               >
                 Price Range

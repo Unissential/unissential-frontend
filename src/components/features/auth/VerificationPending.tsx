@@ -14,11 +14,7 @@ interface VerificationPendingProps {
  * Screen shown after successful signup
  * Prompts user to verify their email
  */
-export function VerificationPending({
-  email,
-  fullName,
-  onResendClick,
-}: VerificationPendingProps) {
+export function VerificationPending({ email, fullName, onResendClick }: VerificationPendingProps) {
   const [isResending, setIsResending] = useState(false);
   const [resendMessage, setResendMessage] = useState('');
 
@@ -67,14 +63,10 @@ export function VerificationPending({
       </motion.div>
 
       {/* Title */}
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        Check Your Email
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">Check Your Email</h1>
 
       {/* Description */}
-      <p className="text-gray-600 mb-2">
-        We sent a verification link to:
-      </p>
+      <p className="text-gray-600 mb-2">We sent a verification link to:</p>
 
       <motion.p
         className="text-lg font-semibold text-indigo-600 mb-6 break-all"
@@ -153,9 +145,7 @@ export function VerificationPending({
       {resendMessage && (
         <motion.p
           className={`text-sm font-medium mb-4 ${
-            resendMessage.includes('✓')
-              ? 'text-green-600'
-              : 'text-red-600'
+            resendMessage.includes('✓') ? 'text-green-600' : 'text-red-600'
           }`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
