@@ -9,3 +9,4 @@ export { PremiumButton } from './PremiumButton';
 export { PremiumCard } from './PremiumCard';
 export { PremiumInput } from './PremiumInput';
 export { PremiumBadge } from './PremiumBadge';
+export { Logo } from './Logo';
