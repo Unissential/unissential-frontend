@@ -41,47 +41,33 @@ export const CTASection = () => {
             transition={{ delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-white">
-              Ready to Simplify Your Student Life?
+            <h2 className="text-4xl md:text-5xl font-bold text-white">
+              Ready to simplify your student living?
             </h2>
 
             <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-              Join thousands of students already using Unissential to find housing, roommates, and essentials.
+              Join thousands of students already using Unissential
             </p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center pt-8"
+              className="flex flex-col sm:flex-row gap-3 justify-center pt-8 max-w-xl mx-auto"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <PremiumButton
-                  variant="primary"
-                  size="lg"
-                  className="bg-white text-primary-600 hover:bg-neutral-100 gap-2"
-                >
-                  Get Started Now
-                  <motion.div
-                    className="inline-block"
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 4 }}
-                  >
-                    <ArrowRight size={20} />
-                  </motion.div>
-                </PremiumButton>
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <PremiumButton
-                  variant="outline"
-                  size="lg"
-                  className="border-2 border-white text-white hover:bg-white/10"
-                >
-                  Learn More
-                </PremiumButton>
-              </motion.div>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/60 rounded-2xl font-medium focus:outline-none focus:ring-2 focus:ring-white/50 transition-smooth"
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 bg-white text-primary-600 font-bold rounded-2xl hover:bg-neutral-100 transition-smooth whitespace-nowrap"
+              >
+                Get Started
+              </motion.button>
             </motion.div>
           </motion.div>
         </motion.div>

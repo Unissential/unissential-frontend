@@ -46,23 +46,25 @@ export const HeroSection = () => {
           <motion.div variants={itemVariants} className="flex justify-center">
             <PremiumBadge variant="primary" size="md" className="px-4 py-2 gap-2">
               <span className="text-xl">✨</span>
-              Built for Scale
+              Simplifying Student Living
             </PremiumBadge>
           </motion.div>
 
           {/* Headline */}
-          <motion.h1 variants={itemVariants} className="text-6xl md:text-7xl font-bold text-neutral-900">
-            Simplifying
+          <motion.h1 variants={itemVariants} className="text-7xl md:text-8xl font-bold text-neutral-900 leading-tight">
+            Your Complete
             <br />
             <span className="gradient-text">Student Living</span>
+            <br />
+            Platform
           </motion.h1>
 
           {/* Subheadline */}
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-neutral-600 font-light leading-relaxed max-w-3xl mx-auto"
+            className="text-lg md:text-xl text-neutral-600 font-light leading-relaxed max-w-3xl mx-auto"
           >
-            Find short-term housing, compatible roommates, and affordable student essentials — all in one platform.
+            Find temporary housing, connect with roommates, and buy or sell student essentials—all in one place designed for university students.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -70,39 +72,53 @@ export const HeroSection = () => {
             variants={itemVariants}
             className="flex flex-col sm:flex-row gap-4 justify-center pt-8"
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <PremiumButton
-                variant="primary"
-                size="lg"
-                className="gap-2 group"
-              >
-                Find a Room
-                <motion.div
-                  className="inline-block"
-                  initial={{ x: 0 }}
-                  whileHover={{ x: 4 }}
-                >
-                  <ArrowRight size={20} />
-                </motion.div>
-              </PremiumButton>
-            </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-neutral-900 text-white font-bold rounded-2xl hover:bg-neutral-800 transition-smooth inline-flex items-center justify-center gap-2"
+            >
+              Get Started Free
+              <ArrowRight size={20} />
+            </motion.button>
 
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <PremiumButton variant="outline" size="lg">
-                Explore Marketplace
-              </PremiumButton>
-            </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 border-2 border-neutral-300 text-neutral-900 font-bold rounded-2xl hover:bg-neutral-50 transition-smooth"
+            >
+              Browse Listings
+            </motion.button>
+          </motion.div>
+
+          {/* Trust Badges */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-6 justify-center pt-8 pb-4"
+          >
+            {[
+              { icon: '✓', label: 'No hidden fees' },
+              { icon: '✓', label: 'Verified students' },
+              { icon: '✓', label: 'Secure platform' },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className="flex items-center gap-2 text-neutral-600 font-medium"
+              >
+                <span className="text-primary-600 font-bold text-lg">{item.icon}</span>
+                {item.label}
+              </motion.div>
+            ))}
           </motion.div>
 
           {/* Stats Row */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-3 gap-8 pt-12 border-t border-neutral-200"
+            className="grid grid-cols-3 gap-8 pt-8 border-t border-neutral-200"
           >
             {[
-              { number: '10K+', label: 'Listings' },
-              { number: '50K+', label: 'Students' },
-              { number: '95%', label: 'Satisfaction' },
+              { number: '10K+', label: 'Active Students' },
+              { number: '500+', label: 'Available Rooms' },
+              { number: '2K+', label: 'Items Listed' },
             ].map((stat, i) => (
               <motion.div
                 key={i}

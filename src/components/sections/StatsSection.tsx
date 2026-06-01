@@ -7,24 +7,24 @@ import { Container } from '@/components/ui';
 export const StatsSection = () => {
   const stats = [
     {
-      number: '18K+',
-      label: 'Active Listings',
-      sublabel: 'Updated daily',
+      number: '10K+',
+      label: 'Active Students',
+      sublabel: 'On the platform',
     },
     {
-      number: '50K+',
-      label: 'Students Helped',
-      sublabel: 'Finding housing',
+      number: '500+',
+      label: 'Available Rooms',
+      sublabel: 'To choose from',
     },
     {
-      number: '$2.5M+',
-      label: 'Saved Collectively',
-      sublabel: 'By our community',
+      number: '2K+',
+      label: 'Items Listed',
+      sublabel: 'In marketplace',
     },
     {
-      number: '24/7',
-      label: 'Support Available',
-      sublabel: 'When you need it',
+      number: '50+',
+      label: 'Universities',
+      sublabel: 'We serve',
     },
   ];
 
