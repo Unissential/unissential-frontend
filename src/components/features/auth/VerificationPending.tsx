@@ -92,7 +92,7 @@ export function VerificationPending({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="font-semibold text-gray-900 mb-4">What's next:</h3>
+        <h3 className="font-semibold text-gray-900 mb-4">What&apos;s next:</h3>
         <ol className="space-y-3">
           {[
             'Open the verification email',
@@ -124,7 +124,7 @@ export function VerificationPending({
         transition={{ delay: 0.4 }}
       >
         <p className="text-sm text-yellow-800">
-          💡 Check your spam folder if you don't see the email in a few minutes
+          💡 Check your spam folder if you don&apos;t see the email in a few minutes
         </p>
       </motion.div>
 

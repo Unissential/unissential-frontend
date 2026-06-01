@@ -1,141 +1,103 @@
-'use client';
+/**
+ * Hero Section Component
+ */
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Container } from '@/components/ui';
-import { PremiumButton, PremiumBadge } from '@/components/ui';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Users, Home, ShoppingBag, MessageSquare } from 'lucide-react';
+import { Button } from '@/components/common';
 
-export const HeroSection = () => {
-  const router = useRouter();
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 },
-    },
-  };
-
+export const HeroSection: React.FC = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-1/3 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-1/4 w-96 h-96 bg-secondary-500/20 rounded-full blur-3xl" />
+    <section className="relative overflow-hidden bg-gradient-to-br from-neutral-50 via-primary-50 to-neutral-50 px-4 py-24 dark:from-neutral-950 dark:via-primary-950/20 dark:to-neutral-950 sm:px-6 lg:px-8">
+      {/* Decorative Background Elements */}
+      <div className="absolute -left-40 top-0 h-80 w-80 rounded-full bg-primary-200/30 blur-3xl dark:bg-primary-900/20" />
+      <div className="absolute -right-40 bottom-0 h-80 w-80 rounded-full bg-secondary-200/30 blur-3xl dark:bg-secondary-900/20" />
+
+      <div className="relative mx-auto max-w-6xl">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
+          {/* Left Content */}
+          <div className="flex flex-col gap-8">
+            {/* Badge */}
+            <div className="inline-flex w-fit items-center gap-2 rounded-full bg-white/50 px-4 py-2 backdrop-blur-sm dark:bg-neutral-900/50">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary-500 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary-500" />
+              </span>
+              <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                Trusted by 50,000+ students
+              </span>
+            </div>
+
+            {/* Headline */}
+            <div className="flex flex-col gap-4">
+              <h1 className="text-4xl font-bold leading-tight text-neutral-950 dark:text-white sm:text-5xl lg:text-6xl">
+                Find Your Perfect
+                <span className="relative ml-2">
+                  <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                    Student Living
+                  </span>
+                </span>
+              </h1>
+              <p className="text-lg text-neutral-600 dark:text-neutral-300 sm:text-xl">
+                Discover rooms, connect with roommates, buy/sell textbooks, and chat securely. Everything you need for student housing in one platform.
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button
+                size="lg"
+                className="gap-2"
+                onClick={() => document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Get Started
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Learn More
+              </Button>
+            </div>
+
+            {/* Features Grid */}
+            <div className="grid grid-cols-2 gap-4 pt-4 sm:grid-cols-4">
+              {[
+                { icon: Home, label: 'Verified Rooms', value: '10K+' },
+                { icon: Users, label: 'Roommates', value: '50K+' },
+                { icon: ShoppingBag, label: 'Listings', value: '5K+' },
+                { icon: MessageSquare, label: 'Chats Daily', value: '100K+' },
+              ].map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex flex-col gap-1 rounded-lg bg-white/40 p-3 backdrop-blur-sm dark:bg-neutral-900/40">
+                  <Icon className="h-5 w-5 text-primary-600" />
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400">{label}</p>
+                  <p className="font-bold text-neutral-900 dark:text-white">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="relative h-96 overflow-hidden rounded-3xl lg:h-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-400 via-primary-500 to-secondary-600 opacity-20" />
+            <img
+              src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=600&fit=crop"
+              alt="Student Living"
+              className="h-full w-full object-cover"
+            />
+            {/* Floating Card */}
+            <div className="absolute bottom-6 left-6 right-6 flex gap-3 rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-sm dark:bg-neutral-900/95">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500" />
+              <div className="flex flex-col gap-1">
+                <p className="font-semibold text-neutral-900 dark:text-white">Perfect Match Found!</p>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">You&apos;re 92% compatible with Sarah</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <Container>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-center space-y-8 max-w-4xl mx-auto"
-        >
-          {/* Badge */}
-          <motion.div variants={itemVariants} className="flex justify-center">
-            <PremiumBadge variant="primary" size="md" className="px-4 py-2 gap-2">
-              <span className="text-xl">✨</span>
-              Simplifying Student Living
-            </PremiumBadge>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1 variants={itemVariants} className="text-7xl md:text-8xl font-bold text-neutral-900 leading-tight">
-            Your Complete
-            <br />
-            <span className="gradient-text">Student Living</span>
-            <br />
-            Platform
-          </motion.h1>
-
-          {/* Subheadline */}
-          <motion.p
-            variants={itemVariants}
-            className="text-lg md:text-xl text-neutral-600 font-light leading-relaxed max-w-3xl mx-auto"
-          >
-            Find temporary housing, connect with roommates, and buy or sell student essentials—all in one place designed for university students.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-8"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push('/signup')}
-              className="px-8 py-4 bg-neutral-900 text-white font-bold rounded-2xl hover:bg-neutral-800 transition-smooth inline-flex items-center justify-center gap-2"
-            >
-              Get Started Free
-              <ArrowRight size={20} />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push('/leasing')}
-              className="px-8 py-4 border-2 border-neutral-300 text-neutral-900 font-bold rounded-2xl hover:bg-neutral-50 transition-smooth"
-            >
-              Browse Listings
-            </motion.button>
-          </motion.div>
-
-          {/* Trust Badges */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-6 justify-center pt-8 pb-4"
-          >
-            {[
-              { icon: '✓', label: 'No hidden fees' },
-              { icon: '✓', label: 'Verified students' },
-              { icon: '✓', label: 'Secure platform' },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                className="flex items-center gap-2 text-neutral-600 font-medium"
-              >
-                <span className="text-primary-600 font-bold text-lg">{item.icon}</span>
-                {item.label}
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Stats Row */}
-          <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-3 gap-8 pt-8 border-t border-neutral-200"
-          >
-            {[
-              { number: '10K+', label: 'Active Students' },
-              { number: '500+', label: 'Available Rooms' },
-              { number: '2K+', label: 'Items Listed' },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                className="space-y-2"
-                whileHover={{ y: -4 }}
-              >
-                <p className="text-3xl md:text-4xl font-bold text-primary-600">{stat.number}</p>
-                <p className="text-sm md:text-base text-neutral-600 font-medium">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </Container>
     </section>
   );
 };
