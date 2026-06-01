@@ -1,53 +1,306 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Sliders, Sparkles, Users, Plus } from 'lucide-react';
-import { RoommateCard } from '@/components/features/roommate/RoommateCard';
-import { FilterPanel } from '@/components/features/roommate/FilterPanel';
-import { CompatibilityBadge } from '@/components/features/roommate/CompatibilityBadge';
-import { mockRoommates } from '@/data/mockRoommates';
-import { RoommateFilterState, RoommateProfile } from '@/types/roommate';
-import { calculateCompatibility, sortByCompatibility } from '@/lib/compatibility';
+import { Loader, Plus, Heart } from 'lucide-react';
+import { Container } from '@/components/ui';
+import { roommateService } from '@/services/api/roommate.service';
+import { RoommateProfileDTO } from '@/types/api';
+import { useToast } from '@/contexts/ToastContext';
+import Link from 'next/link';
 
-// Mock user preferences - in production, this would come from authenticated user
-const mockUserPreferences = {
-  budget: { min: 800, max: 1200 },
-  sleepSchedule: 'flexible' as const,
-  cleanlinessLevel: 'clean' as const,
-  interests: ['coding', 'fitness', 'travel', 'music', 'coffee'],
-  location: 'Austin',
+interface Filters {
+  searchQuery: string;
+  university: string;
+  minBudget: number;
+  maxBudget: number;
+  sleepSchedule: string;
+}
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
 };
 
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
+
+const universities = ['MIT', 'Harvard', 'Stanford', 'UCB', 'UCLA', 'UT Austin', 'Other'];
+const sleepSchedules = ['Early Bird', 'Night Owl', 'Flexible'];
+
 export default function RoommatesPage() {
-  const router = useRouter();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState<RoommateFilterState>({
+  const { addToast } = useToast();
+  const [profiles, setProfiles] = useState<RoommateProfileDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filters, setFilters] = useState<Filters>({
     searchQuery: '',
     university: '',
-    budgetRange: [600, 1500],
-    gender: '',
+    minBudget: 500,
+    maxBudget: 2000,
     sleepSchedule: '',
-    cleanlinessLevel: '',
-    smoking: '',
-    pets: '',
-    moveInDate: '',
-    interests: [],
-    location: '',
-    socialLevel: '',
   });
 
-  const [savedProfiles, setSavedProfiles] = useState<Set<string>>(new Set());
-  const [connectModal, setConnectModal] = useState<{
-    isOpen: boolean;
-    roommateId?: string;
-  }>({ isOpen: false });
+  useEffect(() => {
+    const loadProfiles = async () => {
+      setIsLoading(true);
+      try {
+        const response = await roommateService.getAllProfiles(currentPage, 12, {
+          search: filters.searchQuery,
+          university: filters.university,
+          minBudget: filters.minBudget,
+          maxBudget: filters.maxBudget,
+          sleepSchedule: filters.sleepSchedule,
+        });
+        setProfiles(response.data);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to load profiles';
+        addToast(message, 'error');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  // Filter and sort roommates
-  const filteredRoommates = useMemo(() => {
-    let results = mockRoommates.filter((roommate) => {
-      // Search query
+    loadProfiles();
+  }, [filters, currentPage, addToast]);
+
+  const handleFilterChange = (key: keyof Filters, value: string | number) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+    setCurrentPage(1);
+  };
+
+  return (
+    <Container>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 space-y-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between gap-4"
+        >
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold text-gray-900">Find Your Roommate</h1>
+            <p className="text-gray-600">Connect with students looking for housing</p>
+          </div>
+          <Link
+            href="/roommates/create"
+            className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 whitespace-nowrap flex items-center gap-2"
+          >
+            <Plus className="w-5 h-5" />
+            Create Profile
+          </Link>
+        </motion.div>
+
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-6 rounded-xl border border-gray-200 space-y-4"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* Search */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Search</label>
+              <input
+                type="text"
+                placeholder="Search by name..."
+                value={filters.searchQuery}
+                onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
+
+            {/* University */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">University</label>
+              <select
+                value={filters.university}
+                onChange={(e) => handleFilterChange('university', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">All Universities</option>
+                {universities.map((uni) => (
+                  <option key={uni} value={uni}>
+                    {uni}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Sleep Schedule */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Sleep Schedule</label>
+              <select
+                value={filters.sleepSchedule}
+                onChange={(e) => handleFilterChange('sleepSchedule', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="">Any Schedule</option>
+                {sleepSchedules.map((schedule) => (
+                  <option key={schedule} value={schedule}>
+                    {schedule}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Min Budget */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Min Budget</label>
+              <div className="relative">
+                <span className="absolute left-4 top-2 text-gray-600">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={filters.minBudget}
+                  onChange={(e) => handleFilterChange('minBudget', parseInt(e.target.value))}
+                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </div>
+
+            {/* Max Budget */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Max Budget</label>
+              <div className="relative">
+                <span className="absolute left-4 top-2 text-gray-600">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  value={filters.maxBudget}
+                  onChange={(e) => handleFilterChange('maxBudget', parseInt(e.target.value))}
+                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Profiles Grid */}
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-96">
+            <div className="text-center">
+              <Loader className="w-8 h-8 animate-spin text-indigo-600 mx-auto mb-4" />
+              <p className="text-gray-600">Loading profiles...</p>
+            </div>
+          </div>
+        ) : profiles.length > 0 ? (
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {profiles.map((profile) => (
+              <motion.div
+                key={profile.id}
+                variants={item}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                {/* Header */}
+                <div className="p-6 border-b border-gray-200 space-y-3">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">{profile.user.name}</h3>
+                      <p className="text-sm text-gray-600">{profile.user.university}</p>
+                    </div>
+                    <button className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                      <Heart className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  {/* Budget */}
+                  <div>
+                    <p className="text-sm text-gray-600">Budget</p>
+                    <p className="text-lg font-bold text-indigo-600">${profile.budget}/month</p>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="p-6 space-y-4">
+                  {/* Sleep Schedule */}
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Sleep Schedule</p>
+                    <p className="text-sm text-gray-700">{profile.sleepSchedule || 'Flexible'}</p>
+                  </div>
+
+                  {/* Preferences Preview */}
+                  {profile.preferences?.interests && profile.preferences.interests.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Interests</p>
+                      <div className="flex flex-wrap gap-1">
+                        {profile.preferences.interests.slice(0, 3).map((interest) => (
+                          <span key={interest} className="text-xs px-2 py-1 bg-indigo-50 text-indigo-700 rounded">
+                            {interest}
+                          </span>
+                        ))}
+                        {profile.preferences.interests.length > 3 && (
+                          <span className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded">
+                            +{profile.preferences.interests.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer */}
+                <div className="p-6 border-t border-gray-200">
+                  <Link
+                    href={`/roommates/${profile.id}`}
+                    className="block text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors"
+                  >
+                    View Profile
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No profiles found</h3>
+            <p className="text-gray-600 mb-4">Try adjusting your filters or create a profile</p>
+            <Link
+              href="/roommates/create"
+              className="inline-block px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700"
+            >
+              Create Profile
+            </Link>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {profiles.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center justify-center gap-4"
+          >
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-gray-600">Page {currentPage}</span>
+            <button
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
+              Next
+            </button>
+          </motion.div>
+        )}
+      </motion.div>
+    </Container>
+  );
+}
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
         const matchesSearch =
