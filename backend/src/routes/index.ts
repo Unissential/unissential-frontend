@@ -4,6 +4,7 @@ import { AuthController } from '@/controllers/auth.controller';
 import { ListingController } from '@/controllers/listing.controller';
 import { MarketplaceController } from '@/controllers/marketplace.controller';
 import { RoommateController } from '@/controllers/roommate.controller';
+import { HealthController } from '@/controllers/health.controller';
 import {
   signupSchema,
   loginSchema,
@@ -68,12 +69,10 @@ roommateRouter.get('/user/:userId', asyncHandler(RoommateController.getUserProfi
 router.use('/roommates', roommateRouter);
 
 // ==================== HEALTH CHECK ====================
-router.get('/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'API is running',
-    timestamp: new Date().toISOString(),
-  });
-});
+router.get('/health', asyncHandler(HealthController.getHealth));
+router.get('/health/full', asyncHandler(HealthController.getHealthWithDatabase));
+router.get('/health/db', asyncHandler(HealthController.getHealthDatabase));
+router.get('/ready', asyncHandler(HealthController.getReady));
+router.get('/live', asyncHandler(HealthController.getLive));
 
 export default router;
