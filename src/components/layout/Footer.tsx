@@ -1,105 +1,184 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import { Container } from '@/ui/Container';
+import { motion } from 'framer-motion';
+import { Container } from '@/components/ui';
+import { Mail } from 'lucide-react';
 
 const footerLinks = [
   {
     title: 'Product',
     links: [
-      { label: 'Features', href: '#' },
-      { label: 'Pricing', href: '#' },
-      { label: 'Security', href: '#' },
-      { label: 'Status', href: '#' },
+      { label: 'Lease', href: '#lease' },
+      { label: 'Roommates', href: '#roommates' },
+      { label: 'Marketplace', href: '#marketplace' },
+      { label: 'Features', href: '#features' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'Careers', href: '#' },
-      { label: 'Press', href: '#' },
+      { label: 'About', href: '/about' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Press', href: '/press' },
     ],
   },
   {
     title: 'Legal',
     links: [
-      { label: 'Privacy', href: '#' },
-      { label: 'Terms', href: '#' },
-      { label: 'Cookies', href: '#' },
-      { label: 'License', href: '#' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Cookies', href: '/cookies' },
+      { label: 'License', href: '/license' },
     ],
   },
-  {
-    title: 'Social',
-    links: [
-      { label: 'Twitter', href: '#' },
-      { label: 'GitHub', href: '#' },
-      { label: 'LinkedIn', href: '#' },
-      { label: 'Discord', href: '#' },
-    ],
-  },
+];
+
+const socialLinks = [
+  { label: 'Twitter', href: 'https://twitter.com' },
+  { label: 'GitHub', href: 'https://github.com' },
+  { label: 'LinkedIn', href: 'https://linkedin.com' },
+  { label: 'Email', href: 'mailto:hello@unissential.com' },
 ];
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  return (
-    <footer className="border-t border-neutral-200 bg-neutral-50">
-      <Container>
-        <div className="py-12 md:py-16">
-          {/* Footer Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-            {/* Brand */}
-            <div className="col-span-2 md:col-span-1">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center">
-                  <span className="text-white font-bold">U</span>
-                </div>
-                <span className="text-lg font-bold text-neutral-900">Unissential</span>
-              </div>
-              <p className="text-sm text-neutral-600">
-                Building the future of productivity and innovation.
-              </p>
-            </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
 
-            {/* Links */}
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  return (
+    <footer className="relative border-t border-neutral-200 bg-white">
+      <Container>
+        <div className="py-16 md:py-20">
+          {/* Main Footer Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12"
+          >
+            {/* Brand Section */}
+            <motion.div variants={itemVariants} className="md:col-span-1">
+              <Link href="/" className="flex items-center gap-2 mb-6 group">
+                <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">U</span>
+                </div>
+                <span className="text-lg font-bold text-neutral-900 group-hover:gradient-text transition-smooth">
+                  Unissential
+                </span>
+              </Link>
+              <p className="text-neutral-600 leading-relaxed text-sm">
+                Making student housing easier, one listing at a time.
+              </p>
+
+              {/* Social Links */}
+              <motion.div
+                className="flex items-center gap-4 mt-6"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {socialLinks.map((social) => (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-neutral-600 hover:text-primary-600 transition-smooth"
+                  >
+                    {social.label}
+                  </motion.a>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            {/* Footer Links */}
             {footerLinks.map((column) => (
-              <div key={column.title}>
-                <h4 className="text-sm font-semibold text-neutral-900 mb-4">{column.title}</h4>
-                <ul className="space-y-3">
+              <motion.div key={column.title} variants={itemVariants}>
+                <h4 className="text-sm font-semibold text-neutral-900 mb-6 uppercase tracking-wider">
+                  {column.title}
+                </h4>
+                <ul className="space-y-4">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <Link
+                      <motion.a
                         href={link.href}
-                        className="text-sm text-neutral-600 hover:text-neutral-900 transition-smooth"
+                        className="text-sm text-neutral-600 hover:text-primary-600 transition-smooth font-medium"
+                        whileHover={{ x: 4 }}
                       >
                         {link.label}
-                      </Link>
+                      </motion.a>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div
+            className="h-px bg-gradient-to-r from-transparent via-neutral-200 to-transparent my-12"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          />
 
           {/* Bottom Bar */}
-          <div className="border-t border-neutral-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-neutral-600">
-              © {currentYear} Unissential. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4">
-              <Link href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-smooth">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-neutral-600"
+          >
+            <motion.p variants={itemVariants}>
+              (c) {currentYear} Unissential. All rights reserved.
+            </motion.p>
+            <motion.div
+              className="flex items-center gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <motion.a
+                href="/privacy"
+                variants={itemVariants}
+                className="hover:text-primary-600 transition-smooth"
+              >
                 Privacy Policy
-              </Link>
-              <span className="text-neutral-300">•</span>
-              <Link href="#" className="text-sm text-neutral-600 hover:text-neutral-900 transition-smooth">
+              </motion.a>
+              <span className="text-neutral-300">|</span>
+              <motion.a
+                href="/terms"
+                variants={itemVariants}
+                className="hover:text-primary-600 transition-smooth"
+              >
                 Terms of Service
-              </Link>
-            </div>
-          </div>
+              </motion.a>
+            </motion.div>
+          </motion.div>
         </div>
       </Container>
     </footer>

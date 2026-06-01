@@ -2,92 +2,146 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { Container } from '@/ui/Container';
-import { Button } from '@/ui/Button';
+import { PremiumButton } from '@/components/ui';
+import { Container } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
-const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Features', href: '#features' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Docs', href: '#docs' },
+const navItems = [
+  { label: 'Lease', href: '#lease' },
+  { label: 'Roommates', href: '#roommates' },
+  { label: 'Marketplace', href: '#marketplace' },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const menuVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/80 backdrop-blur-md">
-      <Container>
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
+    <>
+      {/* Desktop Navbar */}
+      <motion.nav
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="sticky top-0 z-50 w-full backdrop-blur-premium border-b border-neutral-100/50"
+      >
+        <Container>
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
+                <span className="text-white font-bold text-lg">U</span>
+              </div>
+              <span className="text-xl font-bold text-neutral-900 hidden sm:inline group-hover:gradient-text transition-smooth">
+                Unissential
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  className="text-neutral-600 font-medium hover:text-primary-600 transition-smooth"
+                  whileHover={{ y: -2 }}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
             </div>
-            <span className="text-lg font-bold text-neutral-900 hidden sm:inline">Unissential</span>
-          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-smooth"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* Desktop CTA Buttons */}
+            <div className="hidden md:flex items-center gap-3">
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <PremiumButton variant="outline" size="md">
+                  Login
+                </PremiumButton>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }}>
+                <PremiumButton variant="primary" size="md">
+                  Sign Up
+                </PremiumButton>
+              </motion.div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              className="md:hidden p-2 hover:bg-neutral-100 rounded-lg transition-smooth"
+              onClick={() => setIsOpen(!isOpen)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
           </div>
+        </Container>
+      </motion.nav>
 
-          {/* Desktop CTA Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              Sign In
-            </Button>
-            <Button variant="primary" size="sm">
-              Get Started
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-smooth"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
+      {/* Mobile Menu */}
+      <AnimatePresence>
         {isOpen && (
-          <div className="md:hidden pb-4 border-t border-neutral-200">
-            <div className="flex flex-col gap-2 pt-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 rounded-md transition-smooth"
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 top-20 z-40 md:hidden"
+          >
+            <div
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsOpen(false)}
+            />
+
+            <motion.div
+              variants={menuVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="relative bg-white shadow-xl m-4 rounded-2xl border border-neutral-200 p-6 space-y-4"
+            >
+              {navItems.map((item) => (
+                <motion.a
+                  key={item.label}
+                  href={item.href}
+                  variants={itemVariants}
+                  className="block px-4 py-3 text-neutral-900 font-semibold hover:bg-primary-50 rounded-lg transition-smooth"
                   onClick={() => setIsOpen(false)}
                 >
-                  {link.label}
-                </Link>
+                  {item.label}
+                </motion.a>
               ))}
-              <div className="flex gap-2 pt-4 border-t border-neutral-200 mt-2">
-                <Button variant="ghost" size="sm" className="flex-1">
-                  Sign In
-                </Button>
-                <Button variant="primary" size="sm" className="flex-1">
-                  Get Started
-                </Button>
+
+              <div className="border-t border-neutral-100 pt-4 space-y-3">
+                <PremiumButton variant="outline" size="md" className="w-full">
+                  Login
+                </PremiumButton>
+                <PremiumButton variant="primary" size="md" className="w-full">
+                  Sign Up
+                </PremiumButton>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
-      </Container>
-    </nav>
+      </AnimatePresence>
+    </>
   );
 };
