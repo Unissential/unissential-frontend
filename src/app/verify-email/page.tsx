@@ -5,10 +5,14 @@ import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { CheckCircle, XCircle, Loader } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const { verifyEmail } = useAuth();
+  const { addToast } = useToast();
   
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
   const [message, setMessage] = useState('Verifying your email...');
@@ -22,35 +26,26 @@ function VerifyEmailContent() {
     }
 
     // Verify the token
-    const verifyEmail = async () => {
+    const doVerify = async () => {
       try {
-        const response = await fetch('/api/auth/verify-email', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token }),
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          setStatus('success');
-          setEmail(data.email);
-          setMessage('Email verified successfully!');
-        } else {
-          setStatus('error');
-          setMessage(data.error || 'Verification failed');
-        }
+        const user = await verifyEmail(token);
+        setStatus('success');
+        setEmail(user.email);
+        setMessage('Email verified successfully!');
+        addToast('Your email has been verified!', 'success');
       } catch (error) {
         console.error('Verification error:', error);
         setStatus('error');
-        setMessage('An error occurred during verification');
+        const message = error instanceof Error ? error.message : 'An error occurred during verification';
+        setMessage(message);
+        addToast(message, 'error');
       }
     };
 
     // Small delay for UX
-    const timer = setTimeout(verifyEmail, 1000);
+    const timer = setTimeout(doVerify, 1000);
     return () => clearTimeout(timer);
-  }, [token]);
+  }, [token, verifyEmail, addToast]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">

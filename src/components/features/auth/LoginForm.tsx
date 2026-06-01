@@ -6,11 +6,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { loginSchema, LoginFormData } from '@/lib/validation/auth';
 import { AuthInput, PasswordInput, AuthCard } from './index';
-import { Mail, CheckCircle } from 'lucide-react';
+import { Mail, CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+  const router = useRouter();
+  const { login } = useAuth();
+  const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const {
@@ -29,14 +36,21 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
+    setError(null);
     
-    // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await login(data.email, data.password);
       setSuccess(true);
-      console.log('Login data:', data);
-    } catch (error) {
-      console.error('Login error:', error);
+      addToast('Login successful! Redirecting...', 'success');
+      
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 1000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Login failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +107,16 @@ export function LoginForm() {
       title="Welcome Back"
       description="Sign in to your Unissential account"
     >
+      {error && (
+        <motion.div
+          className="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+          <p className="text-sm text-red-700">{error}</p>
+        </motion.div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
         {/* Email */}
         <AuthInput

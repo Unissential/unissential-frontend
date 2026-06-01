@@ -1,38 +1,27 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { Navbar, Footer } from '@/components/layout';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { ToastProvider } from '@/contexts/ToastContext';
+import { ToastContainer } from '@/components/ui/ToastContainer';
 import '@/styles/globals.css';
 
-export const metadata: Metadata = {
-  title: 'Unissential - Modern Productivity Platform',
-  description: 'A production-grade startup platform built with Next.js, React, and TypeScript.',
-  keywords: 'productivity, startup, modern, platform',
-  authors: [{ name: 'Unissential' }],
-  creator: 'Unissential',
-  icons: {
-    icon: '/U_logo.png',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://unissential.com',
-    title: 'Unissential - Modern Productivity Platform',
-    description: 'A production-grade startup platform built with Next.js, React, and TypeScript.',
-    siteName: 'Unissential',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Unissential - Modern Productivity Platform',
-    description: 'A production-grade startup platform built with Next.js, React, and TypeScript.',
-  },
-};
+// Note: metadata export is not available in client components
+// Move metadata to a separate server component if needed
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <AuthProvider>
+          <ToastProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <ToastContainer />
+          </ToastProvider>
+        </AuthProvider>
       </body>
     </html>
   );

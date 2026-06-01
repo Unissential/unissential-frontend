@@ -4,7 +4,7 @@
  */
 
 import { apiCall } from './client';
-import { UserDTO } from '@/types';
+import { UserDTO } from '@/types/api';
 
 export interface LoginResponse {
   token: string;
@@ -27,7 +27,7 @@ export const authService = {
       return result.data;
     }
 
-    throw new Error(result.error);
+    throw new Error(result.error || 'Signup failed');
   },
 
   /**
@@ -45,8 +45,98 @@ export const authService = {
       return result.data;
     }
 
-    throw new Error(result.error);
+    throw new Error(result.error || 'Login failed');
   },
+
+  /**
+   * Verify email
+   */
+  async verifyEmail(token: string) {
+    const result = await apiCall<UserDTO>('/auth/verify-email', {
+      method: 'POST',
+      body: JSON.stringify({ token }),
+    });
+
+    if (result.success && result.data) {
+      return result.data;
+    }
+
+    throw new Error(result.error || 'Email verification failed');
+  },
+
+  /**
+   * Resend verification email
+   */
+  async resendVerification(email: string) {
+    const result = await apiCall<{ message: string }>('/auth/resend-verification', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    });
+
+    if (result.success) {
+      return result.data;
+    }
+
+    throw new Error(result.error || 'Failed to resend verification');
+  },
+
+  /**
+   * Get current user
+   */
+  async getCurrentUser() {
+    const result = await apiCall<UserDTO>('/auth/me', {
+      method: 'GET',
+    });
+
+    if (result.success && result.data) {
+      return result.data;
+    }
+
+    throw new Error(result.error || 'Failed to fetch current user');
+  },
+
+  /**
+   * Update profile
+   */
+  async updateProfile(name?: string, bio?: string, profilePicture?: string) {
+    const result = await apiCall<UserDTO>('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify({ name, bio, profilePicture }),
+    });
+
+    if (result.success && result.data) {
+      localStorage.setItem('current_user', JSON.stringify(result.data));
+      return result.data;
+    }
+
+    throw new Error(result.error || 'Failed to update profile');
+  },
+
+  /**
+   * Logout
+   */
+  logout() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('current_user');
+  },
+
+  /**
+   * Check if user is authenticated
+   */
+  isAuthenticated(): boolean {
+    if (typeof window === 'undefined') return false;
+    return !!localStorage.getItem('auth_token');
+  },
+
+  /**
+   * Get stored user
+   */
+  getStoredUser(): UserDTO | null {
+    if (typeof window === 'undefined') return null;
+    const user = localStorage.getItem('current_user');
+    return user ? JSON.parse(user) : null;
+  },
+};
 
   /**
    * Verify email
