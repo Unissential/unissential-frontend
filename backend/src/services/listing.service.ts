@@ -47,7 +47,7 @@ export class ListingService {
     ]);
 
     return formatPaginatedResponse(
-      listings.map((l) => this.formatListingDTO(l)),
+      listings.map((l: any) => this.formatListingDTO(l)),
       page,
       limit,
       total
@@ -155,7 +155,7 @@ export class ListingService {
     ]);
 
     return formatPaginatedResponse(
-      listings.map((l) => this.formatListingDTO(l)),
+      listings.map((l: any) => this.formatListingDTO(l)),
       page,
       limit,
       total

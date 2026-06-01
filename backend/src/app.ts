@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import routes from '@/routes';
 import { errorMiddleware, loggingMiddleware } from '@/middleware';
@@ -23,7 +23,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use('/api', routes);
 
 // ==================== 404 HANDLER ====================
-app.use((req, res) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     error: 'Route not found',
