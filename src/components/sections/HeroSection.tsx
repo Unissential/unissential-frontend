@@ -51,10 +51,10 @@ export const HeroSection = () => {
           </motion.div>
 
           {/* Headline */}
-          <motion.h1 variants={itemVariants} className="text-6xl md:text-7xl font-bold">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-neutral-900 via-primary-600 to-secondary-600">
-              Simplifying Student Living.
-            </span>
+          <motion.h1 variants={itemVariants} className="text-6xl md:text-7xl font-bold text-neutral-900">
+            Simplifying
+            <br />
+            <span className="gradient-text">Student Living</span>
           </motion.h1>
 
           {/* Subheadline */}
