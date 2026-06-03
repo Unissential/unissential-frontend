@@ -8,37 +8,32 @@ import { FilterOptions } from '@/types/listing';
 import { useDebounce } from '@/hooks/useDebounce';
 
 interface SearchSectionProps {
-  onFilterChange?: (filters: FilterOptions & { searchQuery: string }) => void;
+  onFilterChange?: (filters: FilterOptions & { search?: string }) => void;
 }
 
-const durationOptions = [
-  { id: 'all', label: 'All Durations', value: 'all' },
-  { id: '1-2', label: '1-2 months', value: '1-2 months' },
-  { id: 'semester', label: 'Semester', value: 'Semester' },
-  { id: 'summer', label: 'Summer', value: 'Summer' },
-];
-
-const priceOptions = [
-  { id: 'all', label: 'All Prices', value: 'all' },
-  { id: 'under800', label: 'Under $800', value: 'under800' },
-  { id: 'under1000', label: 'Under $1000', value: 'under1000' },
-  { id: 'under1500', label: 'Under $1500', value: 'under1500' },
+const leaseDurationOptions = [
+  { id: 'all', label: 'All Durations', value: '' },
+  { id: 'flexible', label: 'Flexible', value: 'flexible' },
+  { id: '3-months', label: '3 Months', value: '3-months' },
+  { id: '6-months', label: '6 Months', value: '6-months' },
+  { id: '12-months', label: '12 Months', value: '12-months' },
 ];
 
 const sortOptions = [
   { id: 'newest', label: 'Newest First', value: 'newest' },
-  { id: 'priceLow', label: 'Price: Low to High', value: 'priceLow' },
-  { id: 'priceHigh', label: 'Price: High to Low', value: 'priceHigh' },
-  { id: 'distance', label: 'Distance', value: 'distance' },
+  { id: 'price-asc', label: 'Price: Low to High', value: 'price-asc' },
+  { id: 'price-desc', label: 'Price: High to Low', value: 'price-desc' },
 ];
 
 export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
-  const [selectedDuration, setSelectedDuration] = useState('all');
-  const [selectedPrice, setSelectedPrice] = useState('all');
+  const [selectedDuration, setSelectedDuration] = useState('');
+  const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [isPetFriendly, setIsPetFriendly] = useState(false);
-  const [sortBy, setSortBy] = useState<'newest' | 'priceLow' | 'priceHigh' | 'distance'>('newest');
+  const [isFurnished, setIsFurnished] = useState(false);
+  const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc'>('newest');
   const [showFilters, setShowFilters] = useState(false);
 
   // Debounce search input for better performance
@@ -46,15 +41,18 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
 
   // Notify parent when filters or search changes
   React.useEffect(() => {
-    onFilterChange?.({
-      duration: selectedDuration as any,
-      priceRange: selectedPrice as any,
-      petFriendly: isPetFriendly,
-      sortBy,
-      searchQuery: debouncedSearchQuery,
-    });
+    const filters: FilterOptions & { search?: string } = {
+      search: debouncedSearchQuery || undefined,
+      leaseDuration: selectedDuration ? (selectedDuration as any) : undefined,
+      minPrice: minPrice !== undefined && minPrice > 0 ? minPrice : undefined,
+      maxPrice: maxPrice !== undefined && maxPrice > 0 ? maxPrice : undefined,
+      petFriendly: isPetFriendly || undefined,
+      furnished: isFurnished || undefined,
+      sort: sortBy,
+    };
+    onFilterChange?.(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDuration, selectedPrice, isPetFriendly, sortBy, debouncedSearchQuery]);
+  }, [selectedDuration, minPrice, maxPrice, isPetFriendly, isFurnished, sortBy, debouncedSearchQuery]);
 
   return (
     <div className="py-8 md:py-12 relative z-10">
@@ -67,7 +65,7 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
           />
           <input
             type="text"
-            placeholder="Search by location, university, or keywords..."
+            placeholder="Search listings, location, university..."
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             className="w-full pl-12 pr-4 py-4 rounded-xl border border-neutral-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10 outline-none transition-all text-neutral-900 placeholder-neutral-500"
@@ -77,14 +75,14 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
 
       {/* Filter Bar */}
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
-        {/* Duration Pills */}
+        {/* Lease Duration Pills */}
         <div className="flex items-center gap-3 flex-wrap">
-          {durationOptions.map((option) => (
+          {leaseDurationOptions.map((option) => (
             <motion.button
               key={option.id}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setSelectedDuration(option.value as any)}
+              onClick={() => setSelectedDuration(option.value)}
               className={`px-4 py-2 rounded-full font-medium text-sm whitespace-nowrap transition-all ${
                 selectedDuration === option.value
                   ? 'bg-primary-600 text-white shadow-md'
@@ -147,36 +145,32 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
         className="overflow-hidden relative z-20"
       >
         <div className="bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 rounded-xl p-6 mb-8 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Price Filter */}
-            <div className="relative z-0">
-              <label className="block text-sm font-semibold text-neutral-900 mb-3">
-                Price Range
-              </label>
-              <div className="space-y-2">
-                {priceOptions.map((option) => (
-                  <label
-                    key={option.id}
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer relative z-0"
-                  >
-                    <input
-                      type="radio"
-                      name="price"
-                      value={option.value}
-                      checked={selectedPrice === option.value}
-                      onChange={(e) => setSelectedPrice(e.target.value as any)}
-                      className="w-4 h-4 accent-primary-600 cursor-pointer"
-                    />
-                    <span className="text-sm text-neutral-700">{option.label}</span>
-                  </label>
-                ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {/* Price Range */}
+            <div>
+              <label className="block text-sm font-semibold text-neutral-900 mb-3">Price Range</label>
+              <div className="space-y-3">
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={minPrice || ''}
+                  onChange={(e) => setMinPrice(e.target.value ? parseInt(e.target.value) : undefined)}
+                  className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500 outline-none"
+                />
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={maxPrice || ''}
+                  onChange={(e) => setMaxPrice(e.target.value ? parseInt(e.target.value) : undefined)}
+                  className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500 outline-none"
+                />
               </div>
             </div>
 
-            {/* Pet Friendly */}
-            <div className="relative z-0">
+            {/* Bedrooms */}
+            <div>
               <label className="block text-sm font-semibold text-neutral-900 mb-3">Amenities</label>
-              <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer relative z-0">
+              <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer">
                 <input
                   type="checkbox"
                   checked={isPetFriendly}
@@ -185,17 +179,36 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
                 />
                 <span className="text-sm text-neutral-700">Pet Friendly</span>
               </label>
+              <label className="flex items-center gap-3 p-2 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isFurnished}
+                  onChange={(e) => setIsFurnished(e.target.checked)}
+                  className="w-4 h-4 accent-primary-600 rounded cursor-pointer"
+                />
+                <span className="text-sm text-neutral-700">Furnished</span>
+              </label>
+            </div>
+
+            {/* Availability */}
+            <div>
+              <label className="block text-sm font-semibold text-neutral-900 mb-3">Availability</label>
+              <div className="text-sm text-neutral-600">
+                <p>Filter by lease duration above</p>
+              </div>
             </div>
 
             {/* Clear Filters */}
-            <div className="flex items-end relative z-0">
+            <div className="flex items-end">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  setSelectedDuration('all');
-                  setSelectedPrice('all');
+                  setSelectedDuration('');
+                  setMinPrice(undefined);
+                  setMaxPrice(undefined);
                   setIsPetFriendly(false);
+                  setIsFurnished(false);
                   setSearchInput('');
                   setSortBy('newest');
                 }}

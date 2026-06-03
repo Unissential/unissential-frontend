@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import routes from '@/routes';
-import { errorMiddleware, loggingMiddleware } from '@/middleware';
+import { errorMiddleware, requestLogger } from '@/middleware';
 
 const app = express();
 
@@ -12,8 +12,8 @@ app.use(cors({
   credentials: true,
 }));
 
-// Logging
-app.use(loggingMiddleware);
+// Request logging
+app.use(requestLogger);
 
 // Body parsing
 app.use(express.json({ limit: '10mb' }));

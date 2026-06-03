@@ -6,20 +6,27 @@ import { SignupPayload, LoginPayload } from '@/validations';
 export class AuthController {
   /**
    * POST /api/auth/signup
+   * Register a new user with email and password
+   * Returns JWT token and user info on success
    */
   static async signup(req: AuthRequest, res: Response) {
     try {
       const payload = req.body as SignupPayload;
       const result = await AuthService.signup(payload);
 
-      res.status(201).json({
+      return res.status(201).json({
         success: true,
         data: result,
-        message: 'Signup successful. Please check your email to verify your account.',
+        message: result.message,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Signup failed';
-      res.status(400).json({
+      console.error('Signup error:', message);
+
+      // Determine appropriate status code
+      const statusCode = message.includes('already') ? 409 : 400;
+
+      return res.status(statusCode).json({
         success: false,
         error: message,
       });
@@ -28,20 +35,24 @@ export class AuthController {
 
   /**
    * POST /api/auth/login
+   * Authenticate user with email and password
+   * Returns JWT token and user info on success
    */
   static async login(req: AuthRequest, res: Response) {
     try {
       const payload = req.body as LoginPayload;
       const result = await AuthService.login(payload);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: result,
-        message: 'Login successful',
+        message: result.message,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Login failed';
-      res.status(401).json({
+      console.error('Login error:', message);
+
+      return res.status(401).json({
         success: false,
         error: message,
       });
@@ -50,6 +61,8 @@ export class AuthController {
 
   /**
    * POST /api/auth/verify-email
+   * Verify user email with verification token
+   * Marks user as verified and clears verification token
    */
   static async verifyEmail(req: AuthRequest, res: Response) {
     try {
@@ -64,14 +77,19 @@ export class AuthController {
 
       const user = await AuthService.verifyEmail(token);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: user,
         message: 'Email verified successfully',
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Verification failed';
-      res.status(400).json({
+      console.error('Email verification error:', message);
+
+      // Determine appropriate status code
+      const statusCode = message.includes('expired') ? 410 : 400;
+
+      return res.status(statusCode).json({
         success: false,
         error: message,
       });
@@ -80,6 +98,8 @@ export class AuthController {
 
   /**
    * POST /api/auth/resend-verification
+   * Resend verification email to user
+   * Generates new verification token with 24-hour expiration
    */
   static async resendVerification(req: AuthRequest, res: Response) {
     try {
@@ -94,13 +114,16 @@ export class AuthController {
 
       const result = await AuthService.resendVerificationEmail(email);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: result,
+        message: result.message,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Resend verification failed';
-      res.status(400).json({
+      console.error('Resend verification error:', message);
+
+      return res.status(400).json({
         success: false,
         error: message,
       });
@@ -109,25 +132,29 @@ export class AuthController {
 
   /**
    * GET /api/auth/me
+   * Get current authenticated user profile
+   * Requires valid JWT token
    */
   static async getMe(req: AuthRequest, res: Response) {
     try {
       if (!req.userId) {
         return res.status(401).json({
           success: false,
-          error: 'Unauthorized',
+          error: 'Unauthorized - no user ID found in token',
         });
       }
 
       const user = await AuthService.getUserById(req.userId);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: user,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to get user';
-      res.status(400).json({
+      console.error('Get user error:', message);
+
+      return res.status(404).json({
         success: false,
         error: message,
       });
@@ -136,13 +163,15 @@ export class AuthController {
 
   /**
    * PUT /api/auth/profile
+   * Update authenticated user profile
+   * Requires valid JWT token
    */
   static async updateProfile(req: AuthRequest, res: Response) {
     try {
       if (!req.userId) {
         return res.status(401).json({
           success: false,
-          error: 'Unauthorized',
+          error: 'Unauthorized - no user ID found in token',
         });
       }
 
@@ -153,14 +182,16 @@ export class AuthController {
         profilePicture,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         data: user,
         message: 'Profile updated successfully',
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to update profile';
-      res.status(400).json({
+      console.error('Update profile error:', message);
+
+      return res.status(400).json({
         success: false,
         error: message,
       });

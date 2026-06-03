@@ -1,50 +1,89 @@
 import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
+import crypto from 'crypto';
 import { JWTPayload } from '@/types';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d';
+const BCRYPT_ROUNDS = 10;
 
 /**
  * Hash password with bcrypt
+ * Production-grade password hashing with proper salt rounds
  */
 export async function hashPassword(password: string): Promise<string> {
-  const salt = await bcryptjs.genSalt(10);
+  if (!password || password.length < 8) {
+    throw new Error('Password must be at least 8 characters long');
+  }
+
+  const salt = await bcryptjs.genSalt(BCRYPT_ROUNDS);
   return bcryptjs.hash(password, salt);
 }
 
 /**
  * Compare password with hash
+ * Safe comparison to prevent timing attacks
  */
 export async function comparePassword(password: string, hash: string): Promise<boolean> {
-  return bcryptjs.compare(password, hash);
+  if (!password || !hash) {
+    return false;
+  }
+
+  try {
+    return await bcryptjs.compare(password, hash);
+  } catch (error) {
+    console.error('Password comparison error:', error);
+    return false;
+  }
 }
 
 /**
  * Generate JWT token
+ * Includes issued-at and expiration claims
  */
 export function generateToken(payload: JWTPayload): string {
+  if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
   return jwt.sign(payload, JWT_SECRET as string, {
     expiresIn: JWT_EXPIRE,
-  } as any);
+    issuer: 'unissential-backend',
+    subject: payload.userId,
+  } as SignOptions);
 }
 
 /**
  * Verify JWT token
+ * Validates signature and expiration
  */
 export function verifyToken(token: string): JWTPayload {
+  if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured');
+  }
+
   try {
-    return jwt.verify(token, JWT_SECRET as string) as JWTPayload;
+    const decoded = jwt.verify(token, JWT_SECRET as string, {
+      issuer: 'unissential-backend',
+    });
+    return decoded as JWTPayload;
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      throw new Error('Token has expired');
+    }
+    if (error instanceof jwt.JsonWebTokenError) {
+      throw new Error('Invalid token signature');
+    }
     throw new Error('Invalid or expired token');
   }
 }
 
 /**
- * Generate verification token
+ * Generate cryptographically secure verification token
+ * Uses crypto instead of Math.random for better security
  */
 export function generateVerificationToken(): string {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return crypto.randomBytes(32).toString('hex');
 }
 
 /**

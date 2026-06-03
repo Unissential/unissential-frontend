@@ -1,24 +1,39 @@
 export interface Listing {
   id: string;
   title: string;
+  description: string;
   location: string;
+  university?: string;
   price: number;
-  beds: number;
-  baths: number;
-  image: string;
-  duration: string;
-  availability: string;
-  dateRange: string;
+  bedrooms: number;
+  bathrooms: number;
+  furnished: boolean;
+  availableFrom?: Date;
+  availableTo?: Date;
+  leaseDuration?: string;
+  isAvailable: boolean;
+  petFriendly: boolean;
+  images: string[];
   amenities: string[];
-  isFavorite?: boolean;
-  description?: string;
+  views: number;
+  owner?: any;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface FilterOptions {
-  duration: 'all' | '1-2 months' | 'Semester' | 'Summer';
-  priceRange: 'all' | 'under800' | 'under1000' | 'under1500';
-  petFriendly: boolean;
-  sortBy?: 'newest' | 'priceLow' | 'priceHigh' | 'distance';
+  search?: string;
+  location?: string;
+  university?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  petFriendly?: boolean;
+  furnished?: boolean;
+  leaseDuration?: 'flexible' | '3-months' | '6-months' | '12-months';
+  isAvailable?: boolean;
+  sort?: 'newest' | 'price-asc' | 'price-desc';
 }
 
-export type SortOption = 'newest' | 'priceLow' | 'priceHigh' | 'distance';
+export type SortOption = 'newest' | 'price-asc' | 'price-desc';

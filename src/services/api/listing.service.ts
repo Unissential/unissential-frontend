@@ -16,16 +16,40 @@ export interface ListingsResponse {
   };
 }
 
+export interface ListingFilters {
+  search?: string;
+  location?: string;
+  university?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  bedrooms?: number;
+  bathrooms?: number;
+  petFriendly?: boolean;
+  furnished?: boolean;
+  leaseDuration?: 'flexible' | '3-months' | '6-months' | '12-months';
+  isAvailable?: boolean;
+  sort?: 'newest' | 'price-asc' | 'price-desc';
+}
+
 export const listingService = {
   /**
    * Get all listings with optional filters
+   * Filters: search, location, university, minPrice, maxPrice, bedrooms, bathrooms,
+   *          petFriendly, furnished, leaseDuration, isAvailable, sort
    */
-  async getAllListings(page = 1, limit = 10, filters?: Record<string, any>) {
+  async getAllListings(page = 1, limit = 12, filters?: ListingFilters) {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
-      ...filters,
     });
+
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          params.append(key, String(value));
+        }
+      });
+    }
 
     const result = await apiCall<ListingsResponse>(`/listings?${params}`, {
       method: 'GET',
@@ -111,6 +135,22 @@ export const listingService = {
 
     const result = await apiCall<ListingsResponse>(`/listings/user/${userId}?${params}`, {
       method: 'GET',
+    });
+
+    if (result.success && result.data) {
+      return result.data;
+    }
+
+    throw new Error(result.error);
+  },
+
+  /**
+   * Toggle listing availability
+   */
+  async toggleAvailability(id: string, isAvailable: boolean) {
+    const result = await apiCall<ListingDTO>(`/listings/${id}/availability`, {
+      method: 'PATCH',
+      body: JSON.stringify({ isAvailable }),
     });
 
     if (result.success && result.data) {

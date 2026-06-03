@@ -2,19 +2,57 @@ import { z } from 'zod';
 
 // Auth Validations
 export const signupSchema = z.object({
-  email: z.string().email('Invalid email').endsWith('.edu', 'Must be a .edu email'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  university: z.string().min(2, 'University must be at least 2 characters'),
+  email: z
+    .string()
+    .email('Invalid email format')
+    .endsWith('.edu', 'Must use a .edu email address')
+    .toLowerCase(),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/[!@#$%^&*]/, 'Password must contain at least one special character (!@#$%^&*)'),
+  name: z
+    .string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters'),
+  university: z
+    .string()
+    .min(3, 'University name must be at least 3 characters')
+    .max(255, 'University name must be less than 255 characters'),
 });
 
 export const loginSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(1, 'Password is required'),
+  email: z
+    .string()
+    .email('Invalid email format')
+    .toLowerCase(),
+  password: z
+    .string()
+    .min(1, 'Password is required'),
 });
 
 export const verifyEmailSchema = z.object({
-  token: z.string().min(1, 'Verification token is required'),
+  token: z
+    .string()
+    .min(1, 'Verification token is required')
+    .regex(/^[a-f0-9]{64}$/, 'Invalid token format'),
+});
+
+export const resendVerificationSchema = z.object({
+  email: z
+    .string()
+    .email('Invalid email format')
+    .endsWith('.edu', 'Must use a .edu email address')
+    .toLowerCase(),
+});
+
+export const updateProfileSchema = z.object({
+  name: z.string().min(2).max(100).optional(),
+  bio: z.string().max(500).optional(),
+  profilePicture: z.string().url().optional(),
 });
 
 // Listing Validations
@@ -23,15 +61,18 @@ export const createListingSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description must be less than 2000 characters'),
   price: z.number().positive('Price must be positive'),
   location: z.string().min(5, 'Location must be at least 5 characters'),
+  university: z.string().optional(),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   images: z.array(z.string().url()).min(1, 'At least one image is required').max(10, 'Maximum 10 images'),
-  amenities: z.array(z.string()),
+  amenities: z.array(z.string()).default([]),
   bedrooms: z.number().int().positive(),
   bathrooms: z.number().int().positive(),
   furnished: z.boolean().optional().default(false),
-  leaseStart: z.date().optional(),
-  leaseEnd: z.date().optional(),
+  availableFrom: z.string().datetime().optional(),
+  availableTo: z.string().datetime().optional(),
+  leaseDuration: z.enum(['flexible', '3-months', '6-months', '12-months']).optional(),
+  isAvailable: z.boolean().optional().default(true),
   petFriendly: z.boolean().optional().default(false),
 });
 

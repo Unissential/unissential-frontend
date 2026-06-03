@@ -35,11 +35,12 @@ router.use('/auth', authRouter);
 const listingRouter = Router();
 
 listingRouter.get('/', asyncHandler(ListingController.getAll));
+listingRouter.get('/user/:userId', asyncHandler(ListingController.getUserListings));
 listingRouter.get('/:id', asyncHandler(ListingController.getById));
 listingRouter.post('/', authMiddleware, validateRequest(createListingSchema), asyncHandler(ListingController.create));
 listingRouter.put('/:id', authMiddleware, validateRequest(updateListingSchema), asyncHandler(ListingController.update));
+listingRouter.patch('/:id/availability', authMiddleware, asyncHandler(ListingController.toggleAvailability));
 listingRouter.delete('/:id', authMiddleware, asyncHandler(ListingController.delete));
-listingRouter.get('/user/:userId', asyncHandler(ListingController.getUserListings));
 
 router.use('/listings', listingRouter);
 

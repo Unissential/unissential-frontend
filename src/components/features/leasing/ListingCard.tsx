@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Heart, MapPin, Bed, Bath, Calendar, Wifi, UtensilsCrossed, Car } from 'lucide-react';
+import { Heart, MapPin, Bed, Bath, Calendar, Eye } from 'lucide-react';
 import { Listing } from '@/types/listing';
 
 interface ListingCardProps {
@@ -13,7 +13,35 @@ interface ListingCardProps {
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) => {
-  const [isFavorite, setIsFavorite] = useState(listing.isFavorite || false);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  // Format date range if available
+  const getDateRange = () => {
+    if (listing.availableFrom && listing.availableTo) {
+      const from = new Date(listing.availableFrom).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const to = new Date(listing.availableTo).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      return `${from} - ${to}`;
+    }
+    return listing.leaseDuration ? listing.leaseDuration.replace('-', ' ') : 'Flexible';
+  };
+
+  // Get badge color based on lease duration
+  const getLeaseBadgeColor = () => {
+    switch (listing.leaseDuration) {
+      case '3-months':
+        return 'bg-blue-400';
+      case '6-months':
+        return 'bg-purple-400';
+      case '12-months':
+        return 'bg-lime-400';
+      case 'flexible':
+        return 'bg-amber-400';
+      default:
+        return 'bg-neutral-400';
+    }
+  };
+
+  const imageUrl = listing.images?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500';
 
   return (
     <Link href={`/leasing/${listing.id}`} className="group h-full">
@@ -28,24 +56,35 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
           {/* Image Section with Badges */}
           <div className="relative overflow-hidden aspect-video bg-neutral-100 w-full">
             <Image
-              src={listing.image}
+              src={imageUrl}
               alt={listing.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
 
-            {/* Duration Badge - Left */}
-            <div className="absolute top-3 left-3 bg-lime-400 px-2.5 py-1 rounded-md text-xs font-bold text-neutral-900">
-              {listing.duration}
+            {/* Lease Duration Badge - Left */}
+            <div className={`absolute top-3 left-3 ${getLeaseBadgeColor()} px-2.5 py-1 rounded-md text-xs font-bold text-neutral-900`}>
+              {listing.leaseDuration || 'Flexible'}
             </div>
 
-            {/* Favorite Button - Right */}
+            {/* Availability Status - Top Right */}
+            {!listing.isAvailable && (
+              <div className="absolute top-3 right-3 bg-red-500 text-white px-2.5 py-1 rounded-md text-xs font-bold">
+                Unavailable
+              </div>
+            )}
+
+            {/* Favorite Button */}
             <motion.button
               whileHover={{ scale: 1.15 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsFavorite(!isFavorite)}
-              className="absolute top-3 right-3 p-2 rounded-full bg-white hover:bg-neutral-50 transition-colors shadow-md"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsFavorite(!isFavorite);
+              }}
+              className="absolute bottom-3 right-3 p-2 rounded-full bg-white hover:bg-neutral-50 transition-colors shadow-md"
             >
               <Heart
                 size={20}
@@ -69,10 +108,17 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
               </div>
             </div>
 
-            {/* Location */}
-            <div className="flex items-center gap-1.5 text-sm text-neutral-600 mb-3">
-              <MapPin size={14} className="flex-shrink-0 text-neutral-400" />
-              <span>{listing.location}</span>
+            {/* Location & University */}
+            <div className="flex flex-col gap-1 mb-3">
+              <div className="flex items-center gap-1.5 text-sm text-neutral-600">
+                <MapPin size={14} className="flex-shrink-0 text-neutral-400" />
+                <span>{listing.location}</span>
+              </div>
+              {listing.university && (
+                <div className="text-xs text-neutral-500 pl-5">
+                  {listing.university}
+                </div>
+              )}
             </div>
 
             {/* Info Row 1: Beds and Baths */}
@@ -80,50 +126,42 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
               <div className="flex items-center gap-1.5">
                 <Bed size={14} className="text-neutral-400" />
                 <span>
-                  {listing.beds} bed{listing.beds !== 1 ? 's' : ''}
+                  {listing.bedrooms} bed{listing.bedrooms !== 1 ? 's' : ''}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Bath size={14} className="text-neutral-400" />
                 <span>
-                  {listing.baths} bath{listing.baths !== 1 ? 's' : ''}
+                  {listing.bathrooms} bath{listing.bathrooms !== 1 ? 's' : ''}
                 </span>
               </div>
             </div>
 
             {/* Info Row 2: Date Range */}
-            <div className="flex items-center gap-1.5 text-sm text-neutral-600 mb-4 pb-4 border-b border-neutral-100">
+            <div className="flex items-center gap-1.5 text-sm text-neutral-600 mb-3 pb-3 border-b border-neutral-100">
               <Calendar size={14} className="text-neutral-400" />
-              <span>{listing.dateRange}</span>
+              <span>{getDateRange()}</span>
             </div>
 
-            {/* Amenities with Icons */}
+            {/* Amenities & View Count */}
             <div className="mb-4 flex-1">
-              <div className="flex flex-wrap gap-3">
-                {listing.amenities.map((amenity, idx) => {
-                  // Map amenity names to icons
-                  const getAmenityIcon = (name: string) => {
-                    if (name.includes('WiFi')) return <Wifi size={14} />;
-                    if (name.includes('Kitchen')) return <UtensilsCrossed size={14} />;
-                    if (name.includes('Parking')) return <Car size={14} />;
-                    return null;
-                  };
-
-                  return idx < 3 ? (
-                    <div
-                      key={amenity}
-                      className="flex items-center gap-1.5 text-xs text-neutral-600"
-                    >
-                      {getAmenityIcon(amenity)}
-                      <span>{amenity}</span>
-                    </div>
-                  ) : null;
-                })}
-                {listing.amenities.length > 3 && (
-                  <span className="text-xs text-neutral-500 font-medium">
-                    +{listing.amenities.length - 3}
-                  </span>
-                )}
+              <div className="flex items-center justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {listing.furnished && (
+                    <span className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded font-medium">
+                      Furnished
+                    </span>
+                  )}
+                  {listing.petFriendly && (
+                    <span className="px-2 py-1 bg-neutral-100 text-neutral-700 text-xs rounded font-medium">
+                      Pet Friendly
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-neutral-500">
+                  <Eye size={12} />
+                  <span>{listing.views || 0}</span>
+                </div>
               </div>
             </div>
 

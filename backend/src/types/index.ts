@@ -42,6 +42,7 @@ export interface ListingDTO {
   description: string;
   price: number;
   location: string;
+  university?: string;
   latitude?: number;
   longitude?: number;
   images: string[];
@@ -49,9 +50,12 @@ export interface ListingDTO {
   bedrooms: number;
   bathrooms: number;
   furnished: boolean;
-  leaseStart?: Date;
-  leaseEnd?: Date;
+  availableFrom?: Date;
+  availableTo?: Date;
+  leaseDuration?: string;
+  isAvailable: boolean;
   petFriendly: boolean;
+  views: number;
   owner: UserDTO;
   createdAt: Date;
   updatedAt: Date;
@@ -62,6 +66,7 @@ export interface CreateListingPayload {
   description: string;
   price: number;
   location: string;
+  university?: string;
   latitude?: number;
   longitude?: number;
   images: string[];
@@ -69,8 +74,10 @@ export interface CreateListingPayload {
   bedrooms: number;
   bathrooms: number;
   furnished?: boolean;
-  leaseStart?: Date;
-  leaseEnd?: Date;
+  availableFrom?: Date;
+  availableTo?: Date;
+  leaseDuration?: string;
+  isAvailable?: boolean;
   petFriendly?: boolean;
 }
 

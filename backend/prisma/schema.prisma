@@ -39,31 +39,38 @@ model User {
 
 // Leasing Listing model
 model Listing {
-  id          String    @id @default(cuid())
-  title       String
-  description String
-  price       Float
-  location    String
-  latitude    Float?
-  longitude   Float?
-  images      String[] // JSON array of image URLs
-  amenities   String[] // JSON array of amenities
-  bedrooms    Int
-  bathrooms   Int
-  furnished   Boolean   @default(false)
-  leaseStart  DateTime?
-  leaseEnd    DateTime?
-  petFriendly Boolean   @default(false)
-  owner       User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  title           String
+  description     String    @db.Text
+  price           Float
+  location        String
+  university      String?   // Target university
+  latitude        Float?
+  longitude       Float?
+  images          String[]  // JSON array of image URLs
+  amenities       String[]  // JSON array of amenities
+  bedrooms        Int
+  bathrooms       Int
+  furnished       Boolean   @default(false)
+  availableFrom   DateTime? // When the listing becomes available
+  availableTo     DateTime? // When the lease ends
+  leaseDuration   String?   // "flexible" | "3-months" | "6-months" | "12-months"
+  isAvailable     Boolean   @default(true)
+  petFriendly     Boolean   @default(false)
+  owner           User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId         String
+  views           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   // Relations
-  savedBy     SavedItem[]
+  savedBy         SavedItem[]
 
   @@index([ownerId])
   @@index([location])
+  @@index([university])
+  @@index([isAvailable])
+  @@index([createdAt])
 }
 
 // Roommate Profile model
@@ -84,9 +91,6 @@ model RoommateProfile {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  // Relations
-  savedBy      SavedItem[]
-
   @@index([userId])
 }
 
@@ -105,9 +109,6 @@ model MarketplaceProduct {
   interested Int     @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  // Relations
-  savedBy   SavedItem[]
 
   @@index([sellerId])
   @@index([category])
@@ -166,16 +167,14 @@ model Notification {
   @@index([createdAt])
 }
 
-// Saved Items model (polymorphic - can save listings, roommates, or products)
+// Saved Items model
 model SavedItem {
   id        String   @id @default(cuid())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   itemType  String   // "listing" | "roommate" | "product"
   itemId    String   // ID of the listing, roommate profile, or product
-  listing   Listing? @relation(fields: [itemId], references: [id], onDelete: Cascade, ignoreRelationScopeFail: true)
-  roommate  RoommateProfile? @relation(fields: [itemId], references: [id], onDelete: Cascade, ignoreRelationScopeFail: true)
-  product   MarketplaceProduct? @relation(fields: [itemId], references: [id], onDelete: Cascade, ignoreRelationScopeFail: true)
+  listing   Listing? @relation(fields: [itemId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
   @@unique([userId, itemType, itemId])
