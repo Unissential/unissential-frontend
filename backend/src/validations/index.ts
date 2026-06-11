@@ -83,9 +83,15 @@ export const createMarketplaceProductSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters').max(100),
   description: z.string().min(10, 'Description must be at least 10 characters').max(2000),
   price: z.number().positive('Price must be positive'),
-  condition: z.enum(['like_new', 'excellent', 'good', 'fair']),
+  location: z.string().min(3, 'Location is required'),
+  university: z.string().optional(),
+  condition: z.enum(['like_new', 'excellent', 'good', 'fair'], {
+    errorMap: () => ({ message: 'Invalid condition. Must be: like_new, excellent, good, or fair' })
+  }),
   category: z.string().min(1, 'Category is required'),
+  deliveryType: z.enum(['pickup', 'delivery', 'both']).optional(),
   images: z.array(z.string().url()).min(1, 'At least one image is required').max(10),
+  isAvailable: z.boolean().optional().default(true),
 });
 
 export const updateMarketplaceProductSchema = createMarketplaceProductSchema.partial();

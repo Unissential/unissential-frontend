@@ -87,9 +87,13 @@ export interface MarketplaceProductDTO {
   title: string;
   description: string;
   price: number;
+  location: string;
+  university?: string;
   condition: string;
   category: string;
+  deliveryType?: string;
   images: string[];
+  isAvailable: boolean;
   seller: UserDTO;
   views: number;
   interested: number;
@@ -101,9 +105,13 @@ export interface CreateMarketplaceProductPayload {
   title: string;
   description: string;
   price: number;
+  location: string;
+  university?: string;
   condition: string;
   category: string;
+  deliveryType?: string;
   images: string[];
+  isAvailable?: boolean;
 }
 
 // Roommate Profile DTOs

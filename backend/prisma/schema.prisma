@@ -28,6 +28,7 @@ model User {
   // Relations
   listings            Listing[]
   marketplaceProducts MarketplaceProduct[]
+  savedProducts       SavedProduct[]
   roommateProfile     RoommateProfile?
   savedItems          SavedItem[]
   sentMessages        Message[] @relation("sender")
@@ -96,23 +97,47 @@ model RoommateProfile {
 
 // Marketplace Product model
 model MarketplaceProduct {
-  id        String   @id @default(cuid())
-  title     String
-  description String
-  price     Float
-  condition String   // "like_new" | "excellent" | "good" | "fair"
-  category  String   // "electronics" | "textbooks" | "furniture" | etc
-  images    String[] // JSON array of image URLs
-  seller    User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId  String
-  views     Int      @default(0)
-  interested Int     @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  title         String
+  description   String   @db.Text
+  price         Float
+  location      String   // Where the item is located
+  university    String?  // University where seller studies
+  condition     String   // "like_new" | "excellent" | "good" | "fair"
+  category      String   // "electronics" | "textbooks" | "furniture" | etc
+  deliveryType  String?  // "pickup" | "delivery" | "both"
+  images        String[] // JSON array of image URLs
+  isAvailable   Boolean  @default(true) // Whether product is still for sale
+  seller        User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId      String
+  views         Int      @default(0)
+  interested    Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  savedBy       SavedProduct[]
 
   @@index([sellerId])
   @@index([category])
+  @@index([location])
+  @@index([university])
+  @@index([isAvailable])
+  @@index([createdAt])
 }
+
+// Saved Products model
+model SavedProduct {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  product   MarketplaceProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
 
 // Conversation model
 model Conversation {

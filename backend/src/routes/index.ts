@@ -47,12 +47,28 @@ router.use('/listings', listingRouter);
 // ==================== MARKETPLACE ROUTES ====================
 const marketplaceRouter = Router();
 
+// Public routes
 marketplaceRouter.get('/', asyncHandler(MarketplaceController.getAll));
+marketplaceRouter.get('/user/:userId', asyncHandler(MarketplaceController.getUserProducts));
+
+// Get product by ID must come after other specific routes
 marketplaceRouter.get('/:id', asyncHandler(MarketplaceController.getById));
+
+// Protected routes - specific routes before generic routes with parameters
+marketplaceRouter.get('/:id/saved', authMiddleware, asyncHandler(MarketplaceController.isProductSaved));
+
+// Create/update/delete
 marketplaceRouter.post('/', authMiddleware, validateRequest(createMarketplaceProductSchema), asyncHandler(MarketplaceController.create));
 marketplaceRouter.put('/:id', authMiddleware, validateRequest(updateMarketplaceProductSchema), asyncHandler(MarketplaceController.update));
+marketplaceRouter.patch('/:id/sold', authMiddleware, asyncHandler(MarketplaceController.markSold));
 marketplaceRouter.delete('/:id', authMiddleware, asyncHandler(MarketplaceController.delete));
-marketplaceRouter.get('/user/:userId', asyncHandler(MarketplaceController.getUserProducts));
+
+// Save/unsave routes
+marketplaceRouter.post('/:id/save', authMiddleware, asyncHandler(MarketplaceController.saveProduct));
+marketplaceRouter.delete('/:id/save', authMiddleware, asyncHandler(MarketplaceController.unsaveProduct));
+
+// Get saved products (authenticated user's saved products)
+marketplaceRouter.get('/saved', authMiddleware, asyncHandler(MarketplaceController.getSavedProducts));
 
 router.use('/marketplace', marketplaceRouter);
 

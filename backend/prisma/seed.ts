@@ -236,52 +236,164 @@ async function main() {
     const product1 = await prisma.marketplaceProduct.create({
       data: {
         title: 'Used MacBook Pro 2020',
-        description: 'Excellent condition, barely used. Includes charger and protective case.',
+        description: 'Excellent condition, barely used. Includes charger and protective case. Perfect for CS students!',
         price: 800,
+        location: 'Downtown Berkeley',
+        university: 'University of California, Berkeley',
         condition: 'excellent',
         category: 'electronics',
+        deliveryType: 'pickup',
         images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400'],
+        isAvailable: true,
         sellerId: user3.id,
       },
     });
 
     const product2 = await prisma.marketplaceProduct.create({
       data: {
-        title: 'Organic Chemistry Textbook',
-        description: 'Current edition, minimal highlighting. Perfect for spring semester.',
+        title: 'Organic Chemistry Textbook - 12th Edition',
+        description: 'Current edition, minimal highlighting. Perfect for spring semester chemistry course.',
         price: 45,
+        location: 'Telegraph Avenue',
+        university: 'University of California, Berkeley',
         condition: 'good',
         category: 'textbooks',
-        images: ['https://images.unsplash.com/photo-150784272343-583f20270319?w=400'],
+        deliveryType: 'pickup',
+        images: ['https://images.unsplash.com/photo-1507842217343-583f20270319?w=400'],
+        isAvailable: true,
         sellerId: user1.id,
       },
     });
 
     const product3 = await prisma.marketplaceProduct.create({
       data: {
-        title: 'IKEA Queen Bed Frame',
-        description: 'Quality frame, recently purchased. Must go by end of semester.',
-        price: 120,
+        title: 'IKEA Queen Bed Frame with Mattress',
+        description: 'Quality frame and mattress, recently purchased. Must go by end of semester. Free delivery available!',
+        price: 220,
+        location: 'North Berkeley',
+        university: 'University of California, Berkeley',
         condition: 'like_new',
         category: 'furniture',
+        deliveryType: 'both',
         images: ['https://images.unsplash.com/photo-1540932626-d4b558d8a09b?w=400'],
+        isAvailable: true,
         sellerId: user2.id,
       },
     });
 
     const product4 = await prisma.marketplaceProduct.create({
       data: {
-        title: 'Desk Lamp LED',
-        description: 'Energy efficient, adjustable brightness. Perfect for studying.',
+        title: 'LED Desk Lamp - Adjustable Brightness',
+        description: 'Energy efficient, adjustable brightness and color temperature. Perfect for late night studying.',
         price: 25,
+        location: 'Campus',
+        university: 'University of California, Berkeley',
         condition: 'excellent',
         category: 'electronics',
+        deliveryType: 'pickup',
         images: ['https://images.unsplash.com/photo-1565636192335-14c46fa1120d?w=400'],
+        isAvailable: true,
         sellerId: user5.id,
       },
     });
 
-    console.log('✅ Created 4 demo marketplace products\n');
+    const product5 = await prisma.marketplaceProduct.create({
+      data: {
+        title: 'Introduction to Biology Lab Notebook',
+        description: 'Unused lab notebook for bio 101. Bought by mistake, still has plastic wrap.',
+        price: 15,
+        location: 'Near Sather Gate',
+        university: 'University of California, Berkeley',
+        condition: 'like_new',
+        category: 'textbooks',
+        deliveryType: 'pickup',
+        images: ['https://images.unsplash.com/photo-1507842217343-583f20270319?w=400'],
+        isAvailable: true,
+        sellerId: user4.id,
+      },
+    });
+
+    const product6 = await prisma.marketplaceProduct.create({
+      data: {
+        title: '2-Person Desk for Gaming / Study',
+        description: 'Large desk perfect for two people. Excellent for roommates studying together. Needs assembly.',
+        price: 150,
+        location: 'South Berkeley',
+        university: 'University of California, Berkeley',
+        condition: 'good',
+        category: 'furniture',
+        deliveryType: 'delivery',
+        images: ['https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=400'],
+        isAvailable: true,
+        sellerId: user1.id,
+      },
+    });
+
+    const product7 = await prisma.marketplaceProduct.create({
+      data: {
+        title: 'Mountain Bike - Trek Brand',
+        description: 'Great bike for exploring Berkeley. Regularly maintained, new tires. Perfect for campus commuting.',
+        price: 350,
+        location: 'Near Sproul Plaza',
+        university: 'University of California, Berkeley',
+        condition: 'excellent',
+        category: 'bikes',
+        deliveryType: 'pickup',
+        images: ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400'],
+        isAvailable: true,
+        sellerId: user2.id,
+      },
+    });
+
+    const product8 = await prisma.marketplaceProduct.create({
+      data: {
+        title: 'Vintage Desk Armchair - Comfortable',
+        description: 'Excellent office chair for studying. Ergonomic design, adjustable height. Minimal wear.',
+        price: 85,
+        location: 'Downtown Berkeley',
+        university: 'University of California, Berkeley',
+        condition: 'good',
+        category: 'furniture',
+        deliveryType: 'both',
+        images: ['https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400'],
+        isAvailable: true,
+        sellerId: user3.id,
+      },
+    });
+
+    const product9 = await prisma.marketplaceProduct.create({
+      data: {
+        title: 'Mechanical Keyboard - Cherry MX Switches',
+        description: 'Premium mechanical keyboard with RGB lighting. Great for gaming and typing. Barely used.',
+        price: 120,
+        location: 'Campus',
+        university: 'University of California, Berkeley',
+        condition: 'like_new',
+        category: 'electronics',
+        deliveryType: 'pickup',
+        images: ['https://images.unsplash.com/photo-1587829191301-4ec2b8221652?w=400'],
+        isAvailable: true,
+        sellerId: user5.id,
+      },
+    });
+
+    const product10 = await prisma.marketplaceProduct.create({
+      data: {
+        title: 'Calculus III Solutions Manual',
+        description: 'Complete solutions manual for Calculus III. Great study aid. Highlighted notes inside.',
+        price: 30,
+        location: 'Telegraph Avenue',
+        university: 'University of California, Berkeley',
+        condition: 'fair',
+        category: 'textbooks',
+        deliveryType: 'pickup',
+        images: ['https://images.unsplash.com/photo-1507842217343-583f20270319?w=400'],
+        isAvailable: true,
+        sellerId: user4.id,
+      },
+    });
+
+    console.log('✅ Created 10 demo marketplace products\n');
 
     // ==================== CREATE CONVERSATIONS ====================
     console.log('💬 Creating demo conversations...');
@@ -368,30 +480,31 @@ async function main() {
 
     console.log('✅ Created 4 demo notifications\n');
 
-    // ==================== CREATE SAVED ITEMS ====================
-    console.log('⭐ Creating demo saved items...');
+    // ==================== CREATE SAVED PRODUCTS ====================
+    console.log('⭐ Creating demo saved products...');
 
-    await prisma.savedItem.createMany({
+    await prisma.savedProduct.createMany({
       data: [
         {
           userId: user2.id,
-          itemType: 'listing',
-          itemId: listing1.id,
+          productId: product1.id,
         },
         {
           userId: user3.id,
-          itemType: 'roommate',
-          itemId: roommate1.id,
+          productId: product3.id,
         },
         {
           userId: user4.id,
-          itemType: 'product',
-          itemId: product1.id,
+          productId: product7.id,
+        },
+        {
+          userId: user5.id,
+          productId: product2.id,
         },
       ],
     });
 
-    console.log('✅ Created saved items\n');
+    console.log('✅ Created saved products\n');
 
     // ==================== SUMMARY ====================
     console.log('✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨ ✨');

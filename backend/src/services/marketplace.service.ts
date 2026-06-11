@@ -4,7 +4,7 @@ import { calculatePagination, formatPaginatedResponse } from '@/utils/auth';
 
 export class MarketplaceService {
   /**
-   * Get all marketplace products
+   * Get all marketplace products with advanced filtering and sorting
    */
   static async getAllProducts(
     page: number = 1,
@@ -14,12 +14,19 @@ export class MarketplaceService {
       minPrice?: number;
       maxPrice?: number;
       condition?: string;
+      location?: string;
+      university?: string;
+      deliveryType?: string;
       search?: string;
+      sort?: string;
     }
   ) {
     const { skip, take } = calculatePagination(page, limit);
 
-    const where: any = {};
+    const where: any = {
+      isAvailable: true, // Only show available products by default
+    };
+
     if (filters?.category) {
       where.category = filters.category;
     }
@@ -31,11 +38,30 @@ export class MarketplaceService {
     if (filters?.condition) {
       where.condition = filters.condition;
     }
+    if (filters?.location) {
+      where.location = { contains: filters.location, mode: 'insensitive' };
+    }
+    if (filters?.university) {
+      where.university = { contains: filters.university, mode: 'insensitive' };
+    }
+    if (filters?.deliveryType) {
+      where.deliveryType = filters.deliveryType;
+    }
     if (filters?.search) {
       where.OR = [
         { title: { contains: filters.search, mode: 'insensitive' } },
         { description: { contains: filters.search, mode: 'insensitive' } },
       ];
+    }
+
+    // Determine sorting
+    let orderBy: any = { createdAt: 'desc' }; // Default: newest first
+    if (filters?.sort === 'price-asc') {
+      orderBy = { price: 'asc' };
+    } else if (filters?.sort === 'price-desc') {
+      orderBy = { price: 'desc' };
+    } else if (filters?.sort === 'views') {
+      orderBy = { views: 'desc' };
     }
 
     const [products, total] = await Promise.all([
@@ -44,7 +70,7 @@ export class MarketplaceService {
         skip,
         take,
         include: { seller: true },
-        orderBy: { createdAt: 'desc' },
+        orderBy,
       }),
       prisma.marketplaceProduct.count({ where }),
     ]);
@@ -128,6 +154,31 @@ export class MarketplaceService {
   }
 
   /**
+   * Mark product as sold
+   */
+  static async markProductSold(id: string, userId: string): Promise<MarketplaceProductDTO> {
+    const product = await prisma.marketplaceProduct.findUnique({
+      where: { id },
+    });
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    if (product.sellerId !== userId) {
+      throw new Error('Unauthorized to update this product');
+    }
+
+    const updated = await prisma.marketplaceProduct.update({
+      where: { id },
+      data: { isAvailable: false },
+      include: { seller: true },
+    });
+
+    return this.formatProductDTO(updated);
+  }
+
+  /**
    * Delete product
    */
   static async deleteProduct(id: string, userId: string): Promise<void> {
@@ -175,6 +226,82 @@ export class MarketplaceService {
   }
 
   /**
+   * Save product
+   */
+  static async saveProduct(userId: string, productId: string): Promise<void> {
+    await prisma.savedProduct.upsert({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+      update: {},
+      create: {
+        userId,
+        productId,
+      },
+    });
+  }
+
+  /**
+   * Unsave product
+   */
+  static async unsaveProduct(userId: string, productId: string): Promise<void> {
+    await prisma.savedProduct.deleteMany({
+      where: {
+        userId,
+        productId,
+      },
+    });
+  }
+
+  /**
+   * Get saved products
+   */
+  static async getSavedProducts(userId: string, page: number = 1, limit: number = 10) {
+    const { skip, take } = calculatePagination(page, limit);
+
+    const [saved, total] = await Promise.all([
+      prisma.savedProduct.findMany({
+        where: { userId },
+        skip,
+        take,
+        include: {
+          product: {
+            include: { seller: true },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.savedProduct.count({ where: { userId } }),
+    ]);
+
+    return formatPaginatedResponse(
+      saved.map((s: any) => this.formatProductDTO(s.product)),
+      page,
+      limit,
+      total
+    );
+  }
+
+  /**
+   * Check if product is saved by user
+   */
+  static async isProductSaved(userId: string, productId: string): Promise<boolean> {
+    const saved = await prisma.savedProduct.findUnique({
+      where: {
+        userId_productId: {
+          userId,
+          productId,
+        },
+      },
+    });
+
+    return !!saved;
+  }
+
+  /**
    * Increment interested count
    */
   static async incrementInterestedCount(id: string): Promise<void> {
@@ -193,9 +320,13 @@ export class MarketplaceService {
       title: product.title,
       description: product.description,
       price: product.price,
+      location: product.location,
+      university: product.university,
       condition: product.condition,
       category: product.category,
+      deliveryType: product.deliveryType,
       images: product.images,
+      isAvailable: product.isAvailable,
       seller: {
         id: product.seller.id,
         email: product.seller.email,

@@ -17,7 +17,11 @@ export class MarketplaceController {
         minPrice: req.query.minPrice ? parseInt(req.query.minPrice as string) : undefined,
         maxPrice: req.query.maxPrice ? parseInt(req.query.maxPrice as string) : undefined,
         condition: req.query.condition as string,
+        location: req.query.location as string,
+        university: req.query.university as string,
+        deliveryType: req.query.deliveryType as string,
         search: req.query.search as string,
+        sort: req.query.sort as string,
       };
 
       const result = await MarketplaceService.getAllProducts(page, limit, filters);
@@ -110,7 +114,37 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to update product';
-      const status = message === 'Unauthorized to update this product' ? 403 : 400;
+      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
+      res.status(status).json({
+        success: false,
+        error: message,
+      });
+    }
+  }
+
+  /**
+   * PATCH /api/marketplace/:id/sold
+   */
+  static async markSold(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized',
+        });
+      }
+
+      const { id } = req.params;
+      const product = await MarketplaceService.markProductSold(id, req.userId);
+
+      res.status(200).json({
+        success: true,
+        data: product,
+        message: 'Product marked as sold',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to mark product as sold';
+      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
       res.status(status).json({
         success: false,
         error: message,
@@ -139,7 +173,7 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to delete product';
-      const status = message === 'Unauthorized to delete this product' ? 403 : 400;
+      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
       res.status(status).json({
         success: false,
         error: message,
@@ -165,6 +199,121 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to fetch user products';
+      res.status(400).json({
+        success: false,
+        error: message,
+      });
+    }
+  }
+
+  /**
+   * POST /api/marketplace/:id/save
+   */
+  static async saveProduct(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized',
+        });
+      }
+
+      const { id } = req.params;
+      await MarketplaceService.saveProduct(req.userId, id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Product saved',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to save product';
+      res.status(400).json({
+        success: false,
+        error: message,
+      });
+    }
+  }
+
+  /**
+   * DELETE /api/marketplace/:id/save
+   */
+  static async unsaveProduct(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized',
+        });
+      }
+
+      const { id } = req.params;
+      await MarketplaceService.unsaveProduct(req.userId, id);
+
+      res.status(200).json({
+        success: true,
+        message: 'Product unsaved',
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to unsave product';
+      res.status(400).json({
+        success: false,
+        error: message,
+      });
+    }
+  }
+
+  /**
+   * GET /api/marketplace/saved
+   */
+  static async getSavedProducts(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized',
+        });
+      }
+
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = parseInt(req.query.limit as string) || 10;
+
+      const result = await MarketplaceService.getSavedProducts(req.userId, page, limit);
+
+      res.status(200).json({
+        success: true,
+        data: result.data,
+        pagination: result.pagination,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to fetch saved products';
+      res.status(400).json({
+        success: false,
+        error: message,
+      });
+    }
+  }
+
+  /**
+   * GET /api/marketplace/:id/saved
+   */
+  static async isProductSaved(req: AuthRequest, res: Response) {
+    try {
+      if (!req.userId) {
+        return res.status(401).json({
+          success: false,
+          error: 'Unauthorized',
+        });
+      }
+
+      const { id } = req.params;
+      const isSaved = await MarketplaceService.isProductSaved(req.userId, id);
+
+      res.status(200).json({
+        success: true,
+        data: { isSaved },
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to check saved status';
       res.status(400).json({
         success: false,
         error: message,

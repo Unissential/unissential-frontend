@@ -4,26 +4,27 @@
  */
 
 export type ProductCategory =
-  | 'beds'
-  | 'chairs'
-  | 'tables'
   | 'electronics'
-  | 'kitchen'
-  | 'books'
+  | 'textbooks'
+  | 'furniture'
+  | 'appliances'
   | 'bikes'
-  | 'appliances';
-export type ProductCondition = 'new' | 'like-new' | 'good' | 'fair';
-export type DeliveryOption = 'pickup' | 'delivery' | 'both';
+  | 'clothing'
+  | 'other';
 
-export interface SellerProfile {
+export type ProductCondition = 'like_new' | 'excellent' | 'good' | 'fair';
+export type DeliveryType = 'pickup' | 'delivery' | 'both';
+
+export interface UserProfile {
   id: string;
+  email: string;
   name: string;
-  university: string;
-  avatar: string;
-  rating: number;
-  responseTime: string;
-  soldCount: number;
-  joinedDate: string;
+  university?: string;
+  isVerified: boolean;
+  profilePicture?: string;
+  bio?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface MarketplaceProduct {
@@ -31,21 +32,43 @@ export interface MarketplaceProduct {
   title: string;
   description: string;
   price: number;
-  image: string;
-  images: string[];
-  category: ProductCategory;
-  condition: ProductCondition;
-  seller: SellerProfile;
-  university: string;
   location: string;
-  latitude: number;
-  longitude: number;
-  postedDate: string;
-  delivery: DeliveryOption;
-  distance?: number;
-  views?: number;
-  isFavorite?: boolean;
-  tags?: string[];
+  university?: string;
+  condition: ProductCondition;
+  category: ProductCategory;
+  deliveryType?: DeliveryType;
+  images: string[];
+  isAvailable: boolean;
+  seller: UserProfile;
+  views: number;
+  interested: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateMarketplaceProductPayload {
+  title: string;
+  description: string;
+  price: number;
+  location: string;
+  university?: string;
+  condition: ProductCondition;
+  category: ProductCategory;
+  deliveryType?: DeliveryType;
+  images: string[];
+  isAvailable?: boolean;
+}
+
+export interface MarketplaceFilters {
+  search?: string;
+  category?: ProductCategory;
+  minPrice?: number;
+  maxPrice?: number;
+  condition?: ProductCondition;
+  location?: string;
+  university?: string;
+  deliveryType?: DeliveryType;
+  sort?: 'newest' | 'price-asc' | 'price-desc' | 'views';
 }
 
 export interface UserLocation {
