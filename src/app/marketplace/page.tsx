@@ -295,256 +295,108 @@ export default function MarketplacePage() {
             </div>
           </div>
         ) : products.length > 0 ? (
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {products.map((product) => (
-              <motion.div
-                key={product.id}
-                variants={item}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow relative group"
-              >
-                {/* Save Button */}
-                {user && (
-                  <button
-                    onClick={() => handleSaveProduct(product.id, savedProducts.has(product.id))}
-                    className="absolute top-3 right-3 z-10 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
-                  >
-                    <Heart
-                      className={`w-5 h-5 ${savedProducts.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
-                    />
-                  </button>
-                )}
+          <>
+            <motion.div
+              variants={container}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              {products.map((product) => (
+                <motion.div
+                  key={product.id}
+                  variants={item}
+                  className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow relative group"
+                >
+                  {/* Save Button */}
+                  {user && (
+                    <button
+                      onClick={() => handleSaveProduct(product.id, savedProducts.has(product.id))}
+                      className="absolute top-3 right-3 z-10 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                    >
+                      <Heart
+                        className={`w-5 h-5 ${savedProducts.has(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+                      />
+                    </button>
+                  )}
 
-                {/* Availability Badge */}
-                {!product.isAvailable && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-xl">
-                    <span className="text-white font-semibold">Sold</span>
-                  </div>
-                )}
-
-                {/* Image */}
-                <div className="relative w-full h-48 bg-gray-200">
-                  {product.images?.[0] ? (
-                    <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <span className="text-gray-400">No image</span>
+                  {/* Availability Badge */}
+                  {!product.isAvailable && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10 rounded-xl">
+                      <span className="text-white font-semibold">Sold</span>
                     </div>
                   )}
-                </div>
 
-                {/* Content */}
-                <div className="p-4 space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-medium text-indigo-600">{product.category}</p>
-                    <p className="text-xs text-gray-500">{product.condition}</p>
+                  {/* Image */}
+                  <div className="relative w-full h-48 bg-gray-200">
+                    {product.images?.[0] ? (
+                      <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                        <span className="text-gray-400">No image</span>
+                      </div>
+                    )}
                   </div>
-                  <h3 className="font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
-                  <p className="text-xs text-gray-500">{product.location}</p>
-                  {product.university && <p className="text-xs text-gray-500">{product.university}</p>}
 
-                  {/* Footer */}
-                  <div className="pt-2 border-t border-gray-200 flex items-center justify-between">
-                    <span className="text-lg font-bold text-indigo-600">${product.price}</span>
-                    <Link
-                      href={`/marketplace/${product.id}`}
-                      className="text-indigo-600 hover:text-indigo-700 font-medium text-sm"
-                    >
-                      View
-                    </Link>
+                  {/* Content */}
+                  <div className="p-4 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-xs font-medium text-indigo-600">{product.category}</p>
+                      <p className="text-xs text-gray-500">{product.condition}</p>
+                    </div>
+                    <h3 className="font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
+                    <p className="text-xs text-gray-500">{product.location}</p>
+                    {product.university && <p className="text-xs text-gray-500">{product.university}</p>}
+
+                    {/* Footer */}
+                    <div className="pt-2 border-t border-gray-200 flex items-center justify-between">
+                      <span className="text-lg font-bold text-indigo-600">${product.price}</span>
+                      <Link
+                        href={`/marketplace/${product.id}`}
+                        className="text-indigo-600 hover:text-indigo-700 font-medium text-sm"
+                      >
+                        View
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center gap-4"
+              >
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Previous
+                </button>
+                <span className="text-sm text-gray-600">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next
+                </button>
               </motion.div>
-            ))}
-          </motion.div>
+            )}
+          </>
         ) : (
           <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your filters</p>
-          </div>
-        )}
-
-        {/* Pagination */}
-        {products.length > 0 && totalPages > 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center justify-center gap-4"
-          >
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-            <span className="text-sm text-gray-600">
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Next
-            </button>
-          </motion.div>
-        )}
-      </motion.div>
-    </Container>
-  );
-}
-          {/* Search */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Search</label>
-            <input
-              type="text"
-              placeholder="Search for items..."
-              value={filters.searchQuery}
-              onChange={(e) => handleFilterChange('searchQuery', e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          {/* Filters Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="">All Categories</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Condition */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Condition</label>
-              <select
-                value={filters.condition}
-                onChange={(e) => handleFilterChange('condition', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="">All Conditions</option>
-                {conditions.map((cond) => (
-                  <option key={cond} value={cond}>
-                    {cond}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Min Price */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Min Price</label>
-              <div className="relative">
-                <span className="absolute left-4 top-2 text-gray-600">$</span>
-                <input
-                  type="number"
-                  min="0"
-                  value={filters.minPrice}
-                  onChange={(e) => handleFilterChange('minPrice', parseInt(e.target.value))}
-                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-            </div>
-
-            {/* Max Price */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Max Price</label>
-              <div className="relative">
-                <span className="absolute left-4 top-2 text-gray-600">$</span>
-                <input
-                  type="number"
-                  min="0"
-                  value={filters.maxPrice}
-                  onChange={(e) => handleFilterChange('maxPrice', parseInt(e.target.value))}
-                  className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Products Grid */}
-        {isLoading ? (
-          <div className="flex items-center justify-center min-h-96">
-            <div className="text-center">
-              <Loader className="w-8 h-8 animate-spin text-indigo-600 mx-auto mb-4" />
-              <p className="text-gray-600">Loading products...</p>
-            </div>
-          </div>
-        ) : products.length > 0 ? (
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {products.map((product) => (
-              <motion.div
-                key={product.id}
-                variants={item}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                {/* Image */}
-                <div className="relative w-full h-48 bg-gray-200">
-                  {product.images?.[0] ? (
-                    <Image
-                      src={product.images[0]}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                      <span className="text-gray-400">No image</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-4 space-y-2">
-                  <p className="text-xs font-medium text-indigo-600">{product.category}</p>
-                  <h3 className="font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-1">{product.description}</p>
-
-                  {/* Footer */}
-                  <div className="pt-2 border-t border-gray-200 flex items-center justify-between">
-                    <span className="text-lg font-bold text-indigo-600">${product.price}</span>
-                    <Link
-                      href={`/marketplace/${product.id}`}
-                      className="text-indigo-600 hover:text-indigo-700 font-medium text-sm"
-                    >
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <div className="text-center py-16">
-            <p className="text-gray-600 mb-4">No products found matching your filters</p>
-            <Link href="/marketplace" className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 inline-block">
-              Clear Filters
-            </Link>
+            <p className="text-gray-600">Try adjusting your filters</p>
           </div>
         )}
       </motion.div>
     </Container>
   );
 }
-
