@@ -398,11 +398,6 @@ export default function MarketplacePage() {
     </Container>
   );
 }
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-6 rounded-xl border border-gray-200 space-y-4"
-        >
           {/* Search */}
           <div>
             <label className="block text-sm font-semibold text-gray-900 mb-2">Search</label>
@@ -541,36 +536,15 @@ export default function MarketplacePage() {
             ))}
           </motion.div>
         ) : (
-          <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600 mb-4">Try adjusting your filters</p>
+          <div className="text-center py-16">
+            <p className="text-gray-600 mb-4">No products found matching your filters</p>
+            <Link href="/marketplace" className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 inline-block">
+              Clear Filters
+            </Link>
           </div>
-        )}
-
-        {/* Pagination */}
-        {products.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex items-center justify-center gap-4"
-          >
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Previous
-            </button>
-            <span className="text-sm text-gray-600">Page {currentPage}</span>
-            <button
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              Next
-            </button>
-          </motion.div>
         )}
       </motion.div>
     </Container>
   );
 }
+

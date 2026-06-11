@@ -48,7 +48,6 @@ function CreateProductContent() {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -308,113 +307,6 @@ function CreateProductContent() {
             )}
           </motion.button>
         </motion.form>
-      </div>
-    </Container>
-  );
-}
-
-export default function CreateProductPage() {
-  return (
-    <ProtectedRoute>
-      <CreateProductContent />
-    </ProtectedRoute>
-  );
-}
-            <input
-              {...register('title')}
-              type="text"
-              placeholder="e.g., Gently Used MacBook Pro 2022"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-            {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
-          </div>
-
-          {/* Category & Condition */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Category *</label>
-              <select
-                {...register('category')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="">Select category</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-              {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Condition *</label>
-              <select
-                {...register('condition')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="">Select condition</option>
-                {conditions.map((cond) => (
-                  <option key={cond} value={cond}>
-                    {cond}
-                  </option>
-                ))}
-              </select>
-              {errors.condition && <p className="mt-1 text-sm text-red-600">{errors.condition.message}</p>}
-            </div>
-          </div>
-
-          {/* Price */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Price *</label>
-            <div className="relative">
-              <span className="absolute left-4 top-2.5 text-gray-600">$</span>
-              <input
-                {...register('price', { valueAsNumber: true })}
-                type="number"
-                placeholder="0.00"
-                step="0.01"
-                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
-            {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>}
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Description *</label>
-            <textarea
-              {...register('description')}
-              placeholder="Describe the item, its condition, features, and reason for selling..."
-              rows={5}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
-            />
-            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
-          </div>
-
-          {/* Submit */}
-          <motion.button
-            type="submit"
-            disabled={isLoading}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
-          >
-            {isLoading ? (
-              <>
-                <Loader className="w-5 h-5 animate-spin" />
-                Posting...
-              </>
-            ) : (
-              'Post Item'
-            )}
-          </motion.button>
-        </motion.form>
-
-        {/* Note */}
-        <p className="mt-6 text-xs text-gray-600 text-center">
-          💡 Image upload will be available in the next update
-        </p>
       </div>
     </Container>
   );

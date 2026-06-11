@@ -197,3 +197,48 @@ export default function RoommatesPage() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {profiles.map((profile) => (
+              <motion.div
+                key={profile.id}
+                variants={item}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <div className="aspect-video bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <span className="text-4xl font-bold text-white">{profile.name?.charAt(0).toUpperCase()}</span>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">{profile.name}</h3>
+                  <p className="text-sm text-gray-600 mb-3">{profile.university}</p>
+                  <p className="text-sm text-gray-700 line-clamp-2 mb-4">{profile.bio}</p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-gray-900">${profile.budget}/mo</span>
+                    <button className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
+                      <Heart className="w-5 h-5 text-gray-600" />
+                    </button>
+                  </div>
+                  <Link
+                    href={`/roommates/${profile.id}`}
+                    className="mt-4 block w-full text-center py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    View Profile
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : (
+          <div className="text-center py-16">
+            <p className="text-gray-600 mb-4">No roommate profiles found</p>
+            <Link
+              href="/roommates/create"
+              className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 inline-block"
+            >
+              Create Your Profile
+            </Link>
+          </div>
+        )}
+      </motion.div>
+    </Container>
+  );
+}
