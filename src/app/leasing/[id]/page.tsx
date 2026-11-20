@@ -19,10 +19,25 @@ import {
 import { listingService } from '@/services/api/listing.service';
 import { mockListings } from '@/data/mockMarketplace';
 
+interface PropertyData {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  location: string;
+  bedrooms: number;
+  bathrooms: number;
+  images: string[];
+  amenities: string[];
+  host: { id: string; name: string; avatar: string; rating: number; reviews: number };
+  createdAt: string;
+  views: number;
+}
+
 export default function PropertyDetailPage() {
   const params = useParams();
   const propertyId = params.id as string;
-  const [property, setProperty] = useState(null);
+  const [property, setProperty] = useState<PropertyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -60,8 +75,8 @@ export default function PropertyDetailPage() {
   }
 
   // Use empty arrays for related data until API is implemented
-  const similarListings = [];
-  const similarProperties = [];
+  const similarListings: PropertyData[] = [];
+  const similarProperties: PropertyData[] = [];
 
   return (
     <main className="min-h-screen bg-white pt-20 md:pt-24">

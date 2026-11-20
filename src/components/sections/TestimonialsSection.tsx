@@ -8,8 +8,24 @@ import { Star, Quote } from 'lucide-react';
 import { Badge } from '@/components/common';
 
 const testimonials = [
-  { id: '1', name: 'John Doe', university: 'MIT', text: 'Found my perfect roommate!', rating: 5 },
-  { id: '2', name: 'Jane Smith', university: 'Stanford', text: 'Loved the experience!', rating: 5 },
+  {
+    id: '1',
+    author: 'John Doe',
+    role: 'Student',
+    school: 'MIT',
+    content: 'Found my perfect roommate!',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop',
+  },
+  {
+    id: '2',
+    author: 'Jane Smith',
+    role: 'Student',
+    school: 'Stanford',
+    content: 'Loved the experience!',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop',
+  },
 ];
 
 export const TestimonialsSection: React.FC = () => {

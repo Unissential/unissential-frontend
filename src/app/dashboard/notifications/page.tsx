@@ -2,8 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Trash2, Archive } from 'lucide-react';
-
-const mockNotifications = [];
+import { mockNotifications } from '@/data/mockDashboard';
 import { useState } from 'react';
 
 const container = {
@@ -19,18 +18,48 @@ const item = {
   show: { opacity: 1, x: 0 },
 };
 
+const getTypeIcon = (type: string): string => {
+  switch (type) {
+    case 'message':
+      return '💬';
+    case 'tour':
+      return '📅';
+    case 'listing':
+      return '📍';
+    case 'roommate':
+      return '👥';
+    case 'product':
+      return '🛍️';
+    default:
+      return '🔔';
+  }
+};
+
+const getTimeAgo = (date: Date): string => {
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (minutes < 1) return 'just now';
+  if (minutes < 60) return `${minutes}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  return `${days}d ago`;
+};
+
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
-  const filtered = filter === 'unread' ? notifications.filter((n) => !n.read) : notifications;
+  const filtered = filter === 'unread' ? notifications.filter((n) => !n.isRead) : notifications;
 
   const handleDelete = (id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   const handleArchive = (id: string) => {
-    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)));
   };
 
   const getTypeColor = (type: string) => {
@@ -55,7 +84,7 @@ export default function NotificationsPage() {
       {/* Header */}
       <motion.div variants={item} className="space-y-2">
         <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900">Notifications</h1>
-        <p className="text-neutral-600">{notifications.filter((n) => !n.read).length} unread</p>
+        <p className="text-neutral-600">{notifications.filter((n) => !n.isRead).length} unread</p>
       </motion.div>
 
       {/* Filter Tabs */}
@@ -89,7 +118,7 @@ export default function NotificationsPage() {
               animate={{ opacity: 1, x: 0 }}
               whileHover={{ x: 4, backgroundColor: '#f9fafb' }}
               className={`p-4 rounded-lg border transition-all ${
-                notification.read
+                notification.isRead
                   ? 'bg-white border-neutral-200'
                   : 'bg-primary-50 border-primary-200'
               }`}
@@ -99,7 +128,7 @@ export default function NotificationsPage() {
                 <div
                   className={`text-2xl rounded-lg p-3 flex-shrink-0 ${getTypeColor(notification.type)}`}
                 >
-                  {notification.icon}
+                  {getTypeIcon(notification.type)}
                 </div>
 
                 {/* Content */}
@@ -107,17 +136,17 @@ export default function NotificationsPage() {
                   <div className="flex items-start gap-2">
                     <h3
                       className={`font-semibold ${
-                        notification.read ? 'text-neutral-700' : 'text-neutral-900'
+                        notification.isRead ? 'text-neutral-700' : 'text-neutral-900'
                       }`}
                     >
                       {notification.title}
                     </h3>
-                    {!notification.read && (
+                    {!notification.isRead && (
                       <span className="w-2 h-2 bg-primary-600 rounded-full flex-shrink-0 mt-2"></span>
                     )}
                   </div>
                   <p className="text-sm text-neutral-600 mt-1">{notification.message}</p>
-                  <p className="text-xs text-neutral-500 mt-2">{notification.timestamp}</p>
+                  <p className="text-xs text-neutral-500 mt-2">{getTimeAgo(notification.createdAt)}</p>
                 </div>
 
                 {/* Actions */}
@@ -148,7 +177,7 @@ export default function NotificationsPage() {
           <div className="text-6xl mb-4">🔔</div>
           <h3 className="text-2xl font-bold text-neutral-900 mb-2">All caught up!</h3>
           <p className="text-neutral-600">
-            You have no {filter === 'unread' ? 'unread' : ''} notifications
+            You have no {filter === 'unread' ? 'unread ' : ''}notifications
           </p>
         </motion.div>
       )}

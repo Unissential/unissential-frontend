@@ -140,7 +140,7 @@ export default function SettingsPage() {
                 key={itemIdx}
                 whileHover={{ x: 4, backgroundColor: '#f9fafb' }}
                 className={`p-4 rounded-lg border transition-all ${
-                  settingItem.destructive
+                  'destructive' in settingItem && settingItem.destructive
                     ? 'border-red-200 hover:border-red-300'
                     : 'border-neutral-200 hover:border-neutral-300'
                 }`}
@@ -149,7 +149,7 @@ export default function SettingsPage() {
                   <div className="flex-1">
                     <h3
                       className={`font-semibold ${
-                        settingItem.destructive ? 'text-red-600' : 'text-neutral-900'
+                        'destructive' in settingItem && settingItem.destructive ? 'text-red-600' : 'text-neutral-900'
                       }`}
                     >
                       {settingItem.label}
@@ -160,18 +160,18 @@ export default function SettingsPage() {
                   </div>
 
                   {/* Toggle Switch */}
-                  {settingItem.toggle && (
+                  {'toggle' in settingItem && settingItem.toggle && (
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       className="relative w-12 h-7 rounded-full bg-neutral-300 transition-colors"
                       style={{
-                        backgroundColor: settingItem.defaultValue ? '#3b82f6' : '#d1d5db',
+                        backgroundColor: ('defaultValue' in settingItem && settingItem.defaultValue) ? '#3b82f6' : '#d1d5db',
                       }}
                     >
                       <motion.div
                         layout
                         className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all ${
-                          settingItem.defaultValue ? 'right-1' : 'left-1'
+                          ('defaultValue' in settingItem && settingItem.defaultValue) ? 'right-1' : 'left-1'
                         }`}
                       />
                     </motion.button>

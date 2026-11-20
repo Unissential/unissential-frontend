@@ -16,12 +16,13 @@ export default function MessagesPage() {
 
     const newMessage = {
       id: 'msg_' + Date.now(),
+      conversationId: selectedConv.id,
       senderId: mockCurrentUser.id,
       senderName: mockCurrentUser.name,
       senderAvatar: mockCurrentUser.avatar,
       content: inputValue,
+      createdAt: new Date(),
       timestamp: 'just now',
-      isOwn: true,
     };
 
     setMessages([...messages, newMessage]);
@@ -126,12 +127,14 @@ export default function MessagesPage() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg) => (
+            {messages.map((msg) => {
+              const isOwn = msg.senderId === mockCurrentUser.id;
+              return (
               <motion.div
                 key={msg.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`flex gap-3 ${msg.isOwn ? 'flex-row-reverse' : ''}`}
+                className={`flex gap-3 ${isOwn ? 'flex-row-reverse' : ''}`}
               >
                 <Image
                   src={msg.senderAvatar}
@@ -140,10 +143,10 @@ export default function MessagesPage() {
                   height={32}
                   className="w-8 h-8 rounded-full"
                 />
-                <div className={`flex flex-col gap-1 max-w-xs ${msg.isOwn ? 'items-end' : ''}`}>
+                <div className={`flex flex-col gap-1 max-w-xs ${isOwn ? 'items-end' : ''}`}>
                   <div
                     className={`px-4 py-2.5 rounded-xl ${
-                      msg.isOwn
+                      isOwn
                         ? 'bg-primary-600 text-white rounded-br-none'
                         : 'bg-neutral-100 text-neutral-900 rounded-bl-none'
                     }`}
@@ -153,7 +156,8 @@ export default function MessagesPage() {
                   <p className="text-xs text-neutral-500">{msg.timestamp}</p>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Input */}

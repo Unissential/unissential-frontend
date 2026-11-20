@@ -3,9 +3,8 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Heart, MapPin, Star } from 'lucide-react';
+import { mockSavedRoommates } from '@/data/mockDashboard';
 import { useState } from 'react';
-
-const mockSavedListings = [];
 
 const container = {
   hidden: { opacity: 0 },
@@ -21,8 +20,7 @@ const item = {
 };
 
 export default function SavedRoommatesPage() {
-  const roommates = mockSavedListings.filter((item) => item.type === 'roommate');
-  const [savedRoommates, setSavedRoommates] = useState(roommates);
+  const [savedRoommates, setSavedRoommates] = useState(mockSavedRoommates);
 
   const handleRemove = (id: string) => {
     setSavedRoommates((prev) => prev.filter((item) => item.id !== id));
