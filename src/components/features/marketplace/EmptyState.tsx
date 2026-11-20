@@ -3,10 +3,10 @@
 import Link from 'next/link';
 
 const categoryConfig = [
-  { value: 'electronics', label: 'Electronics' },
-  { value: 'furniture', label: 'Furniture' },
-  { value: 'textbooks', label: 'Textbooks' },
-  { value: 'clothing', label: 'Clothing' },
+  { value: 'electronics', label: 'Electronics', name: 'electronics', icon: '🖥️' },
+  { value: 'furniture', label: 'Furniture', name: 'furniture', icon: '🪑' },
+  { value: 'textbooks', label: 'Textbooks', name: 'textbooks', icon: '📚' },
+  { value: 'clothing', label: 'Clothing', name: 'clothing', icon: '👕' },
 ];
 
 interface EmptyStateProps {

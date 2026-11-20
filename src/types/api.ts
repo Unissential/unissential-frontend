@@ -11,6 +11,7 @@ export interface UserDTO {
   university: string;
   isVerified: boolean;
   profilePicture?: string;
+  avatar?: string;
   bio?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -36,6 +37,8 @@ export interface ListingDTO {
   owner: UserDTO;
   createdAt: Date;
   updatedAt: Date;
+  isAvailable?: boolean;
+  views?: number;
 }
 
 // Marketplace Product Types
@@ -57,11 +60,13 @@ export interface MarketplaceProductDTO {
 // Roommate Profile Types
 export interface RoommateProfileDTO {
   id: string;
+  name: string;
   age: number;
   university: string;
-  major?: string;
+  major: string;
   budget: number;
   interests: string[];
+  hobbies?: string[];
   sleepSchedule: string;
   cleanliness: string;
   smoking: boolean;
@@ -70,6 +75,24 @@ export interface RoommateProfileDTO {
   user: UserDTO;
   createdAt: Date;
   updatedAt: Date;
+  photo?: string;
+  photos?: string[];
+  gender?: string;
+  location?: string;
+  moveInDate?: string;
+  leaseLength?: string;
+  cleanlinessLevel?: string;
+  pets?: { allowed: boolean; types: string[] };
+  studyHabits?: string;
+  workSchedule?: string;
+  socialLevel?: string;
+  guestPolicy?: string;
+  noise?: string;
+  kitchen?: string;
+  bathroom?: string;
+  isFavorite?: boolean;
+  joinedDate?: string;
+  responseRate?: number;
 }
 
 // Message Types

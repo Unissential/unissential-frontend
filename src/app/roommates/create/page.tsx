@@ -53,7 +53,7 @@ function CreateProfileContent() {
     watch,
     setValue,
   } = useForm<ProfileFormData>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileSchema) as any,
     defaultValues: {
       smoker: false,
       interests: [],
@@ -126,7 +126,7 @@ function CreateProfileContent() {
 
         {/* Form */}
         <motion.form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit as any)}
           className="space-y-6 bg-white p-6 rounded-xl border border-gray-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -6,8 +6,32 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { RoomCard, Button } from '@/components/common';
 const featuredRooms = [
-  { id: '1', title: 'Modern 2BR', price: '$1200' },
-  { id: '2', title: 'Cozy Studio', price: '$800' },
+  {
+    id: '1',
+    title: 'Modern 2BR',
+    location: 'Near Campus',
+    price: 1200,
+    beds: 2,
+    baths: 1,
+    area: 850,
+    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267',
+    rating: 4.8,
+    reviews: 24,
+    amenities: ['WiFi', 'Parking', 'Laundry', 'Furnished'],
+  },
+  {
+    id: '2',
+    title: 'Cozy Studio',
+    location: 'Downtown',
+    price: 800,
+    beds: 1,
+    baths: 1,
+    area: 450,
+    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688',
+    rating: 4.5,
+    reviews: 18,
+    amenities: ['WiFi', 'Furnished'],
+  },
 ];
 
 export const FeaturedRoomsSection: React.FC = () => {

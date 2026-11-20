@@ -51,7 +51,7 @@ function CreateListingContent() {
     watch,
     setValue,
   } = useForm<ListingFormData>({
-    resolver: zodResolver(listingSchema),
+    resolver: zodResolver(listingSchema) as any,
     defaultValues: {
       furnished: false,
       petFriendly: false,
@@ -125,7 +125,7 @@ function CreateListingContent() {
 
         {/* Form */}
         <motion.form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit as any)}
           className="space-y-6 bg-white p-6 rounded-xl border border-gray-200"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

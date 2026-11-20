@@ -21,6 +21,7 @@ import {
   Loader,
 } from 'lucide-react';
 import { roommateService } from '@/services/api/roommate.service';
+import { RoommateProfile, CompatibilityScore, SleepSchedule, CleanlinessLevel, Gender } from '@/types/roommate';
 import { CompatibilityBadge } from '@/components/features/roommate/CompatibilityBadge';
 import { mockRoommates } from '@/data/mockMarketplace';
 
@@ -33,12 +34,51 @@ const mockUserPreferences = {
   location: 'Austin',
 };
 
+// Calculate compatibility score between user and roommate
+function calculateCompatibility(roommate: RoommateProfile, userPrefs = mockUserPreferences): CompatibilityScore {
+  const roommateMaxBudget = typeof roommate.budget === 'object' && 'max' in roommate.budget 
+    ? roommate.budget.max 
+    : (typeof roommate.budget === 'number' ? roommate.budget : 1000);
+  const budgetDiff = Math.abs(userPrefs.budget.max - roommateMaxBudget);
+  const budgetScore = Math.max(0, 25 - (budgetDiff / 50));
+
+  const scheduleMatch = roommate.sleepSchedule === userPrefs.sleepSchedule ? 25 : 15;
+
+  const cleanlinessMatch = roommate.cleanlinessLevel === userPrefs.cleanlinessLevel ? 20 : 10;
+
+  const sharedInterests = (roommate.interests || []).filter((i) =>
+    userPrefs.interests.includes(i)
+  ).length;
+  const interestsScore = Math.min(20, sharedInterests * 5);
+
+  const locationMatch = roommate.location === userPrefs.location ? 25 : 10;
+
+  const overall = Math.round((budgetScore + scheduleMatch + cleanlinessMatch + interestsScore + locationMatch) / 5);
+
+  const labels: Array<CompatibilityScore['label']> = ['great-match', 'good-match', 'okay-match', 'not-ideal'];
+  let label: CompatibilityScore['label'] = 'not-ideal';
+  if (overall >= 75) label = 'great-match';
+  else if (overall >= 60) label = 'good-match';
+  else if (overall >= 40) label = 'okay-match';
+
+  return {
+    overall,
+    budget: Math.round(budgetScore),
+    schedule: scheduleMatch,
+    cleanliness: cleanlinessMatch,
+    interests: interestsScore,
+    location: locationMatch,
+    label,
+  };
+}
+
 export default function RoommateDetailPage() {
   const params = useParams();
   const router = useRouter();
   const roommateId = params.id as string;
 
-  const [roommate, setRoommate] = useState(null);
+  const [roommate, setRoommate] = useState<RoommateProfile | null>(null);
+  const [compatibility, setCompatibility] = useState<CompatibilityScore | null>(null);
   const [isSaved, setIsSaved] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,12 +87,50 @@ export default function RoommateDetailPage() {
     const loadRoommate = async () => {
       try {
         const data = await roommateService.getProfileById(roommateId);
-        setRoommate(data);
+        // Transform RoommateProfileDTO to RoommateProfile
+        const roommate: RoommateProfile = {
+          id: data.id,
+          name: data.name,
+          age: data.age,
+          university: data.university,
+          major: data.major,
+          location: data.location,
+          bio: data.bio,
+          photo: data.photo || '',
+          photos: data.photos || [],
+          budget: typeof data.budget === 'number' ? { min: data.budget, max: data.budget * 1.2 } : { min: 0, max: 0 },
+          moveInDate: data.moveInDate || new Date().toISOString(),
+          leaseLength: data.leaseLength || '',
+          sleepSchedule: (data.sleepSchedule as SleepSchedule) || 'flexible',
+          cleanlinessLevel: (data.cleanlinessLevel as CleanlinessLevel) || 'moderate',
+          gender: (data.gender as Gender) || 'other',
+          interests: data.interests || [],
+          hobbies: data.hobbies || [],
+          pets: data.pets || { allowed: false, types: [] },
+          smoking: (typeof data.smoking === 'boolean' ? (data.smoking ? 'yes' : 'no') : (data.smoking as 'yes' | 'no' | 'not-applicable')) || 'no',
+          studyHabits: data.studyHabits || '',
+          workSchedule: data.workSchedule || '',
+          socialLevel: (data.socialLevel as 'very-social' | 'social' | 'introverted' | 'very-introverted') || 'social',
+          guestPolicy: (data.guestPolicy as 'frequent' | 'occasional' | 'minimal') || 'occasional',
+          noise: (data.noise as 'quiet' | 'moderate' | 'no-preference') || 'moderate',
+          kitchen: (data.kitchen as 'share' | 'private' | 'any') || 'share',
+          bathroom: (data.bathroom as 'share' | 'private' | 'any') || 'share',
+          isFavorite: false,
+          joinedDate: data.joinedDate || new Date().toISOString(),
+          responseRate: data.responseRate,
+        };
+        setRoommate(roommate);
+        setCompatibility(calculateCompatibility(roommate));
       } catch (error) {
         console.error('Failed to load roommate from API, using mock data:', error);
         // Fallback to mock data
-        const mockRoommate = mockRoommates.find((r) => r.id === roommateId);
-        setRoommate(mockRoommate || null);
+        const mockRoommate = mockRoommates.find((r) => r.id === roommateId) as RoommateProfile | undefined;
+        if (mockRoommate) {
+          setRoommate(mockRoommate);
+          setCompatibility(calculateCompatibility(mockRoommate));
+        } else {
+          setRoommate(null);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -83,6 +161,14 @@ export default function RoommateDetailPage() {
             Back to Discovery
           </motion.button>
         </div>
+      </div>
+    );
+  }
+
+  if (!compatibility) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader className="w-8 h-8 animate-spin" />
       </div>
     );
   }
@@ -298,7 +384,11 @@ export default function RoommateDetailPage() {
                   <DollarSign className="text-primary-600" size={20} />
                   <div>
                     <p className="text-xs text-neutral-600">Budget</p>
-                    <p className="font-semibold text-neutral-900">${roommate.budget}/mo</p>
+                    <p className="font-semibold text-neutral-900">
+                      {typeof roommate.budget === 'object' && 'max' in roommate.budget 
+                        ? `$${roommate.budget.min} - $${roommate.budget.max}/mo` 
+                        : `$${roommate.budget}/mo`}
+                    </p>
                   </div>
                 </div>
               </div>

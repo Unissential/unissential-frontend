@@ -13,8 +13,8 @@ export interface RoommateProfile {
   age: number;
   university: string;
   major: string;
-  location: string;
-  bio: string;
+  location?: string;
+  bio?: string;
   photo: string;
   photos: string[];
   budget: {

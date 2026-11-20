@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserDTO } from '@/types/api';
-import { authService } from '@/services/api';
+import { authService } from '@/services/api/auth.service';
 
 interface AuthContextType {
   user: UserDTO | null;
@@ -12,7 +12,7 @@ interface AuthContextType {
   signup: (email: string, password: string, name: string, university: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  verifyEmail: (token: string) => Promise<void>;
+  verifyEmail: (token: string) => Promise<UserDTO>;
   updateUser: (user: UserDTO) => void;
   clearError: () => void;
 }
@@ -77,12 +77,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
   };
 
-  const verifyEmail = async (token: string) => {
+  const verifyEmail = async (token: string): Promise<UserDTO> => {
     setIsLoading(true);
     setError(null);
     try {
       const verifiedUser = await authService.verifyEmail(token);
       setUser(verifiedUser);
+      return verifiedUser;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Email verification failed';
       setError(message);

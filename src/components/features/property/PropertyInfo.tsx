@@ -90,7 +90,12 @@ export const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="space-y-1">
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Lease Period</p>
-            <p className="font-medium text-neutral-900">{property.dateRange}</p>
+            <p className="font-medium text-neutral-900">
+              {property.dateRange 
+                ? `${new Date(property.dateRange.start).toLocaleDateString()} - ${new Date(property.dateRange.end).toLocaleDateString()}`
+                : property.duration || 'Flexible'
+              }
+            </p>
           </div>
 
           <div className="space-y-1">

@@ -51,7 +51,7 @@ export function calculateCompatibility(
   // Location compatibility (10 points max)
   const locationScore = calculateLocationScore(
     userPreferences.location || 'Austin',
-    roommate.location
+    roommate.location || 'Austin'
   );
   totalScore += locationScore;
   criteriaCount++;

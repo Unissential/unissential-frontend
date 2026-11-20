@@ -36,10 +36,9 @@ export interface PropertyLocation {
   nearbyUniversities: string[];
 }
 
-// Import Listing type for extension
 import { Listing } from './listing';
 
-export interface PropertyDetail extends Omit<Listing, 'location' | 'amenities'> {
+export interface PropertyDetail extends Omit<Listing, 'location' | 'amenities' | 'images' | 'furnished'> {
   images: PropertyImage[];
   description: string;
   fullDescription: string;
@@ -55,6 +54,12 @@ export interface PropertyDetail extends Omit<Listing, 'location' | 'amenities'> 
   rules: string[];
   cancellationPolicy: string;
   reviews: PropertyReview[];
+  isFavorite?: boolean;
+  duration?: string;
+  availability?: string;
+  dateRange?: { start: Date; end: Date };
+  beds?: number;
+  baths?: number;
 }
 
 export interface PropertyReview {

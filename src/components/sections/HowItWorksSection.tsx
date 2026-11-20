@@ -6,8 +6,10 @@ import React from 'react';
 import { UserPlus, Zap, MessageSquare, Home, ArrowRight } from 'lucide-react';
 import { Badge, Button } from '@/components/common';
 const howItWorks = [
-  { step: 1, title: 'Sign Up', description: 'Create your account' },
-  { step: 2, title: 'Browse', description: 'Find listings' },
+  { id: '1', step: 1, number: 1, title: 'Sign Up', description: 'Create your account', icon: 'UserPlus' },
+  { id: '2', step: 2, number: 2, title: 'Browse', description: 'Find listings', icon: 'Zap' },
+  { id: '3', step: 3, number: 3, title: 'Connect', description: 'Message and connect', icon: 'MessageSquare' },
+  { id: '4', step: 4, number: 4, title: 'Move In', description: 'Secure your place', icon: 'Home' },
 ];
 
 const iconMap: Record<string, React.ReactNode> = {

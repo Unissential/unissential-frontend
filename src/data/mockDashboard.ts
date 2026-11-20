@@ -90,6 +90,8 @@ export const mockSavedListings = [
     bedrooms: 2,
     bathrooms: 1,
     featured: true,
+    type: 'lease' as const,
+    savedAt: new Date().toISOString(),
   },
   {
     id: 'l2',
@@ -100,6 +102,8 @@ export const mockSavedListings = [
     bedrooms: 0,
     bathrooms: 1,
     featured: false,
+    type: 'lease' as const,
+    savedAt: new Date().toISOString(),
   },
 ];
 
@@ -132,6 +136,11 @@ export const mockSavedRoommates = [
     sleepSchedule: 'night_owl',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
     compatibility: 85,
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
+    title: 'CS Student Looking for Roommate',
+    location: 'State University',
+    detail: 'Looking for a quiet roommate who respects personal space',
+    university: 'State University',
   },
   {
     id: 'r2',
@@ -142,6 +151,11 @@ export const mockSavedRoommates = [
     sleepSchedule: 'flexible',
     avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',
     compatibility: 72,
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',
+    title: 'Engineering Student',
+    location: 'City Center',
+    detail: 'Social and friendly, enjoys game nights',
+    university: 'City Tech University',
   },
 ];
 

@@ -6,8 +6,32 @@ import React from 'react';
 import { ArrowRight, Zap, Users, Heart } from 'lucide-react';
 import { RoommateCard, Button, Badge } from '@/components/common';
 const roommateMatches = [
-  { id: '1', name: 'Alex', university: 'MIT', compatibility: 95 },
-  { id: '2', name: 'Jordan', university: 'Stanford', compatibility: 88 },
+  {
+    id: '1',
+    name: 'Alex',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+    major: 'Computer Science',
+    year: 'Junior' as const,
+    interests: ['Gaming', 'Tech', 'Music'],
+    about: 'Love tech and gaming',
+    budget: 1000,
+    rating: 4.8,
+    university: 'MIT',
+    compatibility: 95,
+  },
+  {
+    id: '2',
+    name: 'Jordan',
+    image: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jordan',
+    major: 'Engineering',
+    year: 'Sophomore' as const,
+    interests: ['Sports', 'Music', 'Travel'],
+    about: 'Outgoing and social',
+    budget: 950,
+    rating: 4.6,
+    university: 'Stanford',
+    compatibility: 88,
+  },
 ];
 
 export const RoommateMatchingSection: React.FC = () => {

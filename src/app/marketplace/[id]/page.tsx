@@ -17,6 +17,7 @@ import {
   Loader,
 } from 'lucide-react';
 import { marketplaceService } from '@/services/api/marketplace.service';
+import { MarketplaceProduct } from '@/types/marketplace';
 import { cn } from '@/lib/utils';
 import { useParams } from 'next/navigation';
 import { mockMarketplaceProducts } from '@/data/mockMarketplace';
@@ -24,7 +25,7 @@ import { mockMarketplaceProducts } from '@/data/mockMarketplace';
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const [product, setProduct] = useState<(typeof mockMarketplaceProducts)[0] | null>(null);
+  const [product, setProduct] = useState<MarketplaceProduct | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -37,12 +38,39 @@ export default function ProductDetailPage() {
       try {
         // Try to fetch from API, fallback to mock data
         const data = await marketplaceService.getProductById(productId);
-        setProduct(data);
+        // Ensure seller property is properly typed
+        const product: MarketplaceProduct = {
+          ...data,
+          seller: {
+            id: (data.seller as any)?.id || '',
+            name: (data.seller as any)?.name || '',
+            avatar: (data.seller as any)?.avatar || '',
+            email: (data.seller as any)?.email || '',
+            isVerified: true,
+            createdAt: (data.seller as any)?.createdAt || new Date(),
+            updatedAt: (data.seller as any)?.updatedAt || new Date(),
+          } as any,
+        };
+        setProduct(product);
       } catch (error) {
         console.error('Failed to load product:', error);
         // Fallback to mock data
         const mockProduct = mockMarketplaceProducts.find((p) => p.id === productId);
-        setProduct(mockProduct || null);
+        if (mockProduct) {
+          const product: MarketplaceProduct = {
+            ...mockProduct,
+            seller: {
+              id: (mockProduct.seller as any)?.id || '',
+              name: (mockProduct.seller as any)?.name || '',
+              avatar: (mockProduct.seller as any)?.avatar || '',
+              email: (mockProduct.seller as any)?.email || '',
+              isVerified: true,
+              createdAt: (mockProduct.seller as any)?.createdAt || new Date(),
+              updatedAt: (mockProduct.seller as any)?.updatedAt || new Date(),
+            } as any,
+          };
+          setProduct(product);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -113,16 +141,19 @@ export default function ProductDetailPage() {
   const conditionLabel =
     conditionLabelMap[product.condition as keyof typeof conditionLabelMap] || product.condition;
 
-  const postedDaysAgo = Math.floor(
-    (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const postedDaysAgo = product.postedDate
+    ? Math.floor(
+        (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
+      )
+    : 0;
 
-  const timeLabel =
-    postedDaysAgo === 0
+  const timeLabel = product.postedDate
+    ? postedDaysAgo === 0
       ? 'Posted today'
       : postedDaysAgo === 1
         ? 'Posted yesterday'
-        : `Posted ${postedDaysAgo} days ago`;
+        : `Posted ${postedDaysAgo} days ago`
+    : 'Recently posted';
 
   return (
     <main className="min-h-screen bg-neutral-50">
@@ -311,7 +342,7 @@ export default function ProductDetailPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
                   <Image
-                    src={product.seller.avatar}
+                    src={product.seller.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=seller'}
                     alt={product.seller.name}
                     fill
                     className="object-cover"

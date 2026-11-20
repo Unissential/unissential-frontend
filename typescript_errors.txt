@@ -1,0 +1,86 @@
+﻿src/app/dashboard/saved-listings/page.tsx(26,70): error TS2339: Property 'type' does not exist on type '{ id: string; title: string; price: number; location: string; image: string; bedrooms: number; bathrooms: number; featured: boolean; }'.
+src/app/dashboard/saved-listings/page.tsx(76,30): error TS2739: Type '{ id: string; title: string; price: number; location: string; image: string; bedrooms: number; bathrooms: number; featured: boolean; }' is missing the following properties from type 'SavedListing': type, savedAt
+src/app/dashboard/saved-roommates/page.tsx(67,35): error TS2551: Property 'image' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'. Did you mean 'age'?
+src/app/dashboard/saved-roommates/page.tsx(68,35): error TS2339: Property 'title' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'.
+src/app/dashboard/saved-roommates/page.tsx(74,74): error TS2339: Property 'title' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'.
+src/app/dashboard/saved-roommates/page.tsx(87,66): error TS2339: Property 'location' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'.
+src/app/dashboard/saved-roommates/page.tsx(89,29): error TS2339: Property 'detail' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'.
+src/app/dashboard/saved-roommates/page.tsx(91,33): error TS2339: Property 'detail' does not exist on type '{ id: string; name: string; age: number; major: string; budget: number; sleepSchedule: string; avatar: string; compatibility: number; }'.
+src/app/leasing/[id]/page.tsx(47,21): error TS2345: Argument of type 'ListingDTO' is not assignable to parameter of type 'SetStateAction<PropertyData | null>'.
+  Property 'host' is missing in type 'ListingDTO' but required in type 'PropertyData'.
+src/app/leasing/[id]/page.tsx(52,21): error TS2345: Argument of type '{ id: string; title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; images: string[]; amenities: string[]; host: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 5 more ...; views: number; } | null' is not assignable to parameter of type 'SetStateAction<PropertyData | null>'.
+  Type '{ id: string; title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; images: string[]; amenities: string[]; host: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 5 more ...; views: number; }' is not assignable to type 'SetStateAction<PropertyData | null>'.
+    Property 'createdAt' is missing in type '{ id: string; title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; images: string[]; amenities: string[]; host: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 5 more ...; views: number; }' but required in type 'PropertyData'.
+src/app/leasing/[id]/page.tsx(91,33): error TS2322: Type 'string[]' is not assignable to type '{ id: string; url: string; alt: string; order: number; }[]'.
+  Type 'string' is not assignable to type '{ id: string; url: string; alt: string; order: number; }'.
+src/app/leasing/[id]/page.tsx(99,27): error TS2740: Type 'PropertyData' is missing the following properties from type 'PropertyDetail': fullDescription, furnished, roommatePreference, neighborhood, and 6 more.
+src/app/leasing/[id]/page.tsx(105,32): error TS2322: Type 'string[]' is not assignable to type 'PropertyAmenity[]'.
+  Type 'string' is not assignable to type 'PropertyAmenity'.
+src/app/leasing/[id]/page.tsx(111,34): error TS2740: Type 'PropertyData' is missing the following properties from type 'PropertyDetail': fullDescription, furnished, roommatePreference, neighborhood, and 6 more.
+src/app/leasing/[id]/page.tsx(117,38): error TS2322: Type 'string' is not assignable to type 'PropertyLocation'.
+src/app/leasing/[id]/page.tsx(126,32): error TS2740: Type '{ id: string; name: string; avatar: string; rating: number; reviews: number; }' is missing the following properties from type 'PropertyHost': verified, joinedDate, responseRate, responseDays, and 2 more.
+src/app/leasing/[id]/page.tsx(134,33): error TS2551: Property 'reviews' does not exist on type 'PropertyData'. Did you mean 'views'?
+src/app/leasing/[id]/page.tsx(141,29): error TS2740: Type 'PropertyData' is missing the following properties from type 'PropertyDetail': fullDescription, furnished, roommatePreference, neighborhood, and 6 more.
+src/app/leasing/[id]/page.tsx(153,35): error TS2322: Type 'PropertyData[]' is not assignable to type 'Listing[]'.
+  Type 'PropertyData' is missing the following properties from type 'Listing': furnished, isAvailable, petFriendly, updatedAt
+src/app/leasing/create/page.tsx(54,5): error TS2322: Type 'Resolver<{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished?: boolean | undefined; petFriendly?: boolean | undefined; amenities?: string[] | undefined; }, any, { ...; }>' is not assignable to type 'Resolver<{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished: boolean; petFriendly: boolean; amenities: string[]; }, any, { title: string; ... 7 more ...; amenities: string[]; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished: boolean; petFriendly: boolean; amenities: string[]; }>' is not assignable to type 'ResolverOptions<{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished?: boolean | undefined; petFriendly?: boolean | undefined; amenities?: string[] | undefined; }>'.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+src/app/leasing/create/page.tsx(128,34): error TS2345: Argument of type '(data: ListingFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished: boolean; petFriendly: boolean; amenities: string[]; }'.
+      Type 'FieldValues' is missing the following properties from type '{ title: string; description: string; price: number; location: string; bedrooms: number; bathrooms: number; furnished: boolean; petFriendly: boolean; amenities: string[]; }': title, description, price, location, and 5 more.
+src/app/marketplace/[id]/page.tsx(46,20): error TS2345: Argument of type '{ id: string; title: string; description: string; price: number; condition: "like_new"; category: "textbooks"; images: string[]; postedDate: Date; seller: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 6 more ...; updatedAt: Date; } | { ...; } | { ...; } | null' is not assignable to parameter of type 'SetStateAction<MarketplaceProduct | null>'.
+  Type '{ id: string; title: string; description: string; price: number; condition: "like_new"; category: "textbooks"; images: string[]; postedDate: Date; seller: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 6 more ...; updatedAt: Date; }' is not assignable to type 'SetStateAction<MarketplaceProduct | null>'.
+    Type '{ id: string; title: string; description: string; price: number; condition: "like_new"; category: "textbooks"; images: string[]; postedDate: Date; seller: { id: string; name: string; avatar: string; rating: number; reviews: number; }; ... 6 more ...; updatedAt: Date; }' is not assignable to type 'MarketplaceProduct'.
+      Types of property 'seller' are incompatible.
+        Type '{ id: string; name: string; avatar: string; rating: number; reviews: number; }' is missing the following properties from type 'UserProfile': email, isVerified, createdAt, updatedAt
+src/app/marketplace/[id]/page.tsx(118,38): error TS2769: No overload matches this call.
+  Overload 1 of 4, '(value: string | number | Date): Date', gave the following error.
+    Argument of type 'Date | undefined' is not assignable to parameter of type 'string | number | Date'.
+      Type 'undefined' is not assignable to type 'string | number | Date'.
+  Overload 2 of 4, '(value: string | number): Date', gave the following error.
+    Argument of type 'Date | undefined' is not assignable to parameter of type 'string | number'.
+      Type 'undefined' is not assignable to type 'string | number'.
+src/app/marketplace/[id]/page.tsx(315,21): error TS2322: Type 'string | undefined' is not assignable to type 'string | StaticImport'.
+  Type 'undefined' is not assignable to type 'string | StaticImport'.
+src/app/marketplace/create/page.tsx(67,5): error TS2322: Type 'Resolver<{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; isAvailable?: boolean | undefined; }, any, { ...; }>' is not assignable to type 'Resolver<{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; isAvailable: boolean; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; }, any, { ...; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; isAvailable: boolean; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; }>' is not assignable to type 'ResolverOptions<{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; isAvailable?: boolean | undefined; }>'.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+src/app/marketplace/create/page.tsx(153,34): error TS2345: Argument of type '(data: ProductFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; isAvailable: boolean; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; }'.
+      Type 'FieldValues' is missing the following properties from type '{ title: string; description: string; price: number; location: string; category: string; condition: "like_new" | "excellent" | "good" | "fair"; images: string[]; isAvailable: boolean; university?: string | undefined; deliveryType?: "pickup" | ... 2 more ... | undefined; }': title, description, price, location, and 4 more.
+src/app/roommates/[id]/page.tsx(90,21): error TS2345: Argument of type 'RoommateProfileDTO' is not assignable to parameter of type 'SetStateAction<RoommateProfile | null>'.
+  Type 'RoommateProfileDTO' is not assignable to type 'RoommateProfile'.
+    Types of property 'bio' are incompatible.
+      Type 'string | undefined' is not assignable to type 'string'.
+        Type 'undefined' is not assignable to type 'string'.
+src/app/roommates/[id]/page.tsx(91,49): error TS2345: Argument of type 'RoommateProfileDTO' is not assignable to parameter of type 'RoommateProfile'.
+  Types of property 'bio' are incompatible.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.
+src/app/roommates/create/page.tsx(56,5): error TS2322: Type 'Resolver<{ budget: number; sleepSchedule: string; smoker?: boolean | undefined; dietary?: string | undefined; interests?: string[] | undefined; }, any, { budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }>' is not assignable to type 'Resolver<{ budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }, any, { budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }>'.
+  Types of parameters 'options' and 'options' are incompatible.
+    Type 'ResolverOptions<{ budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }>' is not assignable to type 'ResolverOptions<{ budget: number; sleepSchedule: string; smoker?: boolean | undefined; dietary?: string | undefined; interests?: string[] | undefined; }>'.
+      Type 'boolean | undefined' is not assignable to type 'boolean'.
+        Type 'undefined' is not assignable to type 'boolean'.
+src/app/roommates/create/page.tsx(129,34): error TS2345: Argument of type '(data: ProfileFormData) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'.
+  Types of parameters 'data' and 'data' are incompatible.
+    Type 'TFieldValues' is not assignable to type '{ budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }'.
+      Type 'FieldValues' is missing the following properties from type '{ budget: number; sleepSchedule: string; smoker: boolean; interests: string[]; dietary?: string | undefined; }': budget, sleepSchedule, smoker, interests
+src/components/sections/FeaturedRoomsSection.tsx(36,15): error TS2740: Type '{ id: string; title: string; price: string; }' is missing the following properties from type 'Room': location, beds, baths, area, and 4 more.
+src/components/sections/HowItWorksSection.tsx(43,28): error TS2339: Property 'id' does not exist on type '{ step: number; title: string; description: string; }'.
+src/components/sections/HowItWorksSection.tsx(48,25): error TS2339: Property 'number' does not exist on type '{ step: number; title: string; description: string; }'.
+src/components/sections/HowItWorksSection.tsx(53,33): error TS2339: Property 'icon' does not exist on type '{ step: number; title: string; description: string; }'.
+src/components/sections/HowItWorksSection.tsx(53,47): error TS2339: Property 'icon' does not exist on type '{ step: number; title: string; description: string; }'.
+src/components/sections/HowItWorksSection.tsx(76,30): error TS2339: Property 'id' does not exist on type '{ step: number; title: string; description: string; }'.
+src/components/sections/MarketplaceSection.tsx(53,15): error TS2739: Type '{ id: string; title: string; price: string; }' is missing the following properties from type 'MarketplaceItem': category, image, seller, condition, rating
+src/components/sections/RoommateMatchingSection.tsx(57,15): error TS2740: Type '{ id: string; name: string; university: string; compatibility: number; }' is missing the following properties from type 'Roommate': image, major, year, interests, and 3 more.
+src/contexts/AuthContext.tsx(5,10): error TS2614: Module '"@/services/api"' has no exported member 'authService'. Did you mean to use 'import authService from "@/services/api"' instead?
+src/lib/compatibility.ts(54,5): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.

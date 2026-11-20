@@ -24,25 +24,26 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
   };
 
   const conditionColor = {
-    new: 'bg-green-100 text-green-800',
-    'like-new': 'bg-blue-100 text-blue-800',
+    like_new: 'bg-blue-100 text-blue-800',
+    excellent: 'bg-green-100 text-green-800',
     good: 'bg-amber-100 text-amber-800',
     fair: 'bg-orange-100 text-orange-800',
   }[product.condition];
 
   const conditionLabel = {
-    new: 'New',
-    'like-new': 'Like New',
+    like_new: 'Like New',
+    excellent: 'Excellent',
     good: 'Good',
     fair: 'Fair',
   }[product.condition];
 
-  const postedDaysAgo = Math.floor(
-    (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const postedDaysAgo = product.postedDate 
+    ? Math.floor((new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
 
-  const timeLabel =
-    postedDaysAgo === 0 ? 'Today' : postedDaysAgo === 1 ? 'Yesterday' : `${postedDaysAgo}d ago`;
+  const timeLabel = !product.postedDate
+    ? 'Recently'
+    : postedDaysAgo === 0 ? 'Today' : postedDaysAgo === 1 ? 'Yesterday' : `${postedDaysAgo}d ago`;
 
   return (
     <Link href={`/marketplace/${product.id}`}>
@@ -52,7 +53,7 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
           {/* Image Container */}
           <div className="relative overflow-hidden bg-neutral-100 aspect-square">
             <Image
-              src={product.image}
+              src={product.images?.[0] || '/placeholder.jpg'}
               alt={product.title}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
@@ -135,7 +136,7 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 relative rounded-full overflow-hidden flex-shrink-0 ring-1 ring-neutral-200">
                   <Image
-                    src={product.seller.avatar}
+                    src={product.seller.avatar || '/default-avatar.jpg'}
                     alt={product.seller.name}
                     fill
                     className="object-cover"
@@ -146,7 +147,7 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
                   <p className="text-xs font-semibold text-neutral-800 truncate">
                     {product.seller.name}
                   </p>
-                  <p className="text-xs text-neutral-500">★ {product.seller.rating}</p>
+                  <p className="text-xs text-neutral-500">★ {product.seller.rating || 0}</p>
                 </div>
               </div>
             </div>

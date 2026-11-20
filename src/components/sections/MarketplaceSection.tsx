@@ -6,8 +6,26 @@ import React from 'react';
 import { ArrowRight, TrendingUp, Shield, Zap } from 'lucide-react';
 import { MarketplaceCard, Button, Badge } from '@/components/common';
 const marketplaceItems = [
-  { id: '1', title: 'Desk', price: '$50' },
-  { id: '2', title: 'Chair', price: '$30' },
+  {
+    id: '1',
+    title: 'Desk Lamp',
+    category: 'Electronics' as const,
+    price: 50,
+    image: 'https://images.unsplash.com/photo-1565636192335-14ae0a74e4d6',
+    seller: 'John Doe',
+    condition: 'Like New' as const,
+    rating: 4.8,
+  },
+  {
+    id: '2',
+    title: 'Office Chair',
+    category: 'Furniture' as const,
+    price: 30,
+    image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc',
+    seller: 'Jane Smith',
+    condition: 'Good' as const,
+    rating: 4.5,
+  },
 ];
 
 export const MarketplaceSection: React.FC = () => {

@@ -25,11 +25,53 @@ export interface APIResponse<T> {
   success: boolean;
 }
 
-// Re-export marketplace types for convenience
+export interface SavedListing {
+  id: string;
+  title: string;
+  price: number;
+  location: string;
+  image: string;
+  bedrooms: number;
+  bathrooms: number;
+  featured: boolean;
+  type: 'lease' | 'roommate' | 'product';
+  savedAt: string;
+}
+
+export interface SavedRoommate {
+  id: string;
+  name: string;
+  image?: string;
+  age: number;
+  major: string;
+  budget: number;
+  sleepSchedule: string;
+  avatar: string;
+  compatibility: number;
+  title?: string;
+  location?: string;
+  detail?: string;
+  university?: string;
+}
+
+// Re-export types from api and other modules
+export type {
+  UserDTO,
+  ListingDTO,
+  MarketplaceProductDTO,
+  RoommateProfileDTO,
+  MessageDTO,
+  ConversationDTO,
+  NotificationDTO,
+  SavedItemDTO,
+} from './api';
+
 export type {
   ProductCategory,
   ProductCondition,
+  DeliveryType,
   DeliveryOption,
+  UserProfile,
   SellerProfile,
   MarketplaceProduct,
   MarketplaceFilterState,

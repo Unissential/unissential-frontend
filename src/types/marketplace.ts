@@ -14,18 +14,24 @@ export type ProductCategory =
 
 export type ProductCondition = 'like_new' | 'excellent' | 'good' | 'fair';
 export type DeliveryType = 'pickup' | 'delivery' | 'both';
+export type DeliveryOption = 'pickup' | 'delivery' | 'both';
 
 export interface UserProfile {
   id: string;
   email: string;
   name: string;
+  avatar?: string;
   university?: string;
   isVerified: boolean;
   profilePicture?: string;
   bio?: string;
   createdAt: Date;
   updatedAt: Date;
+  rating?: number;
+  reviews?: number;
 }
+
+export type SellerProfile = UserProfile;
 
 export interface MarketplaceProduct {
   id: string;
@@ -44,6 +50,10 @@ export interface MarketplaceProduct {
   interested: number;
   createdAt: Date;
   updatedAt: Date;
+  postedDate?: Date;
+  distance?: number;
+  avatar?: string;
+  rating?: number;
 }
 
 export interface CreateMarketplaceProductPayload {
@@ -98,6 +108,7 @@ export interface CreateProductFormData {
   delivery: DeliveryOption;
   location: string;
   university: string;
+  isAvailable?: boolean;
 }
 
 export interface MarketplaceContextType {

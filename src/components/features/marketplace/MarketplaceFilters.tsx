@@ -6,18 +6,24 @@ import { cn } from '@/lib/utils';
 import { MarketplaceFilterState } from '@/types/marketplace';
 
 const categoryConfig = [
-  { value: 'electronics', label: 'Electronics' },
-  { value: 'furniture', label: 'Furniture' },
-  { value: 'textbooks', label: 'Textbooks' },
-  { value: 'clothing', label: 'Clothing' },
+  { value: 'electronics', label: 'Electronics', name: 'electronics', icon: '🖥️' },
+  { value: 'furniture', label: 'Furniture', name: 'furniture', icon: '🪑' },
+  { value: 'textbooks', label: 'Textbooks', name: 'textbooks', icon: '📚' },
+  { value: 'clothing', label: 'Clothing', name: 'clothing', icon: '👕' },
 ];
 
-const conditionOptions = ['New', 'Like New', 'Good', 'Fair'];
+const conditionOptions = [
+  { value: 'new', label: 'New' },
+  { value: 'like-new', label: 'Like New' },
+  { value: 'good', label: 'Good' },
+  { value: 'fair', label: 'Fair' },
+];
+
 const priceRanges = [
-  [0, 100],
-  [100, 500],
-  [500, 1000],
-  [1000, 5000],
+  { label: 'Under $100', min: 0, max: 100 },
+  { label: '$100 - $500', min: 100, max: 500 },
+  { label: '$500 - $1000', min: 500, max: 1000 },
+  { label: 'Over $1000', min: 1000, max: 5000 },
 ];
 
 interface MarketplaceFiltersProps {
