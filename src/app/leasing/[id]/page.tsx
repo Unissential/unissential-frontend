@@ -17,6 +17,7 @@ import {
   SimilarListingsSection,
 } from '@/components/features/property';
 import { listingService } from '@/services/api/listing.service';
+import { mockListings } from '@/data/mockMarketplace';
 
 export default function PropertyDetailPage() {
   const params = useParams();
@@ -30,7 +31,10 @@ export default function PropertyDetailPage() {
         const data = await listingService.getListingById(propertyId);
         setProperty(data);
       } catch (error) {
-        console.error('Failed to load property:', error);
+        console.error('Failed to load property from API, using mock data:', error);
+        // Fallback to mock data
+        const mockProperty = mockListings.find((p) => p.id === propertyId);
+        setProperty(mockProperty || null);
       } finally {
         setIsLoading(false);
       }

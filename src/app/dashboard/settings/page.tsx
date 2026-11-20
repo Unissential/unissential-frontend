@@ -4,7 +4,11 @@ import { motion } from 'framer-motion';
 import { Save, ChevronRight, Bell, Lock, User } from 'lucide-react';
 import { useState } from 'react';
 
-const mockCurrentUser = { name: 'Your Name', email: 'your@email.com' };
+const mockCurrentUser = { 
+  name: 'Your Name', 
+  email: 'your@email.com',
+  university: 'State University',
+};
 
 const container = {
   hidden: { opacity: 0 },

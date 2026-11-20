@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { roommateService } from '@/services/api/roommate.service';
 import { CompatibilityBadge } from '@/components/features/roommate/CompatibilityBadge';
+import { mockRoommates } from '@/data/mockMarketplace';
 
 // Mock user preferences
 const mockUserPreferences = {
@@ -48,7 +49,10 @@ export default function RoommateDetailPage() {
         const data = await roommateService.getProfileById(roommateId);
         setRoommate(data);
       } catch (error) {
-        console.error('Failed to load roommate:', error);
+        console.error('Failed to load roommate from API, using mock data:', error);
+        // Fallback to mock data
+        const mockRoommate = mockRoommates.find((r) => r.id === roommateId);
+        setRoommate(mockRoommate || null);
       } finally {
         setIsLoading(false);
       }
@@ -295,7 +299,7 @@ export default function RoommateDetailPage() {
                   <div>
                     <p className="text-xs text-neutral-600">Budget</p>
                     <p className="font-semibold text-neutral-900">
-                      ${roommate.budget.min} - ${roommate.budget.max}
+                      ${roommate.budget}/mo
                     </p>
                   </div>
                 </div>

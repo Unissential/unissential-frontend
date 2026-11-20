@@ -138,6 +138,7 @@ model SavedProduct {
   @@unique([userId, productId])
   @@index([userId])
   @@index([productId])
+}
 
 // Conversation model
 model Conversation {

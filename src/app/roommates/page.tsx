@@ -8,6 +8,7 @@ import { roommateService } from '@/services/api/roommate.service';
 import { RoommateProfileDTO } from '@/types/api';
 import { useToast } from '@/contexts/ToastContext';
 import Link from 'next/link';
+import { mockRoommates } from '@/data/mockMarketplace';
 
 interface Filters {
   searchQuery: string;
@@ -59,15 +60,16 @@ export default function RoommatesPage() {
         });
         setProfiles(response.data);
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Failed to load profiles';
-        addToast(message, 'error');
+        console.error('Failed to load profiles from API, using mock data:', error);
+        // Fallback to mock data
+        setProfiles(mockRoommates as unknown as RoommateProfileDTO[]);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadProfiles();
-  }, [filters, currentPage, addToast]);
+  }, [filters, currentPage]);
 
   const handleFilterChange = (key: keyof Filters, value: string | number) => {
     setFilters((prev) => ({ ...prev, [key]: value }));

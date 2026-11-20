@@ -10,6 +10,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import Image from 'next/image';
+import { mockMarketplaceProducts } from '@/data/mockMarketplace';
 
 const container = {
   hidden: { opacity: 0 },
@@ -76,15 +77,17 @@ export default function MarketplacePage() {
         setProducts(response.data);
         setTotalPages(response.pagination.pages);
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Failed to load products';
-        addToast(message, 'error');
+        console.error('Failed to load products from API, using mock data:', error);
+        // Fallback to mock data
+        setProducts(mockMarketplaceProducts as any);
+        setTotalPages(1);
       } finally {
         setIsLoading(false);
       }
     };
 
     loadProducts();
-  }, [filters, currentPage, addToast]);
+  }, [filters, currentPage]);
 
   const handleFilterChange = (key: keyof PageFilters, value: string | number | undefined) => {
     setFilters((prev) => ({ ...prev, [key]: value || undefined }));

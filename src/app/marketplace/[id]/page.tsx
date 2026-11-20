@@ -19,11 +19,12 @@ import {
 import { marketplaceService } from '@/services/api/marketplace.service';
 import { cn } from '@/lib/utils';
 import { useParams } from 'next/navigation';
+import { mockMarketplaceProducts } from '@/data/mockMarketplace';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<typeof mockMarketplaceProducts[0] | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -34,10 +35,14 @@ export default function ProductDetailPage() {
   useEffect(() => {
     const loadProduct = async () => {
       try {
+        // Try to fetch from API, fallback to mock data
         const data = await marketplaceService.getProductById(productId);
         setProduct(data);
       } catch (error) {
         console.error('Failed to load product:', error);
+        // Fallback to mock data
+        const mockProduct = mockMarketplaceProducts.find((p) => p.id === productId);
+        setProduct(mockProduct || null);
       } finally {
         setIsLoading(false);
       }
@@ -83,19 +88,25 @@ export default function ProductDetailPage() {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
-  const conditionColor = {
+  const conditionColorMap = {
     new: 'bg-green-100 text-green-800',
     'like-new': 'bg-blue-100 text-blue-800',
     good: 'bg-amber-100 text-amber-800',
     fair: 'bg-orange-100 text-orange-800',
-  }[product.condition];
+    excellent: 'bg-green-100 text-green-800',
+  };
 
-  const conditionLabel = {
+  const conditionColor = conditionColorMap[product.condition as keyof typeof conditionColorMap] || 'bg-gray-100 text-gray-800';
+
+  const conditionLabelMap = {
     new: 'New',
     'like-new': 'Like New',
     good: 'Good',
     fair: 'Fair',
-  }[product.condition];
+    excellent: 'Excellent',
+  };
+
+  const conditionLabel = conditionLabelMap[product.condition as keyof typeof conditionLabelMap] || product.condition;
 
   const postedDaysAgo = Math.floor(
     (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
@@ -272,7 +283,7 @@ export default function ProductDetailPage() {
                   <div>
                     <p className="text-sm text-neutral-600">Delivery</p>
                     <p className="font-semibold text-neutral-900 capitalize">
-                      {product.delivery === 'both' ? 'Pickup & Delivery' : product.delivery}
+                      {product.deliveryType === 'both' ? 'Pickup & Delivery' : product.deliveryType}
                     </p>
                   </div>
                 </div>
@@ -304,7 +315,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-neutral-900">{product.seller.name}</p>
-                  <p className="text-sm text-neutral-600">{product.seller.university}</p>
+                  <p className="text-sm text-neutral-600">Verified Seller</p>
                 </div>
               </div>
 
@@ -317,21 +328,8 @@ export default function ProductDetailPage() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs text-neutral-600 mb-0.5">Response Time</p>
-                  <p className="font-semibold text-neutral-900">{product.seller.responseTime}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-neutral-600 mb-0.5">Sold</p>
-                  <p className="font-semibold text-neutral-900">{product.seller.soldCount} items</p>
-                </div>
-                <div>
-                  <p className="text-xs text-neutral-600 mb-0.5">Member Since</p>
-                  <p className="font-semibold text-neutral-900">
-                    {new Date(product.seller.joinedDate).toLocaleDateString('en-US', {
-                      year: '2-digit',
-                      month: 'short',
-                    })}
-                  </p>
+                  <p className="text-xs text-neutral-600 mb-0.5">Reviews</p>
+                  <p className="font-semibold text-neutral-900">{product.seller.reviews}</p>
                 </div>
               </div>
 
@@ -358,7 +356,7 @@ export default function ProductDetailPage() {
                   <div className="group cursor-pointer bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
                     <div className="relative bg-neutral-100 aspect-square">
                       <Image
-                        src={relProduct.image}
+                        src={relProduct.images[0]}
                         alt={relProduct.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform"

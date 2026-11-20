@@ -5,11 +5,15 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 interface EmptyStateProps {
-  icon: string;
+  icon?: string;
   title: string;
   description: string;
   ctaText?: string;
   ctaHref?: string;
+  action?: {
+    label: string;
+    href: string;
+  };
   suggestions?: string[];
 }
 
@@ -19,8 +23,11 @@ export function EmptyState({
   description,
   ctaText,
   ctaHref,
+  action,
   suggestions,
 }: EmptyStateProps) {
+  const finalCtaText = ctaText || action?.label;
+  const finalCtaHref = ctaHref || action?.href;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,13 +42,13 @@ export function EmptyState({
       <p className="text-neutral-600 mb-6 max-w-md">{description}</p>
 
       {/* CTA Button */}
-      {ctaText && ctaHref && (
-        <Link href={ctaHref}>
+      {finalCtaText && finalCtaHref && (
+        <Link href={finalCtaHref}>
           <motion.button
             whileHover={{ scale: 1.05, x: 4 }}
             className="flex items-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors mb-8"
           >
-            {ctaText}
+            {finalCtaText}
             <ArrowRight size={18} />
           </motion.button>
         </Link>
