@@ -38,7 +38,10 @@ export interface PropertyLocation {
 
 import { Listing } from './listing';
 
-export interface PropertyDetail extends Omit<Listing, 'location' | 'amenities' | 'images' | 'furnished'> {
+export interface PropertyDetail extends Omit<
+  Listing,
+  'location' | 'amenities' | 'images' | 'furnished'
+> {
   images: PropertyImage[];
   description: string;
   fullDescription: string;

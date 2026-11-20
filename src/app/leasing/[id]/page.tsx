@@ -132,12 +132,14 @@ export default function PropertyDetailPage() {
           transition={{ duration: 0.4 }}
           className="mb-8 md:mb-12"
         >
-          <PropertyImageGallery images={property.images.map((img, idx) => ({
-            id: `img-${idx}`,
-            url: img,
-            alt: `Property image ${idx + 1}`,
-            order: idx,
-          }))} />
+          <PropertyImageGallery
+            images={property.images.map((img, idx) => ({
+              id: `img-${idx}`,
+              url: img,
+              alt: `Property image ${idx + 1}`,
+              order: idx,
+            }))}
+          />
         </motion.div>
 
         {/* Main Content Grid */}
@@ -179,10 +181,7 @@ export default function PropertyDetailPage() {
             <div className="border-t border-neutral-200" />
 
             {/* Reviews */}
-            <PropertyReviewsSection
-              reviews={[] as any}
-              averageRating={property.host.rating}
-            />
+            <PropertyReviewsSection reviews={[] as any} averageRating={property.host.rating} />
           </div>
 
           {/* Right Column - Sidebar */}

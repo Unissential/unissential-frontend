@@ -21,7 +21,13 @@ import {
   Loader,
 } from 'lucide-react';
 import { roommateService } from '@/services/api/roommate.service';
-import { RoommateProfile, CompatibilityScore, SleepSchedule, CleanlinessLevel, Gender } from '@/types/roommate';
+import {
+  RoommateProfile,
+  CompatibilityScore,
+  SleepSchedule,
+  CleanlinessLevel,
+  Gender,
+} from '@/types/roommate';
 import { CompatibilityBadge } from '@/components/features/roommate/CompatibilityBadge';
 import { mockRoommates } from '@/data/mockMarketplace';
 
@@ -35,12 +41,18 @@ const mockUserPreferences = {
 };
 
 // Calculate compatibility score between user and roommate
-function calculateCompatibility(roommate: RoommateProfile, userPrefs = mockUserPreferences): CompatibilityScore {
-  const roommateMaxBudget = typeof roommate.budget === 'object' && 'max' in roommate.budget 
-    ? roommate.budget.max 
-    : (typeof roommate.budget === 'number' ? roommate.budget : 1000);
+function calculateCompatibility(
+  roommate: RoommateProfile,
+  userPrefs = mockUserPreferences
+): CompatibilityScore {
+  const roommateMaxBudget =
+    typeof roommate.budget === 'object' && 'max' in roommate.budget
+      ? roommate.budget.max
+      : typeof roommate.budget === 'number'
+        ? roommate.budget
+        : 1000;
   const budgetDiff = Math.abs(userPrefs.budget.max - roommateMaxBudget);
-  const budgetScore = Math.max(0, 25 - (budgetDiff / 50));
+  const budgetScore = Math.max(0, 25 - budgetDiff / 50);
 
   const scheduleMatch = roommate.sleepSchedule === userPrefs.sleepSchedule ? 25 : 15;
 
@@ -53,9 +65,16 @@ function calculateCompatibility(roommate: RoommateProfile, userPrefs = mockUserP
 
   const locationMatch = roommate.location === userPrefs.location ? 25 : 10;
 
-  const overall = Math.round((budgetScore + scheduleMatch + cleanlinessMatch + interestsScore + locationMatch) / 5);
+  const overall = Math.round(
+    (budgetScore + scheduleMatch + cleanlinessMatch + interestsScore + locationMatch) / 5
+  );
 
-  const labels: Array<CompatibilityScore['label']> = ['great-match', 'good-match', 'okay-match', 'not-ideal'];
+  const labels: Array<CompatibilityScore['label']> = [
+    'great-match',
+    'good-match',
+    'okay-match',
+    'not-ideal',
+  ];
   let label: CompatibilityScore['label'] = 'not-ideal';
   if (overall >= 75) label = 'great-match';
   else if (overall >= 60) label = 'good-match';
@@ -98,7 +117,10 @@ export default function RoommateDetailPage() {
           bio: data.bio,
           photo: data.photo || '',
           photos: data.photos || [],
-          budget: typeof data.budget === 'number' ? { min: data.budget, max: data.budget * 1.2 } : { min: 0, max: 0 },
+          budget:
+            typeof data.budget === 'number'
+              ? { min: data.budget, max: data.budget * 1.2 }
+              : { min: 0, max: 0 },
           moveInDate: data.moveInDate || new Date().toISOString(),
           leaseLength: data.leaseLength || '',
           sleepSchedule: (data.sleepSchedule as SleepSchedule) || 'flexible',
@@ -107,10 +129,17 @@ export default function RoommateDetailPage() {
           interests: data.interests || [],
           hobbies: data.hobbies || [],
           pets: data.pets || { allowed: false, types: [] },
-          smoking: (typeof data.smoking === 'boolean' ? (data.smoking ? 'yes' : 'no') : (data.smoking as 'yes' | 'no' | 'not-applicable')) || 'no',
+          smoking:
+            (typeof data.smoking === 'boolean'
+              ? data.smoking
+                ? 'yes'
+                : 'no'
+              : (data.smoking as 'yes' | 'no' | 'not-applicable')) || 'no',
           studyHabits: data.studyHabits || '',
           workSchedule: data.workSchedule || '',
-          socialLevel: (data.socialLevel as 'very-social' | 'social' | 'introverted' | 'very-introverted') || 'social',
+          socialLevel:
+            (data.socialLevel as 'very-social' | 'social' | 'introverted' | 'very-introverted') ||
+            'social',
           guestPolicy: (data.guestPolicy as 'frequent' | 'occasional' | 'minimal') || 'occasional',
           noise: (data.noise as 'quiet' | 'moderate' | 'no-preference') || 'moderate',
           kitchen: (data.kitchen as 'share' | 'private' | 'any') || 'share',
@@ -124,7 +153,9 @@ export default function RoommateDetailPage() {
       } catch (error) {
         console.error('Failed to load roommate from API, using mock data:', error);
         // Fallback to mock data
-        const mockRoommate = mockRoommates.find((r) => r.id === roommateId) as RoommateProfile | undefined;
+        const mockRoommate = mockRoommates.find((r) => r.id === roommateId) as
+          | RoommateProfile
+          | undefined;
         if (mockRoommate) {
           setRoommate(mockRoommate);
           setCompatibility(calculateCompatibility(mockRoommate));
@@ -385,8 +416,8 @@ export default function RoommateDetailPage() {
                   <div>
                     <p className="text-xs text-neutral-600">Budget</p>
                     <p className="font-semibold text-neutral-900">
-                      {typeof roommate.budget === 'object' && 'max' in roommate.budget 
-                        ? `$${roommate.budget.min} - $${roommate.budget.max}/mo` 
+                      {typeof roommate.budget === 'object' && 'max' in roommate.budget
+                        ? `$${roommate.budget.min} - $${roommate.budget.max}/mo`
                         : `$${roommate.budget}/mo`}
                     </p>
                   </div>

@@ -342,7 +342,10 @@ export default function ProductDetailPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
                   <Image
-                    src={product.seller.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=seller'}
+                    src={
+                      product.seller.avatar ||
+                      'https://api.dicebear.com/7.x/avataaars/svg?seed=seller'
+                    }
                     alt={product.seller.name}
                     fill
                     className="object-cover"

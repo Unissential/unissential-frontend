@@ -37,13 +37,19 @@ export function ProductCard({ product, onFavorite, isFavorited = false }: Produc
     fair: 'Fair',
   }[product.condition];
 
-  const postedDaysAgo = product.postedDate 
-    ? Math.floor((new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24))
+  const postedDaysAgo = product.postedDate
+    ? Math.floor(
+        (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
+      )
     : 0;
 
   const timeLabel = !product.postedDate
     ? 'Recently'
-    : postedDaysAgo === 0 ? 'Today' : postedDaysAgo === 1 ? 'Yesterday' : `${postedDaysAgo}d ago`;
+    : postedDaysAgo === 0
+      ? 'Today'
+      : postedDaysAgo === 1
+        ? 'Yesterday'
+        : `${postedDaysAgo}d ago`;
 
   return (
     <Link href={`/marketplace/${product.id}`}>
