@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { MapPin, Star, Wifi, Home, Users, Sofa } from 'lucide-react';
 import type { Room } from '@/types/landing';
 import { Button } from './Button';
@@ -17,10 +18,13 @@ export const RoomCard: React.FC<RoomCardProps> = ({ room, onViewDetails }) => {
     <div className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 dark:bg-neutral-800">
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden bg-neutral-200 dark:bg-neutral-700">
-        <img
+        <Image
           src={room.image}
           alt={room.title}
+          width={400}
+          height={192}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          style={{ objectFit: 'cover' }}
         />
         <div className="absolute right-4 top-4 flex items-center gap-1 rounded-lg bg-white/90 px-3 py-1.5 backdrop-blur-sm">
           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />

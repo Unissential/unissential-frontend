@@ -74,7 +74,7 @@ function DashboardContent() {
           Welcome back, {user?.name.split(' ')[0]}! 👋
         </h1>
         <p className="text-neutral-600">
-          Here's what's happening with your student living experience.
+          Here&apos;s what&apos;s happening with your student living experience.
         </p>
       </motion.div>
 
@@ -192,3 +192,4 @@ export default function DashboardPage() {
     </ProtectedRoute>
   );
 }
+

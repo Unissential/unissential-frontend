@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -274,7 +275,14 @@ function CreateProductContent() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
                 {imageUrls.map((url, index) => (
                   <div key={index} className="relative group">
-                    <img src={url} alt={`Product ${index + 1}`} className="w-full h-32 object-cover rounded-lg" />
+                    <Image
+                      src={url}
+                      alt={`Product ${index + 1}`}
+                      width={128}
+                      height={128}
+                      className="w-full h-32 object-cover rounded-lg"
+                      style={{ objectFit: 'cover' }}
+                    />
                     <button
                       type="button"
                       onClick={() => handleRemoveImage(index)}

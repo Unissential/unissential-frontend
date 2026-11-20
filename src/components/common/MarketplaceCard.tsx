@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { Star, ShoppingBag } from 'lucide-react';
 import type { MarketplaceItem } from '@/types/landing';
 import { Button } from './Button';
@@ -23,10 +24,13 @@ export const MarketplaceCard: React.FC<MarketplaceCardProps> = ({ item, onViewIt
     <div className="group overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 dark:bg-neutral-800">
       {/* Image */}
       <div className="relative h-40 overflow-hidden bg-neutral-200 dark:bg-neutral-700">
-        <img
+        <Image
           src={item.image}
           alt={item.title}
+          width={300}
+          height={160}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          style={{ objectFit: 'cover' }}
         />
         <div className="absolute right-2 top-2">
           <span

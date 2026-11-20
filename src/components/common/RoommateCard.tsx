@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { Star, Sparkles } from 'lucide-react';
 import type { Roommate } from '@/types/landing';
 import { Button } from './Button';
@@ -17,10 +18,13 @@ export const RoommateCard: React.FC<RoommateCardProps> = ({ roommate, onConnect 
     <div className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 dark:bg-neutral-800">
       {/* Image Container */}
       <div className="relative h-56 overflow-hidden bg-gradient-to-br from-primary-400 to-primary-600">
-        <img
+        <Image
           src={roommate.image}
           alt={roommate.name}
+          width={400}
+          height={224}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          style={{ objectFit: 'cover' }}
         />
         {roommate.compatibility && (
           <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 backdrop-blur-sm">

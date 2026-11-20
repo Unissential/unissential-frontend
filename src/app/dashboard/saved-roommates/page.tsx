@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Heart, MapPin, Star } from 'lucide-react';
 import { useState } from 'react';
 
@@ -64,9 +65,11 @@ export default function SavedRoommatesPage() {
               <div className="p-6 -mt-10 space-y-4">
                 {/* Avatar and Name */}
                 <div className="flex items-start gap-4">
-                  <img
+                  <Image
                     src={roommate.image}
                     alt={roommate.title}
+                    width={80}
+                    height={80}
                     className="w-20 h-20 rounded-full border-4 border-white shadow-md object-cover"
                   />
                   <div className="flex-1 pt-2">
@@ -116,7 +119,7 @@ export default function SavedRoommatesPage() {
           <div className="text-6xl mb-4">👥</div>
           <h3 className="text-2xl font-bold text-neutral-900 mb-2">No saved roommates yet</h3>
           <p className="text-neutral-600 mb-6">
-            Browse and save roommate profiles you're interested in
+            Browse and save roommate profiles you&apos;re interested in
           </p>
           <motion.button
             whileHover={{ scale: 1.05, x: 4 }}
@@ -129,3 +132,4 @@ export default function SavedRoommatesPage() {
     </motion.div>
   );
 }
+

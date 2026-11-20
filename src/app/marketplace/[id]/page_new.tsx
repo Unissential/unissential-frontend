@@ -168,13 +168,13 @@ export default function ProductDetailPage() {
                     onClick={() => setSelectedImage((prev) => (prev === 0 ? product.images!.length - 1 : prev - 1))}
                     className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-md transition-all"
                   >
-                    ←
+                    â†
                   </button>
                   <button
                     onClick={() => setSelectedImage((prev) => (prev === product.images!.length - 1 ? 0 : prev + 1))}
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-md transition-all"
                   >
-                    →
+                    â†’
                   </button>
 
                   <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/50 text-white text-sm rounded-full">
@@ -337,11 +337,11 @@ export default function ProductDetailPage() {
                 <div className="flex-1">
                   <p className="font-semibold text-gray-900">{product.seller.name}</p>
                   {product.seller.university && <p className="text-sm text-gray-600">{product.seller.university}</p>}
-                  {product.seller.isVerified && <p className="text-xs text-green-600 font-medium">✓ Verified</p>}
+                  {product.seller.isVerified && <p className="text-xs text-green-600 font-medium">âœ“ Verified</p>}
                 </div>
               </div>
 
-              {product.seller.bio && <p className="text-sm text-gray-700 italic">"{product.seller.bio}"</p>}
+              {product.seller.bio && <p className="text-sm text-gray-700 italic">&quot;{product.seller.bio}&quot;</p>}
 
               <Link
                 href={`/profile/${product.seller.id}`}

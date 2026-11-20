@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Send, Phone, Video } from 'lucide-react';
 import { mockConversations, mockMessages, mockCurrentUser } from '@/data/mockDashboard';
 import { useState } from 'react';
@@ -59,9 +60,11 @@ export default function MessagesPage() {
               >
                 <div className="flex items-start gap-3">
                   <div className="relative">
-                    <img
+                    <Image
                       src={conv.participantAvatar}
                       alt={conv.participantName}
+                      width={48}
+                      height={48}
                       className="w-12 h-12 rounded-full"
                     />
                     {conv.online && (
@@ -91,9 +94,11 @@ export default function MessagesPage() {
           {/* Chat Header */}
           <div className="p-4 border-b border-neutral-200 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img
+              <Image
                 src={selectedConv.participantAvatar}
                 alt={selectedConv.participantName}
+                width={40}
+                height={40}
                 className="w-10 h-10 rounded-full"
               />
               <div>
@@ -128,7 +133,13 @@ export default function MessagesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className={`flex gap-3 ${msg.isOwn ? 'flex-row-reverse' : ''}`}
               >
-                <img src={msg.senderAvatar} alt={msg.senderName} className="w-8 h-8 rounded-full" />
+                <Image
+                  src={msg.senderAvatar}
+                  alt={msg.senderName}
+                  width={32}
+                  height={32}
+                  className="w-8 h-8 rounded-full"
+                />
                 <div className={`flex flex-col gap-1 max-w-xs ${msg.isOwn ? 'items-end' : ''}`}>
                   <div
                     className={`px-4 py-2.5 rounded-xl ${

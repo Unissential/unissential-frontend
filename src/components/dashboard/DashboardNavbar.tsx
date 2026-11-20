@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Menu, Bell, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -76,12 +77,14 @@ export function DashboardNavbar({ onMenuClick, unreadCount }: DashboardNavbarPro
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-2 px-3 py-2 hover:bg-neutral-100 rounded-lg transition-colors"
               >
-                <img
+                <Image
                   src={
                     user?.avatar ||
                     'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop'
                   }
                   alt={user?.name || 'User'}
+                  width={32}
+                  height={32}
                   className="w-8 h-8 rounded-full"
                 />
                 <span className="hidden sm:block text-sm font-medium text-neutral-700 truncate">

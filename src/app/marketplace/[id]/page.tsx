@@ -73,7 +73,7 @@ export default function ProductDetailPage() {
         <div className="text-center space-y-4">
           <div className="text-6xl">🔍</div>
           <h1 className="text-2xl font-bold text-neutral-900">Product not found</h1>
-          <p className="text-neutral-600">The product you're looking for doesn't exist.</p>
+          <p className="text-neutral-600">The product you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/marketplace">
             <button className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
               Back to Marketplace
@@ -463,3 +463,4 @@ export default function ProductDetailPage() {
     </main>
   );
 }
+

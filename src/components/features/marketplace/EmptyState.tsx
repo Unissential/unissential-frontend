@@ -26,7 +26,7 @@ export function EmptyState({ onReset }: EmptyStateProps) {
 
       {/* Description */}
       <p className="text-neutral-600 mb-8 max-w-md mx-auto">
-        We couldn't find any products matching your filters. Try adjusting your search or browse our
+        We couldn&apos;t find any products matching your filters. Try adjusting your search or browse our
         popular categories.
       </p>
 

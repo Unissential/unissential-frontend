@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { ArrowRight, Users, Home, ShoppingBag, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/common';
 
@@ -90,10 +91,13 @@ export const HeroSection: React.FC = () => {
           {/* Right Image */}
           <div className="relative h-96 overflow-hidden rounded-3xl lg:h-full">
             <div className="absolute inset-0 bg-gradient-to-br from-primary-400 via-primary-500 to-secondary-600 opacity-20" />
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=600&fit=crop"
               alt="Student Living"
+              width={600}
+              height={600}
               className="h-full w-full object-cover"
+              style={{ objectFit: 'cover' }}
             />
             {/* Floating Card */}
             <div className="absolute bottom-6 left-6 right-6 flex gap-3 rounded-2xl bg-white/95 p-4 shadow-2xl backdrop-blur-sm">

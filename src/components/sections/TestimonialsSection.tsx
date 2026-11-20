@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { Star, Quote } from 'lucide-react';
 import { Badge } from '@/components/common';
 
@@ -56,9 +57,11 @@ export const TestimonialsSection: React.FC = () => {
               {/* Author Info */}
               <div className="mt-6 border-t border-neutral-200 pt-4 dark:border-neutral-700">
                 <div className="flex items-center gap-3">
-                  <img
+                  <Image
                     src={testimonial.image}
                     alt={testimonial.author}
+                    width={40}
+                    height={40}
                     className="h-10 w-10 rounded-full object-cover"
                   />
                   <div>
