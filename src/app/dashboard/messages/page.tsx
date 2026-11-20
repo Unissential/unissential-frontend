@@ -130,32 +130,32 @@ export default function MessagesPage() {
             {messages.map((msg) => {
               const isOwn = msg.senderId === mockCurrentUser.id;
               return (
-              <motion.div
-                key={msg.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`flex gap-3 ${isOwn ? 'flex-row-reverse' : ''}`}
-              >
-                <Image
-                  src={msg.senderAvatar}
-                  alt={msg.senderName}
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full"
-                />
-                <div className={`flex flex-col gap-1 max-w-xs ${isOwn ? 'items-end' : ''}`}>
-                  <div
-                    className={`px-4 py-2.5 rounded-xl ${
-                      isOwn
-                        ? 'bg-primary-600 text-white rounded-br-none'
-                        : 'bg-neutral-100 text-neutral-900 rounded-bl-none'
-                    }`}
-                  >
-                    <p className="text-sm">{msg.content}</p>
+                <motion.div
+                  key={msg.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex gap-3 ${isOwn ? 'flex-row-reverse' : ''}`}
+                >
+                  <Image
+                    src={msg.senderAvatar}
+                    alt={msg.senderName}
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-full"
+                  />
+                  <div className={`flex flex-col gap-1 max-w-xs ${isOwn ? 'items-end' : ''}`}>
+                    <div
+                      className={`px-4 py-2.5 rounded-xl ${
+                        isOwn
+                          ? 'bg-primary-600 text-white rounded-br-none'
+                          : 'bg-neutral-100 text-neutral-900 rounded-bl-none'
+                      }`}
+                    >
+                      <p className="text-sm">{msg.content}</p>
+                    </div>
+                    <p className="text-xs text-neutral-500">{msg.timestamp}</p>
                   </div>
-                  <p className="text-xs text-neutral-500">{msg.timestamp}</p>
-                </div>
-              </motion.div>
+                </motion.div>
               );
             })}
           </div>

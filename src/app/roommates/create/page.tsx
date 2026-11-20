@@ -96,8 +96,15 @@ function CreateProfileContent() {
     <Container>
       <div className="py-12 max-w-2xl">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Link href="/roommates" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <Link
+            href="/roommates"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Roommates
           </Link>
@@ -135,7 +142,9 @@ function CreateProfileContent() {
 
           {/* Budget */}
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Monthly Budget *</label>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Monthly Budget *
+            </label>
             <div className="relative">
               <span className="absolute left-4 top-2.5 text-gray-600">$</span>
               <input
@@ -150,7 +159,9 @@ function CreateProfileContent() {
 
           {/* Sleep Schedule */}
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Sleep Schedule *</label>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Sleep Schedule *
+            </label>
             <select
               {...register('sleepSchedule')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -162,12 +173,16 @@ function CreateProfileContent() {
                 </option>
               ))}
             </select>
-            {errors.sleepSchedule && <p className="mt-1 text-sm text-red-600">{errors.sleepSchedule.message}</p>}
+            {errors.sleepSchedule && (
+              <p className="mt-1 text-sm text-red-600">{errors.sleepSchedule.message}</p>
+            )}
           </div>
 
           {/* Dietary Preferences */}
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Dietary Preferences</label>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Dietary Preferences
+            </label>
             <input
               {...register('dietary')}
               type="text"

@@ -4,8 +4,16 @@ export const mockConversations = [
   {
     id: '1',
     participants: [
-      { id: 'user1', name: 'John Doe', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John' },
-      { id: 'user2', name: 'Jane Smith', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane' },
+      {
+        id: 'user1',
+        name: 'John Doe',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
+      },
+      {
+        id: 'user2',
+        name: 'Jane Smith',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane',
+      },
     ],
     participantName: 'John Doe',
     participantAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
@@ -17,8 +25,16 @@ export const mockConversations = [
   {
     id: '2',
     participants: [
-      { id: 'user1', name: 'Mike Johnson', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike' },
-      { id: 'user3', name: 'Sarah Lee', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah' },
+      {
+        id: 'user1',
+        name: 'Mike Johnson',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',
+      },
+      {
+        id: 'user3',
+        name: 'Sarah Lee',
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
+      },
     ],
     participantName: 'Mike Johnson',
     participantAvatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',

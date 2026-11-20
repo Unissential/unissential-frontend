@@ -4,7 +4,11 @@
  */
 
 import { apiCall } from './client';
-import { MarketplaceProduct, MarketplaceFilters, CreateMarketplaceProductPayload } from '@/types/marketplace';
+import {
+  MarketplaceProduct,
+  MarketplaceFilters,
+  CreateMarketplaceProductPayload,
+} from '@/types/marketplace';
 
 export interface ProductsResponse {
   data: MarketplaceProduct[];

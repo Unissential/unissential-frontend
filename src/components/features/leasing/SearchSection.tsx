@@ -52,7 +52,15 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
     };
     onFilterChange?.(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedDuration, minPrice, maxPrice, isPetFriendly, isFurnished, sortBy, debouncedSearchQuery]);
+  }, [
+    selectedDuration,
+    minPrice,
+    maxPrice,
+    isPetFriendly,
+    isFurnished,
+    sortBy,
+    debouncedSearchQuery,
+  ]);
 
   return (
     <div className="py-8 md:py-12 relative z-10">
@@ -148,20 +156,26 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {/* Price Range */}
             <div>
-              <label className="block text-sm font-semibold text-neutral-900 mb-3">Price Range</label>
+              <label className="block text-sm font-semibold text-neutral-900 mb-3">
+                Price Range
+              </label>
               <div className="space-y-3">
                 <input
                   type="number"
                   placeholder="Min"
                   value={minPrice || ''}
-                  onChange={(e) => setMinPrice(e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={(e) =>
+                    setMinPrice(e.target.value ? parseInt(e.target.value) : undefined)
+                  }
                   className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500 outline-none"
                 />
                 <input
                   type="number"
                   placeholder="Max"
                   value={maxPrice || ''}
-                  onChange={(e) => setMaxPrice(e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={(e) =>
+                    setMaxPrice(e.target.value ? parseInt(e.target.value) : undefined)
+                  }
                   className="w-full px-3 py-2 border border-neutral-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500 outline-none"
                 />
               </div>
@@ -192,7 +206,9 @@ export const SearchSection: React.FC<SearchSectionProps> = ({ onFilterChange }) 
 
             {/* Availability */}
             <div>
-              <label className="block text-sm font-semibold text-neutral-900 mb-3">Availability</label>
+              <label className="block text-sm font-semibold text-neutral-900 mb-3">
+                Availability
+              </label>
               <div className="text-sm text-neutral-600">
                 <p>Filter by lease duration above</p>
               </div>

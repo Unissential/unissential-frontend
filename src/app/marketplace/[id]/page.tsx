@@ -24,7 +24,7 @@ import { mockMarketplaceProducts } from '@/data/mockMarketplace';
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
-  const [product, setProduct] = useState<typeof mockMarketplaceProducts[0] | null>(null);
+  const [product, setProduct] = useState<(typeof mockMarketplaceProducts)[0] | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
@@ -73,7 +73,9 @@ export default function ProductDetailPage() {
         <div className="text-center space-y-4">
           <div className="text-6xl">🔍</div>
           <h1 className="text-2xl font-bold text-neutral-900">Product not found</h1>
-          <p className="text-neutral-600">The product you&apos;re looking for doesn&apos;t exist.</p>
+          <p className="text-neutral-600">
+            The product you&apos;re looking for doesn&apos;t exist.
+          </p>
           <Link href="/marketplace">
             <button className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
               Back to Marketplace
@@ -96,7 +98,9 @@ export default function ProductDetailPage() {
     excellent: 'bg-green-100 text-green-800',
   };
 
-  const conditionColor = conditionColorMap[product.condition as keyof typeof conditionColorMap] || 'bg-gray-100 text-gray-800';
+  const conditionColor =
+    conditionColorMap[product.condition as keyof typeof conditionColorMap] ||
+    'bg-gray-100 text-gray-800';
 
   const conditionLabelMap = {
     new: 'New',
@@ -106,7 +110,8 @@ export default function ProductDetailPage() {
     excellent: 'Excellent',
   };
 
-  const conditionLabel = conditionLabelMap[product.condition as keyof typeof conditionLabelMap] || product.condition;
+  const conditionLabel =
+    conditionLabelMap[product.condition as keyof typeof conditionLabelMap] || product.condition;
 
   const postedDaysAgo = Math.floor(
     (new Date().getTime() - new Date(product.postedDate).getTime()) / (1000 * 60 * 60 * 24)
@@ -463,4 +468,3 @@ export default function ProductDetailPage() {
     </main>
   );
 }
-

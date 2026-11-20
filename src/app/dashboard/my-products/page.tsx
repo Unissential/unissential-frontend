@@ -96,7 +96,10 @@ function MyProductsContent() {
           className="flex items-center justify-between"
         >
           <div>
-            <Link href="/dashboard" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+            >
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
             </Link>
@@ -137,7 +140,12 @@ function MyProductsContent() {
                 <Link href={`/marketplace/${product.id}`} className="flex-shrink-0">
                   <div className="relative w-32 h-32 bg-gray-200 rounded-lg overflow-hidden">
                     {product.images?.[0] ? (
-                      <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+                      <Image
+                        src={product.images[0]}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100">
                         <span className="text-gray-400 text-sm">No image</span>
@@ -159,11 +167,13 @@ function MyProductsContent() {
                         <h3 className="font-semibold text-gray-900">{product.title}</h3>
                         <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
                       </div>
-                      <span className={`px-3 py-1 rounded-lg text-sm font-semibold flex-shrink-0 ${
-                        product.isAvailable
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`px-3 py-1 rounded-lg text-sm font-semibold flex-shrink-0 ${
+                          product.isAvailable
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
                         {product.isAvailable ? 'Available' : 'Sold'}
                       </span>
                     </div>

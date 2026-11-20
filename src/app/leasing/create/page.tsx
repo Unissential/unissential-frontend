@@ -16,8 +16,14 @@ import Link from 'next/link';
 
 // Validation schema
 const listingSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters').max(80, 'Title must be less than 80 characters'),
-  description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description too long'),
+  title: z
+    .string()
+    .min(3, 'Title must be at least 3 characters')
+    .max(80, 'Title must be less than 80 characters'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(2000, 'Description too long'),
   price: z.number().positive('Price must be positive'),
   location: z.string().min(3, 'Location must be provided'),
   bedrooms: z.number().int().positive('Must have at least 1 bedroom'),
@@ -57,7 +63,9 @@ function CreateListingContent() {
 
   const toggleAmenity = (amenity: string) => {
     const current = selectedAmenities || [];
-    const updated = current.includes(amenity) ? current.filter((a) => a !== amenity) : [...current, amenity];
+    const updated = current.includes(amenity)
+      ? current.filter((a) => a !== amenity)
+      : [...current, amenity];
     setValue('amenities', updated);
   };
 
@@ -85,13 +93,22 @@ function CreateListingContent() {
     <Container>
       <div className="py-12 max-w-2xl">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Link href="/leasing" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <Link
+            href="/leasing"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Listings
           </Link>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Post a New Listing</h1>
-          <p className="text-gray-600">Share your apartment and connect with students looking for housing</p>
+          <p className="text-gray-600">
+            Share your apartment and connect with students looking for housing
+          </p>
         </motion.div>
 
         {/* Error Alert */}
@@ -134,12 +151,16 @@ function CreateListingContent() {
               rows={5}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
             />
-            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
+            {errors.description && (
+              <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+            )}
           </div>
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Monthly Price *</label>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Monthly Price *
+            </label>
             <div className="relative">
               <span className="absolute left-4 top-2.5 text-gray-600">$</span>
               <input
@@ -161,7 +182,9 @@ function CreateListingContent() {
               placeholder="e.g., Downtown Boston"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>}
+            {errors.location && (
+              <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
+            )}
           </div>
 
           {/* Bedrooms & Bathrooms */}
@@ -174,7 +197,9 @@ function CreateListingContent() {
                 min="1"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              {errors.bedrooms && <p className="mt-1 text-sm text-red-600">{errors.bedrooms.message}</p>}
+              {errors.bedrooms && (
+                <p className="mt-1 text-sm text-red-600">{errors.bedrooms.message}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-2">Bathrooms *</label>
@@ -184,7 +209,9 @@ function CreateListingContent() {
                 min="1"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              {errors.bathrooms && <p className="mt-1 text-sm text-red-600">{errors.bathrooms.message}</p>}
+              {errors.bathrooms && (
+                <p className="mt-1 text-sm text-red-600">{errors.bathrooms.message}</p>
+              )}
             </div>
           </div>
 

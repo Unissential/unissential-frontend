@@ -19,20 +19,34 @@ import { CreateMarketplaceProductPayload } from '@/types/marketplace';
 // Validation schema matching backend
 const productSchema = z.object({
   title: z.string().min(5, 'Title must be at least 5 characters').max(100, 'Title too long'),
-  description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description too long'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(2000, 'Description too long'),
   price: z.number().positive('Price must be positive'),
   location: z.string().min(3, 'Location is required'),
   university: z.string().optional(),
   category: z.string().min(1, 'Select a category'),
   condition: z.enum(['like_new', 'excellent', 'good', 'fair']),
   deliveryType: z.enum(['pickup', 'delivery', 'both']).optional(),
-  images: z.array(z.string().url()).min(1, 'At least one image is required').max(10, 'Maximum 10 images'),
+  images: z
+    .array(z.string().url())
+    .min(1, 'At least one image is required')
+    .max(10, 'Maximum 10 images'),
   isAvailable: z.boolean().optional().default(true),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
 
-const categories = ['electronics', 'textbooks', 'furniture', 'appliances', 'bikes', 'clothing', 'other'];
+const categories = [
+  'electronics',
+  'textbooks',
+  'furniture',
+  'appliances',
+  'bikes',
+  'clothing',
+  'other',
+];
 const conditions = ['like_new', 'excellent', 'good', 'fair'];
 const deliveryTypes = ['pickup', 'delivery', 'both'];
 
@@ -106,8 +120,15 @@ function CreateProductContent() {
     <Container>
       <div className="py-12 max-w-3xl">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <Link href="/marketplace" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <Link
+            href="/marketplace"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Marketplace
           </Link>
@@ -161,7 +182,9 @@ function CreateProductContent() {
                   </option>
                 ))}
               </select>
-              {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
+              {errors.category && (
+                <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>
+              )}
             </div>
 
             <div>
@@ -173,11 +196,14 @@ function CreateProductContent() {
                 <option value="">Select condition</option>
                 {conditions.map((cond) => (
                   <option key={cond} value={cond}>
-                    {cond.replace('_', ' ').charAt(0).toUpperCase() + cond.slice(1).replace('_', ' ')}
+                    {cond.replace('_', ' ').charAt(0).toUpperCase() +
+                      cond.slice(1).replace('_', ' ')}
                   </option>
                 ))}
               </select>
-              {errors.condition && <p className="mt-1 text-sm text-red-600">{errors.condition.message}</p>}
+              {errors.condition && (
+                <p className="mt-1 text-sm text-red-600">{errors.condition.message}</p>
+              )}
             </div>
           </div>
 
@@ -207,7 +233,9 @@ function CreateProductContent() {
                 placeholder="e.g., Campus Library, Main Street"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-              {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>}
+              {errors.location && (
+                <p className="mt-1 text-sm text-red-600">{errors.location.message}</p>
+              )}
             </div>
 
             <div>
@@ -246,12 +274,16 @@ function CreateProductContent() {
               rows={5}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
             />
-            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
+            {errors.description && (
+              <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+            )}
           </div>
 
           {/* Images */}
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Images * (Min 1, Max 10)</label>
+            <label className="block text-sm font-semibold text-gray-900 mb-2">
+              Images * (Min 1, Max 10)
+            </label>
             <div className="flex gap-2 mb-4">
               <input
                 type="url"

@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { Save, ChevronRight, Bell, Lock, User } from 'lucide-react';
 import { useState } from 'react';
 
-const mockCurrentUser = { 
-  name: 'Your Name', 
+const mockCurrentUser = {
+  name: 'Your Name',
   email: 'your@email.com',
   university: 'State University',
 };
@@ -149,7 +149,9 @@ export default function SettingsPage() {
                   <div className="flex-1">
                     <h3
                       className={`font-semibold ${
-                        'destructive' in settingItem && settingItem.destructive ? 'text-red-600' : 'text-neutral-900'
+                        'destructive' in settingItem && settingItem.destructive
+                          ? 'text-red-600'
+                          : 'text-neutral-900'
                       }`}
                     >
                       {settingItem.label}
@@ -165,13 +167,18 @@ export default function SettingsPage() {
                       whileHover={{ scale: 1.05 }}
                       className="relative w-12 h-7 rounded-full bg-neutral-300 transition-colors"
                       style={{
-                        backgroundColor: ('defaultValue' in settingItem && settingItem.defaultValue) ? '#3b82f6' : '#d1d5db',
+                        backgroundColor:
+                          'defaultValue' in settingItem && settingItem.defaultValue
+                            ? '#3b82f6'
+                            : '#d1d5db',
                       }}
                     >
                       <motion.div
                         layout
                         className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-all ${
-                          ('defaultValue' in settingItem && settingItem.defaultValue) ? 'right-1' : 'left-1'
+                          'defaultValue' in settingItem && settingItem.defaultValue
+                            ? 'right-1'
+                            : 'left-1'
                         }`}
                       />
                     </motion.button>

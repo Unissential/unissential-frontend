@@ -18,8 +18,14 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
   // Format date range if available
   const getDateRange = () => {
     if (listing.availableFrom && listing.availableTo) {
-      const from = new Date(listing.availableFrom).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const to = new Date(listing.availableTo).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const from = new Date(listing.availableFrom).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
+      const to = new Date(listing.availableTo).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      });
       return `${from} - ${to}`;
     }
     return listing.leaseDuration ? listing.leaseDuration.replace('-', ' ') : 'Flexible';
@@ -41,7 +47,8 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
     }
   };
 
-  const imageUrl = listing.images?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500';
+  const imageUrl =
+    listing.images?.[0] || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500';
 
   return (
     <Link href={`/leasing/${listing.id}`} className="group h-full">
@@ -64,7 +71,9 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
             />
 
             {/* Lease Duration Badge - Left */}
-            <div className={`absolute top-3 left-3 ${getLeaseBadgeColor()} px-2.5 py-1 rounded-md text-xs font-bold text-neutral-900`}>
+            <div
+              className={`absolute top-3 left-3 ${getLeaseBadgeColor()} px-2.5 py-1 rounded-md text-xs font-bold text-neutral-900`}
+            >
               {listing.leaseDuration || 'Flexible'}
             </div>
 
@@ -115,9 +124,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, index = 0 }) 
                 <span>{listing.location}</span>
               </div>
               {listing.university && (
-                <div className="text-xs text-neutral-500 pl-5">
-                  {listing.university}
-                </div>
+                <div className="text-xs text-neutral-500 pl-5">{listing.university}</div>
               )}
             </div>
 

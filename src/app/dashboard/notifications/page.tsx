@@ -146,7 +146,9 @@ export default function NotificationsPage() {
                     )}
                   </div>
                   <p className="text-sm text-neutral-600 mt-1">{notification.message}</p>
-                  <p className="text-xs text-neutral-500 mt-2">{getTimeAgo(notification.createdAt)}</p>
+                  <p className="text-xs text-neutral-500 mt-2">
+                    {getTimeAgo(notification.createdAt)}
+                  </p>
                 </div>
 
                 {/* Actions */}

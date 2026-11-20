@@ -136,7 +136,9 @@ export default function RoommatesPage() {
 
             {/* Sleep Schedule */}
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Sleep Schedule</label>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Sleep Schedule
+              </label>
               <select
                 value={filters.sleepSchedule}
                 onChange={(e) => handleFilterChange('sleepSchedule', e.target.value)}
@@ -206,7 +208,9 @@ export default function RoommatesPage() {
               >
                 <div className="aspect-video bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
                   <div className="w-24 h-24 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
-                    <span className="text-4xl font-bold text-white">{profile.name?.charAt(0).toUpperCase()}</span>
+                    <span className="text-4xl font-bold text-white">
+                      {profile.name?.charAt(0).toUpperCase()}
+                    </span>
                   </div>
                 </div>
                 <div className="p-4">
@@ -214,7 +218,9 @@ export default function RoommatesPage() {
                   <p className="text-sm text-gray-600 mb-3">{profile.university}</p>
                   <p className="text-sm text-gray-700 line-clamp-2 mb-4">{profile.bio}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-semibold text-gray-900">${profile.budget}/mo</span>
+                    <span className="text-lg font-semibold text-gray-900">
+                      ${profile.budget}/mo
+                    </span>
                     <button className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors">
                       <Heart className="w-5 h-5 text-gray-600" />
                     </button>

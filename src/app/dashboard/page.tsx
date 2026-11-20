@@ -80,7 +80,10 @@ function DashboardContent() {
 
       {/* Stats Grid */}
       {stats && (
-        <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          variants={item}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           <StatsCard
             label="My Listings"
             value={stats.totalListings}
@@ -110,7 +113,9 @@ function DashboardContent() {
         >
           <div className="relative z-10">
             <h3 className="text-lg font-semibold mb-2">Post a Listing</h3>
-            <p className="text-indigo-100 text-sm mb-4">Share your apartment and find the perfect roommates</p>
+            <p className="text-indigo-100 text-sm mb-4">
+              Share your apartment and find the perfect roommates
+            </p>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Get Started</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -124,7 +129,9 @@ function DashboardContent() {
         >
           <div className="relative z-10">
             <h3 className="text-lg font-semibold mb-2">Sell an Item</h3>
-            <p className="text-orange-100 text-sm mb-4">List your items for sale on our marketplace</p>
+            <p className="text-orange-100 text-sm mb-4">
+              List your items for sale on our marketplace
+            </p>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Start Selling</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -137,7 +144,10 @@ function DashboardContent() {
       <motion.div variants={item} className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-neutral-900">Your Recent Listings</h2>
-          <Link href="/dashboard/my-listings" className="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+          <Link
+            href="/dashboard/my-listings"
+            className="text-indigo-600 hover:text-indigo-700 text-sm font-medium"
+          >
             View All →
           </Link>
         </div>
@@ -192,4 +202,3 @@ export default function DashboardPage() {
     </ProtectedRoute>
   );
 }
-

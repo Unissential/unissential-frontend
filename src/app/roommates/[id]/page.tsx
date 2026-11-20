@@ -298,9 +298,7 @@ export default function RoommateDetailPage() {
                   <DollarSign className="text-primary-600" size={20} />
                   <div>
                     <p className="text-xs text-neutral-600">Budget</p>
-                    <p className="font-semibold text-neutral-900">
-                      ${roommate.budget}/mo
-                    </p>
+                    <p className="font-semibold text-neutral-900">${roommate.budget}/mo</p>
                   </div>
                 </div>
               </div>

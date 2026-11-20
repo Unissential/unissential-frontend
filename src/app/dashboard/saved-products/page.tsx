@@ -70,7 +70,10 @@ function SavedProductsContent() {
           className="flex items-center justify-between"
         >
           <div>
-            <Link href="/dashboard" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+            >
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
             </Link>
@@ -103,7 +106,12 @@ function SavedProductsContent() {
                 {/* Image */}
                 <div className="relative w-full h-48 bg-gray-200">
                   {product.images?.[0] ? (
-                    <Image src={product.images[0]} alt={product.title} fill className="object-cover group-hover:scale-105 transition-transform" />
+                    <Image
+                      src={product.images[0]}
+                      alt={product.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gray-100">
                       <span className="text-gray-400">No image</span>
@@ -134,7 +142,9 @@ function SavedProductsContent() {
                   </div>
                   <h3 className="font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
                   <p className="text-xs text-gray-500">{product.location}</p>
-                  {product.university && <p className="text-xs text-gray-500">{product.university}</p>}
+                  {product.university && (
+                    <p className="text-xs text-gray-500">{product.university}</p>
+                  )}
 
                   {/* Footer */}
                   <div className="pt-2 border-t border-gray-200 flex items-center justify-between">
@@ -153,8 +163,13 @@ function SavedProductsContent() {
         ) : (
           <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">No saved products</h3>
-            <p className="text-gray-600 mb-4">Start saving items from the marketplace to see them here</p>
-            <Link href="/marketplace" className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg">
+            <p className="text-gray-600 mb-4">
+              Start saving items from the marketplace to see them here
+            </p>
+            <Link
+              href="/marketplace"
+              className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg"
+            >
               Browse Marketplace
             </Link>
           </div>

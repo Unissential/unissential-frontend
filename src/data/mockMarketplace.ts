@@ -105,9 +105,7 @@ export const mockListings = [
       rating: 4.3,
       reviews: 12,
     },
-    reviews: [
-      { rating: 4, text: 'Nice and cozy' },
-    ],
+    reviews: [{ rating: 4, text: 'Nice and cozy' }],
     leaseDuration: '6-months',
     availableFrom: new Date(),
     availableTo: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000),

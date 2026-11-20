@@ -3,7 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Heart, Share2, MessageCircle, MapPin, Truck, AlertCircle, ArrowLeft, Loader } from 'lucide-react';
+import {
+  Heart,
+  Share2,
+  MessageCircle,
+  MapPin,
+  Truck,
+  AlertCircle,
+  ArrowLeft,
+  Loader,
+} from 'lucide-react';
 import { marketplaceService } from '@/services/api/marketplace.service';
 import { useParams, useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/ToastContext';
@@ -97,7 +106,9 @@ export default function ProductDetailPage() {
           <div className="text-center space-y-4">
             <AlertCircle className="w-12 h-12 text-red-600 mx-auto" />
             <h1 className="text-2xl font-bold text-gray-900">Product not found</h1>
-            <p className="text-gray-600">{error || "The product you're looking for doesn't exist."}</p>
+            <p className="text-gray-600">
+              {error || "The product you're looking for doesn't exist."}
+            </p>
             <Link
               href="/marketplace"
               className="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg"
@@ -129,7 +140,10 @@ export default function ProductDetailPage() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-          <Link href="/marketplace" className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4">
+          <Link
+            href="/marketplace"
+            className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Marketplace
           </Link>
@@ -152,9 +166,18 @@ export default function ProductDetailPage() {
             )}
 
             {/* Main Image */}
-            <div className="relative w-full bg-gray-200 rounded-xl overflow-hidden" style={{ aspectRatio: '1' }}>
+            <div
+              className="relative w-full bg-gray-200 rounded-xl overflow-hidden"
+              style={{ aspectRatio: '1' }}
+            >
               {product.images?.[selectedImage] ? (
-                <Image src={product.images[selectedImage]} alt={product.title} fill className="object-cover" priority />
+                <Image
+                  src={product.images[selectedImage]}
+                  alt={product.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-100">
                   <span className="text-gray-400">No image</span>
@@ -165,13 +188,21 @@ export default function ProductDetailPage() {
               {product.images && product.images.length > 1 && (
                 <>
                   <button
-                    onClick={() => setSelectedImage((prev) => (prev === 0 ? product.images!.length - 1 : prev - 1))}
+                    onClick={() =>
+                      setSelectedImage((prev) =>
+                        prev === 0 ? product.images!.length - 1 : prev - 1
+                      )
+                    }
                     className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-md transition-all"
                   >
                     â†
                   </button>
                   <button
-                    onClick={() => setSelectedImage((prev) => (prev === product.images!.length - 1 ? 0 : prev + 1))}
+                    onClick={() =>
+                      setSelectedImage((prev) =>
+                        prev === product.images!.length - 1 ? 0 : prev + 1
+                      )
+                    }
                     className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 hover:bg-white rounded-full shadow-md transition-all"
                   >
                     â†’
@@ -192,10 +223,18 @@ export default function ProductDetailPage() {
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index ? 'border-indigo-600' : 'border-transparent hover:border-gray-300'
+                      selectedImage === index
+                        ? 'border-indigo-600'
+                        : 'border-transparent hover:border-gray-300'
                     }`}
                   >
-                    <Image src={image} alt={`Product ${index + 1}`} fill className="object-cover" sizes="100px" />
+                    <Image
+                      src={image}
+                      alt={`Product ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="100px"
+                    />
                   </button>
                 ))}
               </div>
@@ -210,7 +249,9 @@ export default function ProductDetailPage() {
               <div className="grid grid-cols-2 gap-4 pt-6 border-t border-gray-200">
                 <div>
                   <p className="text-xs text-gray-600 mb-1">Condition</p>
-                  <p className="font-semibold text-gray-900">{conditionLabels[product.condition] || product.condition}</p>
+                  <p className="font-semibold text-gray-900">
+                    {conditionLabels[product.condition] || product.condition}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 mb-1">Category</p>
@@ -238,7 +279,9 @@ export default function ProductDetailPage() {
               transition={{ delay: 0.2 }}
             >
               <div className="space-y-3">
-                <div className={`inline-block px-3 py-1 rounded-lg text-sm font-semibold ${conditionColors[product.condition] || 'bg-gray-100 text-gray-800'}`}>
+                <div
+                  className={`inline-block px-3 py-1 rounded-lg text-sm font-semibold ${conditionColors[product.condition] || 'bg-gray-100 text-gray-800'}`}
+                >
                   {conditionLabels[product.condition] || product.condition}
                 </div>
                 <h1 className="text-3xl font-bold text-gray-900">${product.price}</h1>
@@ -329,19 +372,33 @@ export default function ProductDetailPage() {
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
                   {product.seller.profilePicture ? (
-                    <Image src={product.seller.profilePicture} alt={product.seller.name} width={48} height={48} className="rounded-full" />
+                    <Image
+                      src={product.seller.profilePicture}
+                      alt={product.seller.name}
+                      width={48}
+                      height={48}
+                      className="rounded-full"
+                    />
                   ) : (
-                    <span className="text-lg font-semibold text-indigo-600">{product.seller.name.charAt(0)}</span>
+                    <span className="text-lg font-semibold text-indigo-600">
+                      {product.seller.name.charAt(0)}
+                    </span>
                   )}
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-gray-900">{product.seller.name}</p>
-                  {product.seller.university && <p className="text-sm text-gray-600">{product.seller.university}</p>}
-                  {product.seller.isVerified && <p className="text-xs text-green-600 font-medium">âœ“ Verified</p>}
+                  {product.seller.university && (
+                    <p className="text-sm text-gray-600">{product.seller.university}</p>
+                  )}
+                  {product.seller.isVerified && (
+                    <p className="text-xs text-green-600 font-medium">âœ“ Verified</p>
+                  )}
                 </div>
               </div>
 
-              {product.seller.bio && <p className="text-sm text-gray-700 italic">&quot;{product.seller.bio}&quot;</p>}
+              {product.seller.bio && (
+                <p className="text-sm text-gray-700 italic">&quot;{product.seller.bio}&quot;</p>
+              )}
 
               <Link
                 href={`/profile/${product.seller.id}`}

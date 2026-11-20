@@ -25,7 +25,15 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-const categories = ['electronics', 'textbooks', 'furniture', 'appliances', 'bikes', 'clothing', 'other'];
+const categories = [
+  'electronics',
+  'textbooks',
+  'furniture',
+  'appliances',
+  'bikes',
+  'clothing',
+  'other',
+];
 const conditions = ['like_new', 'excellent', 'good', 'fair'];
 const deliveryTypes = ['pickup', 'delivery', 'both'];
 const sortOptions = [
@@ -192,7 +200,8 @@ export default function MarketplacePage() {
                 <option value="">All Conditions</option>
                 {conditions.map((cond) => (
                   <option key={cond} value={cond}>
-                    {cond.replace('_', ' ').charAt(0).toUpperCase() + cond.slice(1).replace('_', ' ')}
+                    {cond.replace('_', ' ').charAt(0).toUpperCase() +
+                      cond.slice(1).replace('_', ' ')}
                   </option>
                 ))}
               </select>
@@ -240,7 +249,12 @@ export default function MarketplacePage() {
                   type="number"
                   min="0"
                   value={filters.minPrice || ''}
-                  onChange={(e) => handleFilterChange('minPrice', e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={(e) =>
+                    handleFilterChange(
+                      'minPrice',
+                      e.target.value ? parseInt(e.target.value) : undefined
+                    )
+                  }
                   className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Min"
                 />
@@ -256,7 +270,12 @@ export default function MarketplacePage() {
                   type="number"
                   min="0"
                   value={filters.maxPrice || ''}
-                  onChange={(e) => handleFilterChange('maxPrice', e.target.value ? parseInt(e.target.value) : undefined)}
+                  onChange={(e) =>
+                    handleFilterChange(
+                      'maxPrice',
+                      e.target.value ? parseInt(e.target.value) : undefined
+                    )
+                  }
                   className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="Max"
                 />
@@ -333,7 +352,12 @@ export default function MarketplacePage() {
                   {/* Image */}
                   <div className="relative w-full h-48 bg-gray-200">
                     {product.images?.[0] ? (
-                      <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+                      <Image
+                        src={product.images[0]}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gray-100">
                         <span className="text-gray-400">No image</span>
@@ -349,7 +373,9 @@ export default function MarketplacePage() {
                     </div>
                     <h3 className="font-semibold text-gray-900 line-clamp-2">{product.title}</h3>
                     <p className="text-xs text-gray-500">{product.location}</p>
-                    {product.university && <p className="text-xs text-gray-500">{product.university}</p>}
+                    {product.university && (
+                      <p className="text-xs text-gray-500">{product.university}</p>
+                    )}
 
                     {/* Footer */}
                     <div className="pt-2 border-t border-gray-200 flex items-center justify-between">

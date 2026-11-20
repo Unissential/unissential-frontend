@@ -78,7 +78,9 @@ export default function MyListingsPage() {
       <motion.div variants={item} className="flex items-center justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900">My Listings</h1>
-          <p className="text-neutral-600">{listings.length} active listing{listings.length !== 1 ? 's' : ''}</p>
+          <p className="text-neutral-600">
+            {listings.length} active listing{listings.length !== 1 ? 's' : ''}
+          </p>
         </div>
         <Link
           href="/leasing/create"
