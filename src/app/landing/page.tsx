@@ -13,7 +13,7 @@ export default function LandingPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative px-4 py-32 sm:px-6 lg:px-8">
+      <section className="relative px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-10 inline-flex items-center gap-2 rounded-full bg-secondary-50 px-4 py-2">
             <span className="text-sm font-medium text-secondary-600">
@@ -64,7 +64,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="border-t border-neutral-200 px-4 py-28 sm:px-6 lg:px-8">
+      <section className="border-t border-neutral-200 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-12 md:grid-cols-3">
             {/* Short-Term Leasing */}
@@ -135,7 +135,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="border-t border-neutral-200 bg-blue-50 px-4 py-28 sm:px-6 lg:px-8">
+      <section className="border-t border-neutral-200 bg-blue-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-16 text-center sm:grid-cols-4">
             <div>
@@ -159,7 +159,7 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t border-neutral-200 px-4 py-28 sm:px-6 lg:px-8">
+      <section className="border-t border-neutral-200 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <div className="rounded-3xl bg-gradient-to-r from-primary-600 to-purple-600 p-16 text-center text-white">
             <h2 className="mb-6 text-4xl font-bold">Ready to simplify your student living?</h2>
