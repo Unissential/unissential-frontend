@@ -3,7 +3,7 @@
  * Handles fetching and managing marketplace products
  */
 
-import { apiCall } from './client';
+import { apiCall, Pagination } from './client';
 import {
   MarketplaceProduct,
   MarketplaceFilters,
@@ -12,12 +12,15 @@ import {
 
 export interface ProductsResponse {
   data: MarketplaceProduct[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-  };
+  pagination: Pagination;
+}
+
+async function getProducts(endpoint: string): Promise<ProductsResponse> {
+  const result = await apiCall<MarketplaceProduct[]>(endpoint, { method: 'GET' });
+  if (result.success && Array.isArray(result.data) && result.pagination) {
+    return { data: result.data, pagination: result.pagination };
+  }
+  throw new Error(result.error || 'Invalid product response');
 }
 
 export const marketplaceService = {
@@ -40,15 +43,7 @@ export const marketplaceService = {
     if (filters?.deliveryType) params.append('deliveryType', filters.deliveryType);
     if (filters?.sort) params.append('sort', filters.sort);
 
-    const result = await apiCall<ProductsResponse>(`/marketplace?${params}`, {
-      method: 'GET',
-    });
-
-    if (result.success && result.data) {
-      return result.data;
-    }
-
-    throw new Error(result.error || 'Failed to fetch products');
+    return getProducts(`/marketplace?${params}`);
   },
 
   /**
@@ -138,15 +133,7 @@ export const marketplaceService = {
       limit: limit.toString(),
     });
 
-    const result = await apiCall<ProductsResponse>(`/marketplace/user/${userId}?${params}`, {
-      method: 'GET',
-    });
-
-    if (result.success && result.data) {
-      return result.data;
-    }
-
-    throw new Error(result.error || 'Failed to fetch user products');
+    return getProducts(`/marketplace/user/${userId}?${params}`);
   },
 
   /**
@@ -188,15 +175,7 @@ export const marketplaceService = {
       limit: limit.toString(),
     });
 
-    const result = await apiCall<ProductsResponse>(`/marketplace/saved?${params}`, {
-      method: 'GET',
-    });
-
-    if (result.success && result.data) {
-      return result.data;
-    }
-
-    throw new Error(result.error || 'Failed to fetch saved products');
+    return getProducts(`/marketplace/saved?${params}`);
   },
 
   /**
@@ -211,6 +190,6 @@ export const marketplaceService = {
       return result.data.isSaved;
     }
 
-    return false;
+    throw new Error(result.error || 'Failed to check saved status');
   },
 };

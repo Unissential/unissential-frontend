@@ -10,7 +10,6 @@ import { useToast } from '@/contexts/ToastContext';
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import Image from 'next/image';
-import { mockMarketplaceProducts } from '@/data/mockMarketplace';
 
 const container = {
   hidden: { opacity: 0 },
@@ -60,16 +59,21 @@ export default function MarketplacePage() {
   const { user } = useAuth();
   const [products, setProducts] = useState<MarketplaceProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [savedProducts, setSavedProducts] = useState<Set<string>>(new Set());
+  const [savedStatusLoading, setSavedStatusLoading] = useState(true);
+  const [savingProducts, setSavingProducts] = useState<Set<string>>(new Set());
   const [filters, setFilters] = useState<PageFilters>({
     sort: 'newest',
   });
 
   useEffect(() => {
+    let active = true;
     const loadProducts = async () => {
       setIsLoading(true);
+      setLoadError(null);
       try {
         const response = await marketplaceService.getAllProducts(currentPage, 12, {
           search: filters.search,
@@ -82,20 +86,59 @@ export default function MarketplacePage() {
           deliveryType: filters.deliveryType as any,
           sort: filters.sort as any,
         });
-        setProducts(response.data);
-        setTotalPages(response.pagination.pages);
+        if (active) {
+          setProducts(response.data);
+          setTotalPages(response.pagination.pages);
+        }
       } catch (error) {
-        console.error('Failed to load products from API, using mock data:', error);
-        // Fallback to mock data
-        setProducts(mockMarketplaceProducts as any);
+        if (!active) return;
+        const message = error instanceof Error ? error.message : 'Failed to load products';
+        setLoadError(message);
+        addToast(message, 'error');
+        setProducts([]);
         setTotalPages(1);
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     };
 
     loadProducts();
-  }, [filters, currentPage]);
+    return () => {
+      active = false;
+    };
+  }, [filters, currentPage, addToast]);
+
+  useEffect(() => {
+    let active = true;
+    setSavedStatusLoading(true);
+    if (!user || products.length === 0) {
+      setSavedProducts(new Set());
+      return () => {
+        active = false;
+      };
+    }
+
+    Promise.all(
+      products.map(async (product) => ({
+        id: product.id,
+        saved: await marketplaceService.isProductSaved(product.id),
+      }))
+    )
+      .then((results) => {
+        if (active) {
+          setSavedProducts(new Set(results.filter((item) => item.saved).map((item) => item.id)));
+          setSavedStatusLoading(false);
+        }
+      })
+      .catch((error: unknown) => {
+        if (active)
+          addToast(error instanceof Error ? error.message : 'Failed to load saved status', 'error');
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [user, products, addToast]);
 
   const handleFilterChange = (key: keyof PageFilters, value: string | number | undefined) => {
     setFilters((prev) => ({ ...prev, [key]: value || undefined }));
@@ -108,6 +151,7 @@ export default function MarketplacePage() {
       return;
     }
 
+    setSavingProducts((prev) => new Set(prev).add(productId));
     try {
       if (isSaved) {
         await marketplaceService.unsaveProduct(productId);
@@ -125,6 +169,12 @@ export default function MarketplacePage() {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to save product';
       addToast(message, 'error');
+    } finally {
+      setSavingProducts((prev) => {
+        const next = new Set(prev);
+        next.delete(productId);
+        return next;
+      });
     }
   };
 
@@ -334,6 +384,8 @@ export default function MarketplacePage() {
                   {user && (
                     <button
                       onClick={() => handleSaveProduct(product.id, savedProducts.has(product.id))}
+                      disabled={savedStatusLoading || savingProducts.has(product.id)}
+                      aria-label={savedProducts.has(product.id) ? 'Unsave product' : 'Save product'}
                       className="absolute top-3 right-3 z-10 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
                     >
                       <Heart
@@ -356,6 +408,7 @@ export default function MarketplacePage() {
                         src={product.images[0]}
                         alt={product.title}
                         fill
+                        unoptimized
                         className="object-cover"
                       />
                     ) : (
@@ -421,8 +474,10 @@ export default function MarketplacePage() {
           </>
         ) : (
           <div className="text-center py-12 bg-gray-50 rounded-xl border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600">Try adjusting your filters</p>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              {loadError ? 'Unable to load products' : 'No products found'}
+            </h3>
+            <p className="text-gray-600">{loadError || 'Try adjusting your filters'}</p>
           </div>
         )}
       </motion.div>

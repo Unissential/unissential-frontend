@@ -142,6 +142,7 @@ function MyProductsContent() {
                     {product.images?.[0] ? (
                       <Image
                         src={product.images[0]}
+                        unoptimized
                         alt={product.title}
                         fill
                         className="object-cover"

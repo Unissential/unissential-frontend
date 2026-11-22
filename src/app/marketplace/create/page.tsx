@@ -62,23 +62,34 @@ function CreateProductContent() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema) as any,
     defaultValues: {
       isAvailable: true,
+      images: [],
     },
   });
 
   const handleAddImage = () => {
     if (imageInput && imageUrls.length < 10) {
-      setImageUrls([...imageUrls, imageInput]);
+      if (!z.string().url().safeParse(imageInput).success) {
+        setError('Enter a valid image URL');
+        return;
+      }
+      setError(null);
+      const updatedUrls = [...imageUrls, imageInput];
+      setImageUrls(updatedUrls);
+      setValue('images', updatedUrls, { shouldValidate: true });
       setImageInput('');
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    setImageUrls(imageUrls.filter((_, i) => i !== index));
+    const updatedUrls = imageUrls.filter((_, i) => i !== index);
+    setImageUrls(updatedUrls);
+    setValue('images', updatedUrls, { shouldValidate: true });
   };
 
   const onSubmit = async (data: ProductFormData) => {
@@ -312,6 +323,7 @@ function CreateProductContent() {
                       alt={`Product ${index + 1}`}
                       width={128}
                       height={128}
+                      unoptimized
                       className="w-full h-32 object-cover rounded-lg"
                       style={{ objectFit: 'cover' }}
                     />
@@ -327,6 +339,11 @@ function CreateProductContent() {
               </div>
             )}
             <p className="text-xs text-gray-600">{imageUrls.length}/10 images added</p>
+            {errors.images && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.images.message || 'Please provide valid image URLs'}
+              </p>
+            )}
           </div>
 
           {/* Submit */}

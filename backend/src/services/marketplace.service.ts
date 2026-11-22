@@ -1,6 +1,12 @@
 import prisma from '@/config/database';
+import { Prisma } from '@prisma/client';
 import { MarketplaceProductDTO, CreateMarketplaceProductPayload } from '@/types';
 import { calculatePagination, formatPaginatedResponse } from '@/utils/auth';
+
+const sellerSelect = { id: true, name: true, isVerified: true, profilePicture: true } as const;
+type ProductWithSeller = Prisma.MarketplaceProductGetPayload<{
+  include: { seller: { select: typeof sellerSelect } };
+}>;
 
 export class MarketplaceService {
   /**
@@ -23,7 +29,7 @@ export class MarketplaceService {
   ) {
     const { skip, take } = calculatePagination(page, limit);
 
-    const where: any = {
+    const where: Prisma.MarketplaceProductWhereInput = {
       isAvailable: true, // Only show available products by default
     };
 
@@ -31,9 +37,7 @@ export class MarketplaceService {
       where.category = filters.category;
     }
     if (filters?.minPrice !== undefined || filters?.maxPrice !== undefined) {
-      where.price = {};
-      if (filters?.minPrice !== undefined) where.price.gte = filters.minPrice;
-      if (filters?.maxPrice !== undefined) where.price.lte = filters.maxPrice;
+      where.price = { gte: filters.minPrice, lte: filters.maxPrice };
     }
     if (filters?.condition) {
       where.condition = filters.condition;
@@ -55,7 +59,7 @@ export class MarketplaceService {
     }
 
     // Determine sorting
-    let orderBy: any = { createdAt: 'desc' }; // Default: newest first
+    let orderBy: Prisma.MarketplaceProductOrderByWithRelationInput = { createdAt: 'desc' };
     if (filters?.sort === 'price-asc') {
       orderBy = { price: 'asc' };
     } else if (filters?.sort === 'price-desc') {
@@ -69,14 +73,14 @@ export class MarketplaceService {
         where,
         skip,
         take,
-        include: { seller: true },
+        include: { seller: { select: sellerSelect } },
         orderBy,
       }),
       prisma.marketplaceProduct.count({ where }),
     ]);
 
     return formatPaginatedResponse(
-      products.map((p: any) => this.formatProductDTO(p)),
+      products.map((p) => this.formatProductDTO(p)),
       page,
       limit,
       total
@@ -89,7 +93,7 @@ export class MarketplaceService {
   static async getProductById(id: string): Promise<MarketplaceProductDTO> {
     const product = await prisma.marketplaceProduct.findUnique({
       where: { id },
-      include: { seller: true },
+      include: { seller: { select: sellerSelect } },
     });
 
     if (!product) {
@@ -117,7 +121,7 @@ export class MarketplaceService {
         ...payload,
         sellerId: userId,
       },
-      include: { seller: true },
+      include: { seller: { select: sellerSelect } },
     });
 
     return this.formatProductDTO(product);
@@ -147,7 +151,7 @@ export class MarketplaceService {
     const updated = await prisma.marketplaceProduct.update({
       where: { id },
       data: payload,
-      include: { seller: true },
+      include: { seller: { select: sellerSelect } },
     });
 
     return this.formatProductDTO(updated);
@@ -172,7 +176,7 @@ export class MarketplaceService {
     const updated = await prisma.marketplaceProduct.update({
       where: { id },
       data: { isAvailable: false },
-      include: { seller: true },
+      include: { seller: { select: sellerSelect } },
     });
 
     return this.formatProductDTO(updated);
@@ -211,14 +215,14 @@ export class MarketplaceService {
         where: { sellerId: userId },
         skip,
         take,
-        include: { seller: true },
+        include: { seller: { select: sellerSelect } },
         orderBy: { createdAt: 'desc' },
       }),
       prisma.marketplaceProduct.count({ where: { sellerId: userId } }),
     ]);
 
     return formatPaginatedResponse(
-      products.map((p: any) => this.formatProductDTO(p)),
+      products.map((p) => this.formatProductDTO(p)),
       page,
       limit,
       total
@@ -269,7 +273,7 @@ export class MarketplaceService {
         take,
         include: {
           product: {
-            include: { seller: true },
+            include: { seller: { select: sellerSelect } },
           },
         },
         orderBy: { createdAt: 'desc' },
@@ -278,7 +282,7 @@ export class MarketplaceService {
     ]);
 
     return formatPaginatedResponse(
-      saved.map((s: any) => this.formatProductDTO(s.product)),
+      saved.map((s) => this.formatProductDTO(s.product)),
       page,
       limit,
       total
@@ -314,29 +318,24 @@ export class MarketplaceService {
   /**
    * Format product DTO
    */
-  private static formatProductDTO(product: any): MarketplaceProductDTO {
+  private static formatProductDTO(product: ProductWithSeller): MarketplaceProductDTO {
     return {
       id: product.id,
       title: product.title,
       description: product.description,
       price: product.price,
       location: product.location,
-      university: product.university,
+      university: product.university ?? undefined,
       condition: product.condition,
       category: product.category,
-      deliveryType: product.deliveryType,
+      deliveryType: product.deliveryType ?? undefined,
       images: product.images,
       isAvailable: product.isAvailable,
       seller: {
         id: product.seller.id,
-        email: product.seller.email,
         name: product.seller.name,
-        university: product.seller.university,
         isVerified: product.seller.isVerified,
         profilePicture: product.seller.profilePicture,
-        bio: product.seller.bio,
-        createdAt: product.seller.createdAt,
-        updatedAt: product.seller.updatedAt,
       },
       views: product.views,
       interested: product.interested,

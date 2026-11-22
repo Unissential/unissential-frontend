@@ -50,6 +50,7 @@ const marketplaceRouter = Router();
 // Public routes
 marketplaceRouter.get('/', asyncHandler(MarketplaceController.getAll));
 marketplaceRouter.get('/user/:userId', asyncHandler(MarketplaceController.getUserProducts));
+marketplaceRouter.get('/saved', authMiddleware, asyncHandler(MarketplaceController.getSavedProducts));
 
 // Get product by ID must come after other specific routes
 marketplaceRouter.get('/:id', asyncHandler(MarketplaceController.getById));
@@ -66,9 +67,6 @@ marketplaceRouter.delete('/:id', authMiddleware, asyncHandler(MarketplaceControl
 // Save/unsave routes
 marketplaceRouter.post('/:id/save', authMiddleware, asyncHandler(MarketplaceController.saveProduct));
 marketplaceRouter.delete('/:id/save', authMiddleware, asyncHandler(MarketplaceController.unsaveProduct));
-
-// Get saved products (authenticated user's saved products)
-marketplaceRouter.get('/saved', authMiddleware, asyncHandler(MarketplaceController.getSavedProducts));
 
 router.use('/marketplace', marketplaceRouter);
 

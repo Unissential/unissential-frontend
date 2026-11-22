@@ -94,7 +94,7 @@ export interface MarketplaceProductDTO {
   deliveryType?: string;
   images: string[];
   isAvailable: boolean;
-  seller: UserDTO;
+  seller: Pick<UserDTO, 'id' | 'name' | 'isVerified'> & { profilePicture: string | null };
   views: number;
   interested: number;
   createdAt: Date;

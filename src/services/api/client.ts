@@ -9,10 +9,17 @@ export interface ApiError {
   status: number;
 }
 
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+}
+
 export async function apiCall<T>(
   endpoint: string,
   options?: RequestInit
-): Promise<{ success: boolean; data?: T; error?: string }> {
+): Promise<{ success: boolean; data?: T; pagination?: Pagination; error?: string }> {
   try {
     const url = `${API_BASE_URL}${endpoint}`;
     const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
@@ -43,6 +50,7 @@ export async function apiCall<T>(
     return {
       success: true,
       data: body.data,
+      pagination: body.pagination,
     };
   } catch (error) {
     console.error('API Error:', error);

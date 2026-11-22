@@ -3,19 +3,38 @@ import { AuthRequest } from '@/middleware';
 import { MarketplaceService } from '@/services/marketplace.service';
 import { CreateMarketplaceProductPayload } from '@/validations';
 
+function getPagination(req: AuthRequest, res: Response): { page: number; limit: number } | null {
+  const page = req.query.page ?? '1';
+  const limit = req.query.limit ?? '10';
+  if (
+    typeof page !== 'string' ||
+    typeof limit !== 'string' ||
+    !/^[1-9]\d*$/.test(page) ||
+    !/^[1-9]\d*$/.test(limit) ||
+    !Number.isSafeInteger(Number(page)) ||
+    Number(page) > 1000000 ||
+    Number(limit) > 100
+  ) {
+    res.status(400).json({ success: false, error: 'Invalid pagination parameters' });
+    return null;
+  }
+  return { page: Number(page), limit: Number(limit) };
+}
+
 export class MarketplaceController {
   /**
    * GET /api/marketplace
    */
   static async getAll(req: AuthRequest, res: Response) {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const pagination = getPagination(req, res);
+      if (!pagination) return;
+      const { page, limit } = pagination;
 
       const filters = {
         category: req.query.category as string,
-        minPrice: req.query.minPrice ? parseInt(req.query.minPrice as string) : undefined,
-        maxPrice: req.query.maxPrice ? parseInt(req.query.maxPrice as string) : undefined,
+        minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
+        maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
         condition: req.query.condition as string,
         location: req.query.location as string,
         university: req.query.university as string,
@@ -187,8 +206,9 @@ export class MarketplaceController {
   static async getUserProducts(req: AuthRequest, res: Response) {
     try {
       const { userId } = req.params;
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const pagination = getPagination(req, res);
+      if (!pagination) return;
+      const { page, limit } = pagination;
 
       const result = await MarketplaceService.getUserProducts(userId, page, limit);
 
@@ -274,8 +294,9 @@ export class MarketplaceController {
         });
       }
 
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 10;
+      const pagination = getPagination(req, res);
+      if (!pagination) return;
+      const { page, limit } = pagination;
 
       const result = await MarketplaceService.getSavedProducts(req.userId, page, limit);
 

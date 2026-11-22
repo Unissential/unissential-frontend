@@ -18,15 +18,14 @@ export type DeliveryOption = 'pickup' | 'delivery' | 'both';
 
 export interface UserProfile {
   id: string;
-  email: string;
   name: string;
   avatar?: string;
   university?: string;
   isVerified: boolean;
-  profilePicture?: string;
+  profilePicture?: string | null;
   bio?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   rating?: number;
   reviews?: number;
 }

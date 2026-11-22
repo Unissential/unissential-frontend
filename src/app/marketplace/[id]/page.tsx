@@ -20,13 +20,20 @@ import { marketplaceService } from '@/services/api/marketplace.service';
 import { MarketplaceProduct } from '@/types/marketplace';
 import { cn } from '@/lib/utils';
 import { useParams } from 'next/navigation';
-import { mockMarketplaceProducts } from '@/data/mockMarketplace';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 
 export default function ProductDetailPage() {
   const params = useParams();
   const productId = params.id as string;
+  const { user } = useAuth();
+  const { addToast } = useToast();
   const [product, setProduct] = useState<MarketplaceProduct | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<MarketplaceProduct[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [savedStatusLoading, setSavedStatusLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -34,50 +41,87 @@ export default function ProductDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
     const loadProduct = async () => {
+      setIsLoading(true);
+      setLoadError(null);
+      setProduct(null);
+      setRelatedProducts([]);
       try {
-        // Try to fetch from API, fallback to mock data
         const data = await marketplaceService.getProductById(productId);
-        // Ensure seller property is properly typed
-        const product: MarketplaceProduct = {
-          ...data,
-          seller: {
-            id: (data.seller as any)?.id || '',
-            name: (data.seller as any)?.name || '',
-            avatar: (data.seller as any)?.avatar || '',
-            email: (data.seller as any)?.email || '',
-            isVerified: true,
-            createdAt: (data.seller as any)?.createdAt || new Date(),
-            updatedAt: (data.seller as any)?.updatedAt || new Date(),
-          } as any,
-        };
-        setProduct(product);
-      } catch (error) {
-        console.error('Failed to load product:', error);
-        // Fallback to mock data
-        const mockProduct = mockMarketplaceProducts.find((p) => p.id === productId);
-        if (mockProduct) {
-          const product: MarketplaceProduct = {
-            ...mockProduct,
-            seller: {
-              id: (mockProduct.seller as any)?.id || '',
-              name: (mockProduct.seller as any)?.name || '',
-              avatar: (mockProduct.seller as any)?.avatar || '',
-              email: (mockProduct.seller as any)?.email || '',
-              isVerified: true,
-              createdAt: (mockProduct.seller as any)?.createdAt || new Date(),
-              updatedAt: (mockProduct.seller as any)?.updatedAt || new Date(),
-            } as any,
-          };
-          setProduct(product);
+        if (!active) return;
+        setProduct(data);
+        try {
+          const related = await marketplaceService.getAllProducts(1, 5, {
+            category: data.category,
+          });
+          if (active)
+            setRelatedProducts(related.data.filter((item) => item.id !== data.id).slice(0, 4));
+        } catch (error) {
+          if (active)
+            addToast(
+              error instanceof Error ? error.message : 'Failed to load similar products',
+              'error'
+            );
         }
+      } catch (error) {
+        if (!active) return;
+        const message = error instanceof Error ? error.message : 'Failed to load product';
+        setLoadError(message);
+        addToast(message, 'error');
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     };
 
     loadProduct();
-  }, [productId]);
+    return () => {
+      active = false;
+    };
+  }, [productId, addToast]);
+
+  useEffect(() => {
+    let active = true;
+    setIsFavorite(false);
+    setSavedStatusLoading(true);
+    if (user) {
+      marketplaceService
+        .isProductSaved(productId)
+        .then((saved) => {
+          if (active) {
+            setIsFavorite(saved);
+            setSavedStatusLoading(false);
+          }
+        })
+        .catch((error: unknown) => {
+          if (active)
+            addToast(
+              error instanceof Error ? error.message : 'Failed to load saved status',
+              'error'
+            );
+        });
+    }
+    return () => {
+      active = false;
+    };
+  }, [user, productId, addToast]);
+
+  const handleFavorite = async () => {
+    if (!user) {
+      addToast('Please log in to save products', 'error');
+      return;
+    }
+    setIsSaving(true);
+    try {
+      if (isFavorite) await marketplaceService.unsaveProduct(productId);
+      else await marketplaceService.saveProduct(productId);
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      addToast(error instanceof Error ? error.message : 'Failed to save product', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -89,20 +133,14 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p>Product not found</p>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center space-y-4">
           <div className="text-6xl">🔍</div>
-          <h1 className="text-2xl font-bold text-neutral-900">Product not found</h1>
+          <h1 className="text-2xl font-bold text-neutral-900">
+            {loadError ? 'Unable to load product' : 'Product not found'}
+          </h1>
           <p className="text-neutral-600">
-            The product you&apos;re looking for doesn&apos;t exist.
+            {loadError || "The product you're looking for doesn't exist."}
           </p>
           <Link href="/marketplace">
             <button className="px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors">
@@ -114,13 +152,9 @@ export default function ProductDetailPage() {
     );
   }
 
-  const relatedProducts = mockMarketplaceProducts
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
-
   const conditionColorMap = {
     new: 'bg-green-100 text-green-800',
-    'like-new': 'bg-blue-100 text-blue-800',
+    like_new: 'bg-blue-100 text-blue-800',
     good: 'bg-amber-100 text-amber-800',
     fair: 'bg-orange-100 text-orange-800',
     excellent: 'bg-green-100 text-green-800',
@@ -132,7 +166,7 @@ export default function ProductDetailPage() {
 
   const conditionLabelMap = {
     new: 'New',
-    'like-new': 'Like New',
+    like_new: 'Like New',
     good: 'Good',
     fair: 'Fair',
     excellent: 'Excellent',
@@ -178,6 +212,7 @@ export default function ProductDetailPage() {
             <div className="relative bg-neutral-100 rounded-lg overflow-hidden aspect-square lg:h-96">
               <Image
                 src={product.images[selectedImage]}
+                unoptimized
                 alt={product.title}
                 fill
                 className="object-cover"
@@ -234,6 +269,7 @@ export default function ProductDetailPage() {
                   >
                     <Image
                       src={image}
+                      unoptimized
                       alt={`${product.title} ${index + 1}`}
                       fill
                       className="object-cover"
@@ -279,7 +315,9 @@ export default function ProductDetailPage() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    onClick={() => setIsFavorite(!isFavorite)}
+                    onClick={handleFavorite}
+                    disabled={!!user && (savedStatusLoading || isSaving)}
+                    aria-pressed={isFavorite}
                     className="py-3 border border-neutral-200 hover:border-primary-300 hover:bg-primary-50 text-neutral-700 font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     <Heart
@@ -343,9 +381,11 @@ export default function ProductDetailPage() {
                 <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
                   <Image
                     src={
+                      product.seller.profilePicture ||
                       product.seller.avatar ||
                       'https://api.dicebear.com/7.x/avataaars/svg?seed=seller'
                     }
+                    unoptimized
                     alt={product.seller.name}
                     fill
                     className="object-cover"
@@ -354,7 +394,9 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="flex-1">
                   <p className="font-semibold text-neutral-900">{product.seller.name}</p>
-                  <p className="text-sm text-neutral-600">Verified Seller</p>
+                  <p className="text-sm text-neutral-600">
+                    {product.seller.isVerified ? 'Verified Seller' : 'Seller'}
+                  </p>
                 </div>
               </div>
 
@@ -396,6 +438,7 @@ export default function ProductDetailPage() {
                     <div className="relative bg-neutral-100 aspect-square">
                       <Image
                         src={relProduct.images[0]}
+                        unoptimized
                         alt={relProduct.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform"
