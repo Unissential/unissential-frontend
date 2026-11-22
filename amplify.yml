@@ -5,9 +5,9 @@ frontend:
     preBuild:
       commands:
         - echo "Installing dependencies with npm ci..."
-        - npm ci --legacy-peer-deps
+        - npm ci --legacy-peer-deps --include=dev
         - echo "Running TypeScript type check..."
-        - npx tsc --noEmit
+        - npx --no-install tsc --noEmit
         - echo "Running ESLint..."
         - npm run lint || true
     build:
