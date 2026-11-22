@@ -65,7 +65,9 @@ export const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
           <div>
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Bedrooms</p>
             <p className="font-medium">
-              {property.beds} bed{property.beds !== 1 ? 's' : ''}
+              {property.beds === 0
+                ? 'Studio'
+                : `${property.beds} bed${property.beds !== 1 ? 's' : ''}`}
             </p>
           </div>
         </div>
@@ -116,12 +118,16 @@ export const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
 
           <div className="space-y-1">
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Address</p>
-            <p className="font-medium text-neutral-900">{property.location.address}</p>
+            <p className="font-medium text-neutral-900">
+              {property.location.address || 'Not specified'}
+            </p>
           </div>
 
           <div className="space-y-1">
             <p className="text-xs text-neutral-500 uppercase tracking-wide">Zip Code</p>
-            <p className="font-medium text-neutral-900">{property.location.zipCode}</p>
+            <p className="font-medium text-neutral-900">
+              {property.location.zipCode || 'Not specified'}
+            </p>
           </div>
         </div>
       </motion.div>

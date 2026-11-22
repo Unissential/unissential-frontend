@@ -21,7 +21,9 @@ export const PropertyLocationSection: React.FC<PropertyLocationSectionProps> = (
       <div>
         <h2 className="text-2xl font-bold text-neutral-900 mb-2">Location</h2>
         <p className="text-neutral-600">
-          {location.address}, {location.city}, {location.state} {location.zipCode}
+          {[location.address, location.city, location.state, location.zipCode]
+            .filter(Boolean)
+            .join(', ')}
         </p>
       </div>
 
@@ -35,7 +37,8 @@ export const PropertyLocationSection: React.FC<PropertyLocationSectionProps> = (
             <MapPin size={48} className="mx-auto text-primary-600 opacity-50" />
             <p className="text-neutral-600 font-medium">Map integration coming soon</p>
             <p className="text-sm text-neutral-500">
-              Coordinates: {location.latitude}, {location.longitude}
+              Coordinates: {location.latitude ?? 'Not specified'},{' '}
+              {location.longitude ?? 'Not specified'}
             </p>
           </div>
         </div>
@@ -51,12 +54,16 @@ export const PropertyLocationSection: React.FC<PropertyLocationSectionProps> = (
       >
         <div className="p-4 rounded-lg border border-neutral-200 hover:border-primary-200 hover:bg-primary-50 transition-all">
           <h4 className="font-semibold text-neutral-900 mb-2">Latitude</h4>
-          <p className="text-neutral-600 font-mono text-sm">{location.latitude}</p>
+          <p className="text-neutral-600 font-mono text-sm">
+            {location.latitude ?? 'Not specified'}
+          </p>
         </div>
 
         <div className="p-4 rounded-lg border border-neutral-200 hover:border-primary-200 hover:bg-primary-50 transition-all">
           <h4 className="font-semibold text-neutral-900 mb-2">Longitude</h4>
-          <p className="text-neutral-600 font-mono text-sm">{location.longitude}</p>
+          <p className="text-neutral-600 font-mono text-sm">
+            {location.longitude ?? 'Not specified'}
+          </p>
         </div>
       </motion.div>
     </motion.div>

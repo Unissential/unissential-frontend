@@ -18,8 +18,9 @@ import {
 } from '@/components/features/property';
 import { listingService } from '@/services/api/listing.service';
 import { mockListings } from '@/data/mockMarketplace';
+import { PropertyDetail, PropertyHost } from '@/types/property';
 
-interface PropertyData {
+interface PropertySource {
   id: string;
   title: string;
   description: string;
@@ -29,77 +30,120 @@ interface PropertyData {
   bathrooms: number;
   images: string[];
   amenities: string[];
-  host: { id: string; name: string; avatar: string; rating: number; reviews: number };
-  createdAt: string;
-  views: number;
+  furnished?: boolean;
+  latitude?: number | null;
+  longitude?: number | null;
+  university?: string | null;
+  availableFrom?: string | Date | null;
+  availableTo?: string | Date | null;
+  leaseDuration?: string | null;
+  isAvailable?: boolean;
+}
+
+function toPropertyDetail(source: PropertySource, host: PropertyHost): PropertyDetail {
+  const start = source.availableFrom ? new Date(source.availableFrom) : undefined;
+  const end = source.availableTo ? new Date(source.availableTo) : undefined;
+  const furnished = source.furnished ?? (source.amenities.includes('Furnished') ? true : undefined);
+
+  return {
+    id: source.id,
+    title: source.title,
+    description: source.description,
+    fullDescription: source.description,
+    price: source.price,
+    beds: source.bedrooms,
+    baths: source.bathrooms,
+    images: source.images.map((url, index) => ({
+      id: `${source.id}-${index}`,
+      url,
+      alt: `Property image ${index + 1}`,
+      order: index,
+    })),
+    amenities: source.amenities.map((name, index) => ({
+      id: `${source.id}-${index}`,
+      name,
+      icon:
+        name === 'WiFi' ? 'Wifi' : name === 'Parking' ? 'Car' : name === 'Laundry' ? 'Shirt' : '',
+      category: 'facilities',
+    })),
+    furnished: furnished === undefined ? 'not specified' : furnished ? 'furnished' : 'unfurnished',
+    duration: source.leaseDuration?.replace(/-/g, ' ') || 'Not specified',
+    availability:
+      source.isAvailable == null
+        ? 'Not specified'
+        : source.isAvailable
+          ? 'Available'
+          : 'Unavailable',
+    dateRange:
+      start && end && !isNaN(start.getTime()) && !isNaN(end.getTime()) ? { start, end } : undefined,
+    roommatePreference: 'Not specified',
+    host,
+    location: {
+      address: '',
+      city: source.location,
+      state: '',
+      zipCode: '',
+      latitude: source.latitude ?? undefined,
+      longitude: source.longitude ?? undefined,
+      nearbyUniversities: source.university ? [source.university] : [],
+    },
+    neighborhood: { highlights: [], commute: [] },
+    rules: [],
+    cancellationPolicy: 'Not specified',
+    reviews: [],
+  };
 }
 
 export default function PropertyDetailPage() {
   const params = useParams();
   const propertyId = params.id as string;
-  const [property, setProperty] = useState<PropertyData | null>(null);
+  const [property, setProperty] = useState<PropertyDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDemo, setIsDemo] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
+    let active = true;
     const loadProperty = async () => {
+      setIsLoading(true);
+      setProperty(null);
+      setIsDemo(false);
+      setLoadError(null);
       try {
         const data = await listingService.getListingById(propertyId);
-        // Transform ListingDTO to PropertyData
-        const transformed: PropertyData = {
-          id: data.id,
-          title: data.title,
-          description: data.description,
-          price: data.price,
-          location: data.location,
-          bedrooms: data.bedrooms,
-          bathrooms: data.bathrooms,
-          images: data.images,
-          amenities: data.amenities,
-          host: {
-            id: data.owner.id,
-            name: data.owner.name,
-            avatar: data.owner.avatar || '',
-            rating: 4.5,
-            reviews: 12,
-          },
-          createdAt: data.createdAt.toString(),
-          views: data.views || 0,
-        };
-        setProperty(transformed);
+        if (active) {
+          setProperty(
+            toPropertyDetail(data, {
+              id: data.owner.id,
+              name: data.owner.name,
+              avatar:
+                data.owner.profilePicture ||
+                data.owner.avatar ||
+                'https://api.dicebear.com/7.x/avataaars/svg?seed=owner',
+              verified: data.owner.isVerified,
+              bio: data.owner.bio,
+            })
+          );
+        }
       } catch (error) {
+        if (!active) return;
         console.error('Failed to load property from API, using mock data:', error);
-        // Fallback to mock data
         const mockProperty = mockListings.find((p) => p.id === propertyId);
         if (mockProperty) {
-          // Ensure mock data matches PropertyData format
-          const transformed: PropertyData = {
-            id: mockProperty.id,
-            title: mockProperty.title,
-            description: mockProperty.description,
-            price: mockProperty.price,
-            location: mockProperty.location,
-            bedrooms: mockProperty.bedrooms,
-            bathrooms: mockProperty.bathrooms,
-            images: mockProperty.images,
-            amenities: mockProperty.amenities || [],
-            host: {
-              id: 'host-1',
-              name: 'Property Owner',
-              avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=owner',
-              rating: 4.5,
-              reviews: 12,
-            },
-            createdAt: new Date().toISOString(),
-            views: mockProperty.views || 0,
-          };
-          setProperty(transformed);
+          setProperty(toPropertyDetail(mockProperty, mockProperty.host));
+          setIsDemo(true);
+        } else {
+          setLoadError(error instanceof Error ? error.message : 'Failed to load property');
         }
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     };
 
     loadProperty();
+    return () => {
+      active = false;
+    };
   }, [propertyId]);
 
   if (isLoading) {
@@ -113,18 +157,20 @@ export default function PropertyDetailPage() {
   if (!property) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p>Property not found</p>
+        <p>{loadError ? `Unable to load property: ${loadError}` : 'Property not found'}</p>
       </div>
     );
   }
 
   // Use empty arrays for related data until API is implemented
-  const similarListings: PropertyData[] = [];
-  const similarProperties: PropertyData[] = [];
-
   return (
     <main className="min-h-screen bg-white pt-20 md:pt-24">
       <Container>
+        {isDemo && (
+          <p className="mb-4 text-sm text-neutral-600">
+            Demo listing: the live listing could not be loaded.
+          </p>
+        )}
         {/* Image Gallery */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -132,14 +178,7 @@ export default function PropertyDetailPage() {
           transition={{ duration: 0.4 }}
           className="mb-8 md:mb-12"
         >
-          <PropertyImageGallery
-            images={property.images.map((img, idx) => ({
-              id: `img-${idx}`,
-              url: img,
-              alt: `Property image ${idx + 1}`,
-              order: idx,
-            }))}
-          />
+          <PropertyImageGallery key={property.id} images={property.images} />
         </motion.div>
 
         {/* Main Content Grid */}
@@ -147,25 +186,25 @@ export default function PropertyDetailPage() {
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-12">
             {/* Property Info */}
-            <PropertyInfo property={property as any} />
+            <PropertyInfo property={property} />
 
             {/* Divider */}
             <div className="border-t border-neutral-200" />
 
             {/* Amenities */}
-            <PropertyAmenities amenities={property.amenities as any} />
+            <PropertyAmenities amenities={property.amenities} />
 
             {/* Divider */}
             <div className="border-t border-neutral-200" />
 
             {/* Description */}
-            <PropertyDescription property={property as any} />
+            <PropertyDescription property={property} />
 
             {/* Divider */}
             <div className="border-t border-neutral-200" />
 
             {/* Location */}
-            <PropertyLocationSection location={property.location as any} />
+            <PropertyLocationSection location={property.location} />
 
             {/* Host Profile Card - Full Width */}
             <motion.div
@@ -174,19 +213,19 @@ export default function PropertyDetailPage() {
               transition={{ duration: 0.4 }}
               viewport={{ once: true }}
             >
-              <HostProfileCard host={property.host as any} />
+              <HostProfileCard host={property.host} />
             </motion.div>
 
             {/* Divider */}
             <div className="border-t border-neutral-200" />
 
             {/* Reviews */}
-            <PropertyReviewsSection reviews={[] as any} averageRating={property.host.rating} />
+            <PropertyReviewsSection reviews={property.reviews} />
           </div>
 
           {/* Right Column - Sidebar */}
           <div className="lg:col-span-1">
-            <BookingSidebar property={property as any} />
+            <BookingSidebar property={property} />
           </div>
         </div>
 
@@ -198,7 +237,7 @@ export default function PropertyDetailPage() {
           viewport={{ once: true }}
           className="border-t border-neutral-200 pt-12 md:pt-16 mb-12 md:mb-20"
         >
-          <SimilarListingsSection listings={similarListings as any} />
+          <SimilarListingsSection listings={[]} />
         </motion.div>
 
         {/* CTA Section */}

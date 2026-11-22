@@ -8,7 +8,7 @@ import { PropertyReview } from '@/types/property';
 
 interface PropertyReviewsSectionProps {
   reviews: PropertyReview[];
-  averageRating: number;
+  averageRating?: number;
 }
 
 export const PropertyReviewsSection: React.FC<PropertyReviewsSectionProps> = ({
@@ -54,14 +54,16 @@ export const PropertyReviewsSection: React.FC<PropertyReviewsSectionProps> = ({
       >
         <div className="flex items-center gap-4">
           <div className="text-center">
-            <p className="text-4xl font-bold text-neutral-900">{averageRating.toFixed(1)}</p>
+            <p className="text-4xl font-bold text-neutral-900">
+              {averageRating?.toFixed(1) ?? 'N/A'}
+            </p>
             <div className="flex items-center justify-center gap-1 mt-2">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star
                   key={i}
                   size={16}
                   className={
-                    i < Math.floor(averageRating)
+                    i < Math.floor(averageRating ?? 0)
                       ? 'fill-yellow-400 text-yellow-400'
                       : 'text-neutral-300'
                   }

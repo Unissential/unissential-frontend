@@ -16,14 +16,14 @@ export interface PropertyHost {
   id: string;
   name: string;
   avatar: string;
-  verified: boolean;
-  joinedDate: string;
-  responseRate: number;
-  responseDays: number;
-  bio: string;
-  totalListings: number;
-  reviews: number;
-  rating: number;
+  verified?: boolean;
+  joinedDate?: string;
+  responseRate?: number;
+  responseDays?: number;
+  bio?: string;
+  totalListings?: number;
+  reviews?: number;
+  rating?: number;
 }
 
 export interface PropertyLocation {
@@ -31,21 +31,19 @@ export interface PropertyLocation {
   city: string;
   state: string;
   zipCode: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   nearbyUniversities: string[];
 }
 
-import { Listing } from './listing';
-
-export interface PropertyDetail extends Omit<
-  Listing,
-  'location' | 'amenities' | 'images' | 'furnished'
-> {
+export interface PropertyDetail {
+  id: string;
+  title: string;
+  price: number;
   images: PropertyImage[];
   description: string;
   fullDescription: string;
-  furnished: 'furnished' | 'unfurnished' | 'partially-furnished';
+  furnished: 'furnished' | 'unfurnished' | 'partially-furnished' | 'not specified';
   roommatePreference: string;
   amenities: PropertyAmenity[];
   host: PropertyHost;

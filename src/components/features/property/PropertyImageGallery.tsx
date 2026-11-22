@@ -18,7 +18,7 @@ export const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({ imag
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showFullscreen, setShowFullscreen] = useState(false);
 
-  const currentImage = images[selectedImageIndex];
+  const currentImage = images[selectedImageIndex] ?? images[0];
 
   const handleNext = () => {
     setSelectedImageIndex((prev) => (prev + 1) % images.length);
@@ -27,6 +27,14 @@ export const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({ imag
   const handlePrev = () => {
     setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  if (!currentImage) {
+    return (
+      <div className="w-full rounded-2xl bg-neutral-100 aspect-video flex items-center justify-center">
+        <p className="text-neutral-600">No images available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -39,6 +47,7 @@ export const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({ imag
       >
         <Image
           src={currentImage.url}
+          unoptimized
           alt={currentImage.alt}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
@@ -97,7 +106,14 @@ export const PropertyImageGallery: React.FC<PropertyImageGalleryProps> = ({ imag
                 : 'ring-1 ring-neutral-200 hover:ring-neutral-300'
             }`}
           >
-            <Image src={image.url} alt={image.alt} fill sizes="150px" className="object-cover" />
+            <Image
+              src={image.url}
+              alt={image.alt}
+              fill
+              unoptimized
+              sizes="150px"
+              className="object-cover"
+            />
           </motion.button>
         ))}
       </motion.div>

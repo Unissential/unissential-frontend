@@ -76,7 +76,7 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
             whileHover={{ scale: 1.05 }}
             className="relative w-16 h-16 flex-shrink-0 rounded-full overflow-hidden"
           >
-            <Image src={host.avatar} alt={host.name} fill className="object-cover" />
+            <Image src={host.avatar} alt={host.name} fill unoptimized className="object-cover" />
           </motion.div>
 
           {/* Host Info */}
@@ -107,42 +107,48 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
       {/* Host Stats */}
       <div className="grid grid-cols-3 gap-3 mb-4 p-4 rounded-lg bg-neutral-50 border border-neutral-100">
         <div className="text-center">
-          <p className="text-lg font-bold text-neutral-900">{host.rating}</p>
+          <p className="text-lg font-bold text-neutral-900">{host.rating ?? 'N/A'}</p>
           <div className="flex items-center justify-center gap-0.5 mt-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
                 size={14}
                 className={
-                  i < Math.floor(host.rating)
+                  i < Math.floor(host.rating ?? 0)
                     ? 'fill-yellow-400 text-yellow-400'
                     : 'text-neutral-300'
                 }
               />
             ))}
           </div>
-          <p className="text-xs text-neutral-600 mt-1">{host.reviews} reviews</p>
+          <p className="text-xs text-neutral-600 mt-1">
+            {host.reviews != null ? `${host.reviews} reviews` : 'Reviews unavailable'}
+          </p>
         </div>
 
         <div className="text-center border-l border-r border-neutral-200">
-          <p className="text-lg font-bold text-neutral-900">{host.responseRate}%</p>
+          <p className="text-lg font-bold text-neutral-900">
+            {host.responseRate != null ? `${host.responseRate}%` : 'N/A'}
+          </p>
           <p className="text-xs text-neutral-600 mt-2">Response Rate</p>
         </div>
 
         <div className="text-center">
-          <p className="text-lg font-bold text-neutral-900">{host.totalListings}</p>
+          <p className="text-lg font-bold text-neutral-900">{host.totalListings ?? 'N/A'}</p>
           <p className="text-xs text-neutral-600 mt-2">Listings</p>
         </div>
       </div>
 
       {/* Response Time */}
-      <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-100">
-        <p className="text-sm text-green-900">
-          <strong>
-            Responds within {host.responseDays} day{host.responseDays !== 1 ? 's' : ''}
-          </strong>
-        </p>
-      </div>
+      {host.responseDays != null && (
+        <div className="mb-4 p-3 rounded-lg bg-green-50 border border-green-100">
+          <p className="text-sm text-green-900">
+            <strong>
+              Responds within {host.responseDays} day{host.responseDays !== 1 ? 's' : ''}
+            </strong>
+          </p>
+        </div>
+      )}
 
       {/* Contact Button */}
       <motion.button
@@ -175,7 +181,13 @@ export const HostProfileCard: React.FC<HostProfileCardProps> = ({ host }) => {
             <div className="flex items-center justify-between p-4 border-b border-neutral-200">
               <div className="flex items-center gap-3">
                 <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                  <Image src={host.avatar} alt={host.name} fill className="object-cover" />
+                  <Image
+                    src={host.avatar}
+                    alt={host.name}
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900">{host.name}</p>

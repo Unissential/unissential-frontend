@@ -31,6 +31,10 @@ export interface ListingDTO {
   bedrooms: number;
   bathrooms: number;
   furnished: boolean;
+  university?: string | null;
+  availableFrom?: string | null;
+  availableTo?: string | null;
+  leaseDuration?: string | null;
   leaseStart?: Date;
   leaseEnd?: Date;
   petFriendly: boolean;
