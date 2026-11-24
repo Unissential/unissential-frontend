@@ -3,6 +3,13 @@ import { AuthRequest } from '@/middleware';
 import { MarketplaceService } from '@/services/marketplace.service';
 import { CreateMarketplaceProductPayload } from '@/validations';
 
+const marketplaceFilterOptions = {
+  category: ['electronics', 'textbooks', 'furniture', 'appliances', 'bikes', 'clothing', 'other'],
+  condition: ['like_new', 'excellent', 'good', 'fair'],
+  deliveryType: ['pickup', 'delivery', 'both'],
+  sort: ['newest', 'price-asc', 'price-desc', 'views'],
+} as const;
+
 function getPagination(req: AuthRequest, res: Response): { page: number; limit: number } | null {
   const page = req.query.page ?? '1';
   const limit = req.query.limit ?? '10';
@@ -21,6 +28,62 @@ function getPagination(req: AuthRequest, res: Response): { page: number; limit: 
   return { page: Number(page), limit: Number(limit) };
 }
 
+function getMarketplaceFilters(
+  req: AuthRequest,
+  res: Response
+): Parameters<typeof MarketplaceService.getAllProducts>[2] | null {
+  const filters: Record<string, string | number | undefined> = {};
+
+  for (const key of ['search', 'location', 'university'] as const) {
+    const value = req.query[key];
+    if (value !== undefined && (typeof value !== 'string' || value.length > 200)) {
+      res.status(400).json({ success: false, error: 'Invalid marketplace filter parameters' });
+      return null;
+    }
+    if (typeof value === 'string' && value) filters[key] = value;
+  }
+
+  for (const key of Object.keys(marketplaceFilterOptions) as Array<
+    keyof typeof marketplaceFilterOptions
+  >) {
+    const value = req.query[key];
+    const allowedValues: readonly string[] = marketplaceFilterOptions[key];
+    if (
+      value !== undefined &&
+      (typeof value !== 'string' || (value !== '' && !allowedValues.includes(value)))
+    ) {
+      res.status(400).json({ success: false, error: 'Invalid marketplace filter parameters' });
+      return null;
+    }
+    if (typeof value === 'string' && value) filters[key] = value;
+  }
+
+  for (const key of ['minPrice', 'maxPrice'] as const) {
+    const value = req.query[key];
+    if (value === undefined || value === '') continue;
+    if (
+      typeof value !== 'string' ||
+      !/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(value) ||
+      !Number.isFinite(Number(value))
+    ) {
+      res.status(400).json({ success: false, error: 'Invalid marketplace filter parameters' });
+      return null;
+    }
+    filters[key] = Number(value);
+  }
+
+  if (
+    typeof filters.minPrice === 'number' &&
+    typeof filters.maxPrice === 'number' &&
+    filters.minPrice > filters.maxPrice
+  ) {
+    res.status(400).json({ success: false, error: 'Invalid marketplace filter parameters' });
+    return null;
+  }
+
+  return filters;
+}
+
 export class MarketplaceController {
   /**
    * GET /api/marketplace
@@ -30,18 +93,8 @@ export class MarketplaceController {
       const pagination = getPagination(req, res);
       if (!pagination) return;
       const { page, limit } = pagination;
-
-      const filters = {
-        category: req.query.category as string,
-        minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
-        maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
-        condition: req.query.condition as string,
-        location: req.query.location as string,
-        university: req.query.university as string,
-        deliveryType: req.query.deliveryType as string,
-        search: req.query.search as string,
-        sort: req.query.sort as string,
-      };
+      const filters = getMarketplaceFilters(req, res);
+      if (!filters) return;
 
       const result = await MarketplaceService.getAllProducts(page, limit, filters);
 
@@ -133,7 +186,11 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to update product';
-      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
+      const status = message.includes('Unauthorized')
+        ? 403
+        : message === 'Product not found'
+          ? 404
+          : 400;
       res.status(status).json({
         success: false,
         error: message,
@@ -163,7 +220,11 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to mark product as sold';
-      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
+      const status = message.includes('Unauthorized')
+        ? 403
+        : message === 'Product not found'
+          ? 404
+          : 400;
       res.status(status).json({
         success: false,
         error: message,
@@ -192,7 +253,11 @@ export class MarketplaceController {
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to delete product';
-      const status = message.includes('Unauthorized') ? 403 : message === 'Product not found' ? 404 : 400;
+      const status = message.includes('Unauthorized')
+        ? 403
+        : message === 'Product not found'
+          ? 404
+          : 400;
       res.status(status).json({
         success: false,
         error: message,

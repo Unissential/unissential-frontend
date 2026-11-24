@@ -16,10 +16,14 @@ export interface Pagination {
   pages: number;
 }
 
-export async function apiCall<T>(
-  endpoint: string,
-  options?: RequestInit
-): Promise<{ success: boolean; data?: T; pagination?: Pagination; error?: string }> {
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  pagination?: Pagination;
+  error?: string;
+}
+
+export async function apiCall<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
   try {
     const url = `${API_BASE_URL}${endpoint}`;
     const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;

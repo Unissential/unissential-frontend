@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import { useController, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
@@ -56,10 +56,10 @@ function CreateProductContent() {
   const { addToast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState('');
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -71,6 +71,8 @@ function CreateProductContent() {
       images: [],
     },
   });
+  const { field: imagesField } = useController({ control, name: 'images' });
+  const imageUrls = imagesField.value ?? [];
 
   const handleAddImage = () => {
     if (imageInput && imageUrls.length < 10) {
@@ -80,7 +82,6 @@ function CreateProductContent() {
       }
       setError(null);
       const updatedUrls = [...imageUrls, imageInput];
-      setImageUrls(updatedUrls);
       setValue('images', updatedUrls, { shouldValidate: true });
       setImageInput('');
     }
@@ -88,7 +89,6 @@ function CreateProductContent() {
 
   const handleRemoveImage = (index: number) => {
     const updatedUrls = imageUrls.filter((_, i) => i !== index);
-    setImageUrls(updatedUrls);
     setValue('images', updatedUrls, { shouldValidate: true });
   };
 
@@ -110,7 +110,7 @@ function CreateProductContent() {
         category: data.category as any,
         condition: data.condition,
         deliveryType: data.deliveryType,
-        images: imageUrls,
+        images: data.images,
         isAvailable: data.isAvailable,
       };
 

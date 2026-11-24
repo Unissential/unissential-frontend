@@ -29,15 +29,17 @@ test('marketplace CRUD, pagination, privacy and saved products enforce ownership
   let server;
   try {
     for (const name of ['Seller', 'Buyer', 'Other']) {
-      users.push(await prisma.user.create({
-        data: {
-          email: `${marker}-${name.toLowerCase()}@example.edu`,
-          name,
-          password: 'test-password-hash',
-          university: 'Test University',
-          isVerified: true,
-        },
-      }));
+      users.push(
+        await prisma.user.create({
+          data: {
+            email: `${marker}-${name.toLowerCase()}@example.edu`,
+            name,
+            password: 'test-password-hash',
+            university: 'Test University',
+            isVerified: true,
+          },
+        })
+      );
     }
 
     server = await new Promise((resolve) => {
@@ -72,7 +74,12 @@ test('marketplace CRUD, pagination, privacy and saved products enforce ownership
     const created = await request('', 'POST', tokens[0], payload);
     assert.equal(created.status, 201);
     const productId = created.body.data.id;
-    assert.deepEqual(Object.keys(created.body.data.seller).sort(), ['id', 'isVerified', 'name', 'profilePicture']);
+    assert.deepEqual(Object.keys(created.body.data.seller).sort(), [
+      'id',
+      'isVerified',
+      'name',
+      'profilePicture',
+    ]);
 
     const list = await request(`?search=${marker}&page=1&limit=1&minPrice=42.4&maxPrice=42.6`);
     assert.equal(list.status, 200);
@@ -95,22 +102,51 @@ test('marketplace CRUD, pagination, privacy and saved products enforce ownership
     assert.equal(detail.body.data.id, productId);
     assert.equal('email' in detail.body.data.seller, false);
 
-    for (const query of ['page=0', 'page=-1', 'page=1x', 'page=1000001', 'limit=101', 'limit=1.5', 'limit=1&limit=2']) {
+    for (const query of [
+      'page=0',
+      'page=-1',
+      'page=1x',
+      'page=1000001',
+      'limit=101',
+      'limit=1.5',
+      'limit=1&limit=2',
+    ]) {
       assert.equal((await request(`?${query}`)).status, 400, query);
+    }
+    for (const query of [
+      'category=unknown',
+      'condition=unknown',
+      'deliveryType=unknown',
+      'sort=unknown',
+      'minPrice=NaN',
+      'minPrice=-1',
+      'minPrice=50&maxPrice=10',
+      `search=${'x'.repeat(201)}`,
+      'location=first&location=second',
+    ]) {
+      assert.equal((await request(`?${query}`)).status, 400, query.slice(0, 40));
     }
     assert.equal((await request('/saved')).status, 401);
     assert.equal((await request('/saved?limit=101', 'GET', tokens[1])).status, 400);
     assert.equal((await request(`/${productId}/saved`)).status, 401);
     assert.equal((await request(`/${productId}/save`, 'POST')).status, 401);
     assert.equal((await request(`/${productId}/save`, 'DELETE')).status, 401);
-    assert.equal((await request(`/${productId}`, 'PUT', undefined, { title: 'Updated title' })).status, 401);
+    assert.equal(
+      (await request(`/${productId}`, 'PUT', undefined, { title: 'Updated title' })).status,
+      401
+    );
     assert.equal((await request(`/${productId}/sold`, 'PATCH')).status, 401);
     assert.equal((await request(`/${productId}`, 'DELETE')).status, 401);
 
-    assert.equal((await request(`/${productId}`, 'PUT', tokens[1], { title: 'Updated title' })).status, 403);
+    assert.equal(
+      (await request(`/${productId}`, 'PUT', tokens[1], { title: 'Updated title' })).status,
+      403
+    );
     assert.equal((await request(`/${productId}/sold`, 'PATCH', tokens[1])).status, 403);
     assert.equal((await request(`/${productId}`, 'DELETE', tokens[1])).status, 403);
-    const updated = await request(`/${productId}`, 'PUT', tokens[0], { title: `Updated ${marker}` });
+    const updated = await request(`/${productId}`, 'PUT', tokens[0], {
+      title: `Updated ${marker}`,
+    });
     assert.equal(updated.status, 200);
     assert.equal(updated.body.data.title, `Updated ${marker}`);
 
@@ -119,7 +155,10 @@ test('marketplace CRUD, pagination, privacy and saved products enforce ownership
     assert.equal((await request(`/${productId}/saved`, 'GET', tokens[2])).body.data.isSaved, false);
     const saved = await request('/saved', 'GET', tokens[1]);
     assert.equal(saved.status, 200);
-    assert.deepEqual(saved.body.data.map((product) => product.id), [productId]);
+    assert.deepEqual(
+      saved.body.data.map((product) => product.id),
+      [productId]
+    );
     assert.equal('email' in saved.body.data[0].seller, false);
     assert.deepEqual((await request('/saved', 'GET', tokens[2])).body.data, []);
     assert.equal((await request(`/${productId}/save`, 'DELETE', tokens[2])).status, 200);
@@ -127,12 +166,19 @@ test('marketplace CRUD, pagination, privacy and saved products enforce ownership
     assert.equal((await request(`/${productId}/save`, 'DELETE', tokens[1])).status, 200);
     assert.equal((await request(`/${productId}/saved`, 'GET', tokens[1])).body.data.isSaved, false);
 
-    assert.equal((await request(`/${productId}/sold`, 'PATCH', tokens[0])).body.data.isAvailable, false);
+    assert.equal(
+      (await request(`/${productId}/sold`, 'PATCH', tokens[0])).body.data.isAvailable,
+      false
+    );
     assert.equal((await request(`/${productId}`, 'DELETE', tokens[0])).status, 200);
     assert.equal((await request(`/${productId}`)).status, 404);
   } finally {
-    if (server) await new Promise((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
-    if (users.length) await prisma.user.deleteMany({ where: { id: { in: users.map((user) => user.id) } } });
+    if (server)
+      await new Promise((resolve, reject) =>
+        server.close((error) => (error ? reject(error) : resolve()))
+      );
+    if (users.length)
+      await prisma.user.deleteMany({ where: { id: { in: users.map((user) => user.id) } } });
     await prisma.$disconnect();
   }
 });

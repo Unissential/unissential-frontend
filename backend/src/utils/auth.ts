@@ -3,9 +3,13 @@ import jwt, { SignOptions } from 'jsonwebtoken';
 import crypto from 'crypto';
 import { JWTPayload } from '@/types';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRE = process.env.JWT_EXPIRE || '7d';
 const BCRYPT_ROUNDS = 10;
+
+if (process.env.NODE_ENV === 'production' && (!JWT_SECRET || JWT_SECRET.length < 32)) {
+  throw new Error('JWT_SECRET must be configured with at least 32 characters in production');
+}
 
 /**
  * Hash password with bcrypt
@@ -46,7 +50,7 @@ export function generateToken(payload: JWTPayload): string {
     throw new Error('JWT_SECRET is not configured');
   }
 
-  return jwt.sign(payload, JWT_SECRET as string, {
+  return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRE,
     issuer: 'unissential-backend',
     subject: payload.userId,
@@ -63,7 +67,7 @@ export function verifyToken(token: string): JWTPayload {
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET as string, {
+    const decoded = jwt.verify(token, JWT_SECRET, {
       issuer: 'unissential-backend',
     });
     return decoded as JWTPayload;
@@ -91,12 +95,12 @@ export function generateVerificationToken(): string {
  */
 export function extractTokenFromHeader(authHeader?: string): string | null {
   if (!authHeader) return null;
-  
+
   const parts = authHeader.split(' ');
   if (parts.length !== 2 || parts[0] !== 'Bearer') {
     return null;
   }
-  
+
   return parts[1];
 }
 
@@ -124,7 +128,7 @@ export function formatErrorResponse(error: unknown): { message: string; status: 
       status: 400,
     };
   }
-  
+
   return {
     message: 'An unknown error occurred',
     status: 500,
@@ -159,12 +163,7 @@ export function calculatePagination(page: number, limit: number) {
 /**
  * Format response with pagination
  */
-export function formatPaginatedResponse<T>(
-  data: T[],
-  page: number,
-  limit: number,
-  total: number
-) {
+export function formatPaginatedResponse<T>(data: T[], page: number, limit: number, total: number) {
   return {
     data,
     pagination: {
